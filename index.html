@@ -384,9 +384,16 @@
     const dataEl = document.getElementById("pickerData");
     const goalEl = document.getElementById("pickerGoal");
     const resultEl = document.getElementById("pickerResult");
+    // The bilingual build injects window.STATS_I18N_ZH; the raw repository
+    // page simply stays English when that data is not there.
+    const ZH = window.STATS_I18N_ZH || null;
 
     function render() {
       const p = P[dataEl.value][goalEl.value];
+      const zhNote = ZH && ZH[dataEl.value] && ZH[dataEl.value][goalEl.value];
+      const zhRow = zhNote
+        ? '<dt class="zh">中文提示</dt><dd class="zh">' + zhNote + '</dd>'
+        : '';
       resultEl.innerHTML =
         '<h3>' + p.name + '</h3>' +
         '<dl>' +
@@ -394,6 +401,7 @@
           '<dt>Statistic</dt><dd>' + p.formula + '</dd>' +
           '<dt>Conditions</dt><dd>' + p.conditions + '</dd>' +
           '<dt>Nspire</dt><dd><code>' + p.command + '</code></dd>' +
+          zhRow +
         '</dl>' +
         '<div class="btn-row">' +
           '<a class="btn btn-html" href="' + p.sheet + '">' + p.sheetLabel + '</a>' +
