@@ -1,12 +1,27 @@
 # Statistics Cheat Sheet 📊📘
 
-Formula-first study sheets for **AP Statistics / Introductory Statistics**, written in **HTML** (interactive browser reading & GitHub Pages ready via `index.html`) paired with exact matching **print-ready A4 PDFs**.
+Formula-first study sheets for **AP Statistics / Introductory Statistics**, written in **HTML** (interactive browser reading & GitHub Pages) paired with exact matching **print-ready A4 PDFs**.
+
+🌐 **Online mini lecture:** <https://franky100-pig.github.io/Stats-CheatSheet/> — deployed from `main` by `.github/workflows/pages.yml`, the same pattern as LA-Helper.
+
+🧮 **Calculator companion:** <https://franky100-pig.github.io/Digital-Nspire-for-Stats/> — [Digital-Nspire-for-Stats](https://github.com/Franky100-pig/Digital-Nspire-for-Stats) runs the same procedures with the TI-Nspire's own function names. The two sites link to each other; every topic sheet ends with a *Try it on the TI-Nspire* box of commands that really exist in that project's catalogue.
 
 Every sheet focuses on:
 - **Exact Formulas** (stacked fractions, radicals, standard error vs. standard deviation)
 - **Complete Variable Definitions** (parameter vs. statistic, subscripts, degrees of freedom)
 - **Required Conditions** (Random, 10% Independence, Normal / Large Counts)
 - **Exam Traps & Calculator Syntax**
+
+---
+
+## 🏠 House rule: all statistics notes live here
+
+**Every statistics knowledge point goes into this repository — AP Statistics first.** This is the single home for stats notes, not a scratch pad in another project and not a loose file.
+
+- A new idea that belongs to an existing topic → extend that topic's `.html`, then regenerate its PDF.
+- A genuinely new topic → add `topic-NN.html` (or a descriptive slug), a matching `.pdf`, a card in `index.html`, and a row in the procedure picker if it is an inference procedure.
+- A calculator trick → it goes in [Digital-Nspire-for-Stats](https://github.com/Franky100-pig/Digital-Nspire-for-Stats), and is linked from the relevant sheet here.
+- Order is whatever `index.html` links: the site builder reads that list to generate previous/next navigation.
 
 ---
 
@@ -50,13 +65,26 @@ Student's $t$-distribution vs. Normal, 1-Sample $t$-test, Matched Pairs $t$-test
 
 ---
 
-## 🛠️ Notes for Contributing / Next Topics
+## 🛠️ Building
+
+### The web version (GitHub Pages)
+`tools/build_site.py` copies the root sheets into `public/` and adds the site chrome — navigation, previous/next pager, *Try it on the TI-Nspire* callouts and a footer. The root HTML files stay untouched, so `build_pdfs.py` still prints clean sheets and the repository itself remains readable without a build step.
+
+```bash
+python3 tools/build_site.py            # writes public/
+python3 tools/build_site.py --serve    # build + preview on http://127.0.0.1:8000
+```
+
+`.github/workflows/pages.yml` runs the same builder on every push to `main` and deploys `public/` with `actions/deploy-pages`. Pages must be set to the **GitHub Actions** source once in Settings → Pages. The site is fully static: no CDN, no tracking, no runtime downloads.
 
 ### Regenerating PDFs from HTML
 All topic sheets share [`styles.css`](./styles.css) (including CSS math helpers `.m`, `.xbar`, `.hat-wrap`, `.frac`, `.radic` and A4 `@page` print rules). After adding or editing any `<topic>.html`, regenerate all matching `.pdf` files with:
+
 ```bash
 python3 build_pdfs.py
 ```
+
+The builder warns if a topic linked from `index.html` is missing its HTML or its PDF, so a half-added topic fails the deploy rather than shipping a broken link.
 
 ### Suggested Next Topics to Add
 - `topic-05`: **Chi-Square ($\chi^2$) Tests** — Goodness-of-Fit, Homogeneity, Independence, expected counts $E = \frac{\text{row total} \times \text{col total}}{n}$, and $df$.
