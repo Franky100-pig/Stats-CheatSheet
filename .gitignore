@@ -1,0 +1,7 @@
+# Generated GitHub Pages build (tools/build_site.py)
+public/
+
+# Local Python / macOS noise
+__pycache__/
+*.pyc
+.DS_Store

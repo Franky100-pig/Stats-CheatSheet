@@ -1,0 +1,182 @@
+/* Stats-CheatSheet — site chrome injected by tools/build_site.py.
+   This file is NOT used by the source sheets or by build_pdfs.py; it only
+   styles the navigation, the "try it on the Nspire" callouts, the pager and
+   the footer of the GitHub Pages build. Everything here disappears in print. */
+
+:root {
+  --site-bg: #f7f9fc;
+  --site-surface: #ffffff;
+  --site-ink: #0f172a;
+  --site-muted: #475569;
+  --site-border: #cbd5e1;
+  --site-border-soft: #e2e8f0;
+  --site-accent: #1d4ed8;
+  --site-accent-bg: #eff6ff;
+  --site-code-bg: #f1f5f9;
+}
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding: 9px clamp(14px, 3vw, 30px);
+  background: var(--site-surface);
+  border-bottom: 1px solid var(--site-border-soft);
+  box-shadow: 0 1px 6px rgba(15, 23, 42, 0.06);
+  font-size: 13px;
+}
+
+.site-nav .site-brand {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--site-ink);
+  text-decoration: none;
+  margin-right: 6px;
+  white-space: nowrap;
+}
+
+.site-nav .site-brand span {
+  color: var(--site-accent);
+}
+
+.site-nav .site-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+}
+
+.site-nav a.site-link {
+  color: var(--site-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav a.site-link:hover,
+.site-nav a.site-link:focus-visible {
+  color: var(--site-accent);
+  text-decoration: underline;
+}
+
+.site-nav .site-spacer { flex: 1 1 auto; }
+
+.site-nav a.site-link.site-cta {
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--site-accent);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.site-nav a.site-link.site-cta:hover { text-decoration: none; filter: brightness(1.08); }
+
+.site-nav .site-topic-jump {
+  font-size: 12px;
+  color: var(--site-muted);
+}
+
+.calc-callout {
+  margin: 26px 0 4px;
+  padding: 14px 18px 16px;
+  border: 1px solid #bfdbfe;
+  border-left: 4px solid var(--site-accent);
+  border-radius: 8px;
+  background: var(--site-accent-bg);
+}
+
+.calc-callout h2 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: var(--site-ink);
+}
+
+.calc-callout p {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--site-muted);
+}
+
+.calc-callout ul {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+
+.calc-callout li {
+  font-size: 13px;
+  margin: 4px 0;
+}
+
+.calc-callout code {
+  background: var(--site-code-bg);
+  border: 1px solid var(--site-border-soft);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 12.5px;
+}
+
+.calc-callout a.calc-open {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--site-accent);
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.calc-callout a.calc-open:hover { filter: brightness(1.08); }
+
+.site-pager {
+  max-width: 920px;
+  margin: 16px auto 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+.site-pager a {
+  flex: 1 1 240px;
+  padding: 10px 14px;
+  border: 1px solid var(--site-border-soft);
+  border-radius: 8px;
+  background: var(--site-surface);
+  color: var(--site-accent);
+  text-decoration: none;
+}
+
+.site-pager a:hover { border-color: var(--site-accent); }
+.site-pager a span { display: block; font-size: 11px; color: var(--site-muted); }
+.site-pager a.site-pager-next { text-align: right; }
+.site-pager .site-pager-home {
+  flex: 0 0 auto;
+  text-align: center;
+  color: var(--site-muted);
+}
+
+.site-foot {
+  max-width: 920px;
+  margin: 22px auto 40px;
+  padding-top: 14px;
+  border-top: 1px solid var(--site-border-soft);
+  font-size: 12.5px;
+  color: var(--site-muted);
+  line-height: 1.7;
+}
+
+.site-foot a { color: var(--site-accent); }
+
+@media (max-width: 600px) {
+  .site-nav { font-size: 12px; }
+  .site-nav .site-topic-jump { display: none; }
+}
+
+@media print {
+  .site-nav, .calc-callout, .site-pager, .site-foot { display: none !important; }
+}
