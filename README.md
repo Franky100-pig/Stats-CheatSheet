@@ -12,6 +12,14 @@ Every sheet focuses on:
 - **Required Conditions** (Random, 10% Independence, Normal / Large Counts)
 - **Exam Traps & Calculator Syntax**
 
+🌏 **Bilingual site, English exam sheets.** The web version is bilingual: formulas,
+symbols and TI-Nspire command names stay in English (the language of the AP exam),
+while every section gets a Chinese heading and a short Chinese explanation of the
+idea, the conditions and the traps. A **双语 / EN** button in the navigation switches
+to an English-only exam view; the choice is remembered, and `?lang=en` gives a
+shareable English-only link. The A4 PDFs and the root `*.html` sheets stay
+English-only. 中文说明集中在 `tools/i18n_zh.py`，不写进讲义正文。
+
 ---
 
 ## 🏠 House rule: all statistics notes live here
@@ -19,7 +27,7 @@ Every sheet focuses on:
 **Every statistics knowledge point goes into this repository — AP Statistics first.** This is the single home for stats notes, not a scratch pad in another project and not a loose file.
 
 - A new idea that belongs to an existing topic → extend that topic's `.html`, then regenerate its PDF.
-- A genuinely new topic → add `topic-NN.html` (or a descriptive slug), a matching `.pdf`, a card in `index.html`, and a row in the procedure picker if it is an inference procedure.
+- A genuinely new topic → add `topic-NN.html` (or a descriptive slug), a matching `.pdf`, a card in `index.html`, a row in the procedure picker if it is an inference procedure, **and the matching Chinese entries in `tools/i18n_zh.py`** (英文正文 + 中文逐节对照，两者都要写).
 - A calculator trick → it goes in [Digital-Nspire-for-Stats](https://github.com/Franky100-pig/Digital-Nspire-for-Stats), and is linked from the relevant sheet here.
 - Order is whatever `index.html` links: the site builder reads that list to generate previous/next navigation.
 
@@ -76,6 +84,13 @@ python3 tools/build_site.py --serve    # build + preview on http://127.0.0.1:800
 ```
 
 `.github/workflows/pages.yml` runs the same builder on every push to `main` and deploys `public/` with `actions/deploy-pages`. Pages must be set to the **GitHub Actions** source once in Settings → Pages. The site is fully static: no CDN, no tracking, no runtime downloads.
+
+All Chinese text lives in [`tools/i18n_zh.py`](./tools/i18n_zh.py): `SECTION_ZH` holds
+one `(中文小标题, 中文导读)` pair per `<h2>`, `INTRO_HTML` holds the per-topic reading guide,
+and `PICKER_ZH` holds the procedure-picker hints. **When you add a new `<h2>` to a sheet,
+add its Chinese pair too** — the builder checks the counts and fails the deploy rather than
+shipping a half-translated page. `tools/site.js` drives the language switch; `tools/site.css`
+hides every `.zh` element in English-only mode and in print.
 
 ### Regenerating PDFs from HTML
 All topic sheets share [`styles.css`](./styles.css) (including CSS math helpers `.m`, `.xbar`, `.hat-wrap`, `.frac`, `.radic` and A4 `@page` print rules). After adding or editing any `<topic>.html`, regenerate all matching `.pdf` files with:
