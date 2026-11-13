@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Reference &amp; Tools — Stats Cheat Sheet</title>
+  <meta name="description" content="Appendix A of the AP Statistics lecture notes: the inference procedure picker, the notation table, exam traps, the calculator companion and the roadmap for upcoming units." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 16px 0 24px;
+    }
+    .topic-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .topic-card h3 {
+      margin: 6px 0 6px;
+      font-size: 16px;
+      color: var(--ink);
+    }
+    .topic-card p {
+      font-size: 13.5px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 5px 11px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .btn-html {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    .btn-pdf {
+      background: var(--code-bg);
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    .btn-calc {
+      background: var(--accent-bg);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+    }
+    .lecture-note {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-bg);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 18px;
+      margin: 14px 0 22px;
+      font-size: 13.5px;
+    }
+    .lecture-note p { margin: 6px 0; }
+    .picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 14px 0 0;
+    }
+    .picker label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1 1 240px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .picker select {
+      font: inherit;
+      font-weight: 400;
+      font-size: 13.5px;
+      color: var(--ink);
+      padding: 7px 9px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #ffffff;
+    }
+    .picker-result {
+      margin-top: 14px;
+      border: 1px solid var(--accent-border);
+      background: var(--accent-bg);
+      border-radius: 8px;
+      padding: 14px 18px 16px;
+    }
+    .picker-result h3 { margin: 0 0 8px; font-size: 16px; }
+    .picker-result dl { margin: 0; display: grid; grid-template-columns: 120px 1fr; gap: 5px 10px; font-size: 13px; }
+    .picker-result dt { font-weight: 700; color: var(--muted); }
+    .picker-result dd { margin: 0; }
+    .picker-result code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+    .picker-result .btn-row { margin-top: 12px; }
+    .roadmap { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .roadmap th, .roadmap td { border: 1px solid var(--border-soft); padding: 8px 10px; text-align: left; }
+    .roadmap th { background: var(--code-bg); }
+    @media (max-width: 720px) {
+      .topic-grid { grid-template-columns: 1fr; }
+      .picker-result dl { grid-template-columns: 1fr; gap: 2px; }
+      .picker-result dd { margin-bottom: 7px; }
+    }
+    @media print { .picker, .picker-result { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <span class="badge">Appendix A &middot; Quick Reference &amp; Tools</span>
+    <h1>Quick Reference &amp; Tools</h1>
+    <p class="subtitle">
+      The working tools that sit beside the chapters: pick the right inference procedure, check a
+      symbol, review the exam traps and open the TI-Nspire companion. The chapter-by-chapter reading
+      list lives in the <a href="index.html">table of contents</a>.
+    </p>
+
+    <h2>How to use these tools</h2>
+    <ol>
+      <li><strong>Pick the procedure first</strong> &mdash; the picker below decides between a <span class="m"><i>z</i></span> and a <span class="m"><i>t</i></span> procedure from the data structure and the goal.</li>
+      <li><strong>Then check the conditions</strong> (Random, 10%, Normal / Large Counts) and write them in words; a correct number with no conditions is not a complete free-response answer.</li>
+      <li><strong>Then run it on the calculator</strong> and interpret the output in context. The companion <a href="https://franky100-pig.github.io/Digital-Nspire-for-Stats/" target="_blank" rel="noopener">Digital-Nspire-for-Stats</a> uses the TI-Nspire's own command names, so the syntax here is the syntax on the handheld.</li>
+    </ol>
+
+    <h2 id="procedure-picker">Which procedure do I need?</h2>
+    <p>Pick the data structure and what you are being asked for. The answer links to the sheet that derives the formula and to the calculator command that computes it.</p>
+    <div class="picker no-print">
+      <label for="pickerData">Data / design
+        <select id="pickerData">
+          <option value="one-prop">One proportion (one categorical variable, one sample)</option>
+          <option value="two-prop">Two proportions (two independent samples)</option>
+          <option value="one-mean">One quantitative mean (one sample)</option>
+          <option value="paired">Paired quantitative data (matched pairs)</option>
+          <option value="two-mean">Two quantitative means (two independent samples)</option>
+        </select>
+      </label>
+      <label for="pickerGoal">Goal
+        <select id="pickerGoal">
+          <option value="estimate">Estimate &mdash; confidence interval</option>
+          <option value="test">Decide &mdash; significance test</option>
+        </select>
+      </label>
+    </div>
+    <div class="picker-result no-print" id="pickerResult" aria-live="polite"></div>
+
+    <h2>Calculator companion</h2>
+    <p>
+      <a href="https://franky100-pig.github.io/Digital-Nspire-for-Stats/" target="_blank" rel="noopener"><strong>Digital-Nspire-for-Stats</strong></a>
+      is a browser TI-Nspire CX II that runs the real inference procedures using the handheld's own
+      function names and <code>stat.</code> result names. Read the derivation here, then compute there.
+    </p>
+    <ul>
+      <li><strong>Distributions:</strong> <code>normCdf</code>, <code>invNorm</code>, <code>invT</code>, <code>binomCdf</code></li>
+      <li><strong>Intervals:</strong> <code>zInterval_1Prop</code>, <code>zInterval_2Prop</code>, <code>tInterval</code>, <code>tInterval_2Samp</code></li>
+      <li><strong>Tests:</strong> <code>zTest_1Prop</code>, <code>zTest_2Prop</code>, <code>tTest</code>, <code>tTest_2Samp</code></li>
+    </ul>
+    <p class="btn-row">
+      <a class="btn btn-calc" href="https://franky100-pig.github.io/Digital-Nspire-for-Stats/" target="_blank" rel="noopener">Open the calculator &#8599;</a>
+      <a class="btn btn-pdf" href="https://github.com/Franky100-pig/Digital-Nspire-for-Stats" target="_blank" rel="noopener">Calculator source &#8599;</a>
+    </p>
+
+    <h2>Quick Master Notation Reference</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Concept</th>
+          <th>Population (Parameter)</th>
+          <th>Sample (Statistic)</th>
+          <th>Sampling Distribution SD / SE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Mean</strong></td>
+          <td><span class="m"><i>&mu;</i></span></td>
+          <td><span class="xbar">x</span></td>
+          <td><span class="m"><i>&sigma;</i><sub><span class="xbar">x</span></sub> = <i>&sigma;</i> / <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span> &nbsp;|&nbsp; <span class="m">SE = <i>s</i> / <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span></td>
+        </tr>
+        <tr>
+          <td><strong>Proportion</strong></td>
+          <td><span class="m"><i>p</i></span></td>
+          <td><span class="hat-wrap">p</span> <span class="m">= <i>X</i> / <i>n</i></span></td>
+          <td><span class="m"><i>&sigma;</i><sub><span class="hat-wrap">p</span></sub> = <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>p</i>(1&minus;<i>p</i>)/<i>n</i></span></span></span> &nbsp;|&nbsp; <span class="m">SE = <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><span class="hat-wrap">p</span>(1&minus;<span class="hat-wrap">p</span>)/<i>n</i></span></span></span></td>
+        </tr>
+        <tr>
+          <td><strong>Standard Deviation</strong></td>
+          <td><span class="m"><i>&sigma;</i></span></td>
+          <td><span class="m"><i>s</i></span></td>
+          <td>Variances always add for independent groups: <span class="m">Var(<i>A</i> &plusmn; <i>B</i>) = Var(<i>A</i>) + Var(<i>B</i>)</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Exam traps worth memorising</h2>
+    <ol>
+      <li><strong>Parameters, not statistics:</strong> hypotheses and interval interpretations are about <span class="m"><i>p</i>, <i>&mu;</i>, <i>&mu;<sub>d</sub></i>, <i>p</i><sub>1</sub> &minus; <i>p</i><sub>2</sub></span> &mdash; never <span class="hat-wrap">p</span> or <span class="xbar">x</span>.</li>
+      <li><strong>Variances always add</strong> for independent samples, even when the means are subtracted.</li>
+      <li><strong>Pooled <span class="hat-wrap">p</span><sub><i>c</i></sub></strong> belongs to the 2-Prop <span class="m"><i>z</i></span>-<em>test</em> only, never the interval.</li>
+      <li><strong>Large Counts changes with the null:</strong> a 1-Prop test checks <span class="m"><i>n p</i><sub>0</sub> &ge; 10</span>, an interval checks <span class="m"><i>n</i><span class="hat-wrap">p</span> &ge; 10</span>.</li>
+      <li><strong>Round <span class="m"><i>n</i></span> up</strong> when solving for sample size, so the margin of error stays inside budget.</li>
+    </ol>
+  </div>
+
+  <script>
+  "use strict";
+  /* The procedure picker is deliberately a lookup table, not a solver: it can
+     only show conclusions that are written down in the sheets themselves. */
+  (function () {
+    const CALC = "https://franky100-pig.github.io/Digital-Nspire-for-Stats/";
+    const P = {
+      "one-prop": {
+        estimate: {
+          name: "One-proportion z interval",
+          parameter: "p — the true population proportion",
+          formula: "p̂ ± z*·√(p̂(1−p̂)/n)",
+          conditions: "Random · 10% · Large Counts: n p̂ ≥ 10 and n(1−p̂) ≥ 10",
+          sheet: "confidence-intervals.html", sheetLabel: "Topic 02 · Confidence Intervals",
+          command: "zInterval_1Prop x,n,0.95"
+        },
+        test: {
+          name: "One-proportion z test",
+          parameter: "p — tested against a claimed p₀",
+          formula: "z = (p̂ − p₀) / √(p₀(1−p₀)/n)",
+          conditions: "Random · 10% · Large Counts uses p₀, not p̂: n p₀ ≥ 10 and n(1−p₀) ≥ 10",
+          sheet: "z-tests-proportions.html", sheetLabel: "Topic 03 · z-Tests",
+          command: "zTest_1Prop p0,x,n"
+        }
+      },
+      "two-prop": {
+        estimate: {
+          name: "Two-proportion z interval",
+          parameter: "p₁ − p₂ — the difference in population proportions",
+          formula: "(p̂₁ − p̂₂) ± z*·√(p̂₁(1−p̂₁)/n₁ + p̂₂(1−p̂₂)/n₂)",
+          conditions: "Random · independent samples · 10% · four Large Counts checks",
+          sheet: "confidence-intervals.html", sheetLabel: "Topic 02 · Confidence Intervals",
+          command: "zInterval_2Prop x1,n1,x2,n2,0.95"
+        },
+        test: {
+          name: "Two-proportion z test",
+          parameter: "p₁ − p₂ — H₀: p₁ = p₂",
+          formula: "z = (p̂₁ − p̂₂) / √(p̂c(1−p̂c)(1/n₁ + 1/n₂)), with the pooled p̂c",
+          conditions: "Random · independent · 10% · pooled success/failure counts ≥ 10",
+          sheet: "z-tests-proportions.html", sheetLabel: "Topic 03 · z-Tests",
+          command: "zTest_2Prop x1,n1,x2,n2"
+        }
+      },
+      "one-mean": {
+        estimate: {
+          name: "One-sample t interval for a mean",
+          parameter: "μ — the true population mean",
+          formula: "x̄ ± t*·(s/√n), with df = n − 1",
+          conditions: "Random · 10% · Normal population or n ≥ 30 (check the sample for skew/outliers)",
+          sheet: "confidence-intervals.html", sheetLabel: "Topic 02 · Confidence Intervals",
+          command: "tInterval List,,0.95"
+        },
+        test: {
+          name: "One-sample t test for a mean",
+          parameter: "μ — tested against a claimed μ₀",
+          formula: "t = (x̄ − μ₀)/(s/√n), with df = n − 1",
+          conditions: "Random · 10% · Normal / large sample",
+          sheet: "t-tests-means.html", sheetLabel: "Topic 04 · t-Tests",
+          command: "tTest μ0,List"
+        }
+      },
+      "paired": {
+        estimate: {
+          name: "Matched-pairs t interval",
+          parameter: "μd — the true mean difference within pairs",
+          formula: "d̄ ± t*·(sd/√n), computed from the difference list only",
+          conditions: "Pairs are random · 10% for pairs · Normal differences or n ≥ 30",
+          sheet: "confidence-intervals.html", sheetLabel: "Topic 02 · Confidence Intervals",
+          command: "tInterval ΔList,,0.95"
+        },
+        test: {
+          name: "Matched-pairs t test",
+          parameter: "μd — H₀: μd = 0",
+          formula: "t = d̄/(sd/√n), with df = n − 1 on the differences",
+          conditions: "Random pairs · 10% · Normal differences or n ≥ 30; NOT a 2-sample procedure",
+          sheet: "t-tests-means.html", sheetLabel: "Topic 04 · t-Tests",
+          command: "tTest 0,ΔList"
+        }
+      },
+      "two-mean": {
+        estimate: {
+          name: "Two-sample t interval for a difference of means",
+          parameter: "μ₁ − μ₂",
+          formula: "(x̄₁ − x̄₂) ± t*·√(s₁²/n₁ + s₂²/n₂)",
+          conditions: "Two independent random samples · 10% · both populations Normal or n₁, n₂ ≥ 30",
+          sheet: "confidence-intervals.html", sheetLabel: "Topic 02 · Confidence Intervals",
+          command: "tInterval_2Samp List1,List2"
+        },
+        test: {
+          name: "Two-sample t test (Welch, unpooled)",
+          parameter: "μ₁ − μ₂ — H₀: μ₁ = μ₂",
+          formula: "t = (x̄₁ − x̄₂)/√(s₁²/n₁ + s₂²/n₂); df from Welch or conservative min(n₁−1, n₂−1)",
+          conditions: "Independent random samples · 10% · Normal / large samples · do not pool variances",
+          sheet: "t-tests-means.html", sheetLabel: "Topic 04 · t-Tests",
+          command: "tTest_2Samp List1,List2"
+        }
+      }
+    };
+
+    const dataEl = document.getElementById("pickerData");
+    const goalEl = document.getElementById("pickerGoal");
+    const resultEl = document.getElementById("pickerResult");
+    // The bilingual build injects window.STATS_I18N_ZH; the raw repository
+    // page simply stays English when that data is not there.
+    const ZH = window.STATS_I18N_ZH || null;
+
+    function render() {
+      const p = P[dataEl.value][goalEl.value];
+      const zhNote = ZH && ZH[dataEl.value] && ZH[dataEl.value][goalEl.value];
+      const zhRow = zhNote
+        ? '<dt class="zh">中文提示</dt><dd class="zh">' + zhNote + '</dd>'
+        : '';
+      resultEl.innerHTML =
+        '<h3>' + p.name + '</h3>' +
+        '<dl>' +
+          '<dt>Parameter</dt><dd>' + p.parameter + '</dd>' +
+          '<dt>Statistic</dt><dd>' + p.formula + '</dd>' +
+          '<dt>Conditions</dt><dd>' + p.conditions + '</dd>' +
+          '<dt>Nspire</dt><dd><code>' + p.command + '</code></dd>' +
+          zhRow +
+        '</dl>' +
+        '<div class="btn-row">' +
+          '<a class="btn btn-html" href="' + p.sheet + '">' + p.sheetLabel + '</a>' +
+          '<a class="btn btn-calc" href="' + CALC + '" target="_blank" rel="noopener">Open the calculator &#8599;</a>' +
+        '</div>';
+    }
+
+    dataEl.addEventListener("change", render);
+    goalEl.addEventListener("change", render);
+    render();
+  })();
+  </script>
+</body>
+</html>

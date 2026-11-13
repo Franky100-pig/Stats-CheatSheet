@@ -32,7 +32,13 @@
   }
 
   apply();                                        // no flash
-  document.addEventListener("DOMContentLoaded", apply);   // button now exists
+  document.addEventListener("DOMContentLoaded", function () {
+    apply();
+    // On a narrow screen the chapter list sits above the sheet instead of
+    // beside it, so start it collapsed and let the reader open it.
+    var details = document.getElementById("sidebarDetails");
+    if (details && window.innerWidth < 1080) details.open = false;
+  });
   document.addEventListener("click", function (ev) {
     if (!ev.target || ev.target.id !== "langToggle") return;
     mode = mode === "en" ? "both" : "en";

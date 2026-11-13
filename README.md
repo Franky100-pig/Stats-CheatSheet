@@ -2,9 +2,9 @@
 
 Formula-first study sheets for **AP Statistics / Introductory Statistics**, written in **HTML** (interactive browser reading & GitHub Pages) paired with exact matching **print-ready A4 PDFs**.
 
-🌐 **Online mini lecture:** <https://franky100-pig.github.io/Stats-CheatSheet/> — deployed from `main` by `.github/workflows/pages.yml`, the same pattern as LA-Helper.
+🌐 **Online lecture:** <https://franky100-pig.github.io/Stats-CheatSheet/> — a contents page, one chapter per AP Statistics unit, and a fixed unit sidebar on every sheet. Deployed from `main` by `.github/workflows/pages.yml`, the same pattern as LA-Helper.
 
-🧮 **Calculator companion:** <https://franky100-pig.github.io/Digital-Nspire-for-Stats/> — [Digital-Nspire-for-Stats](https://github.com/Franky100-pig/Digital-Nspire-for-Stats) runs the same procedures with the TI-Nspire's own function names. The two sites link to each other; every topic sheet ends with a *Try it on the TI-Nspire* box of commands that really exist in that project's catalogue.
+🧮 **Calculator companion:** <https://franky100-pig.github.io/Digital-Nspire-for-Stats/> — [Digital-Nspire-for-Stats](https://github.com/Franky100-pig/Digital-Nspire-for-Stats) runs the same procedures with the TI-Nspire's own function names. The two sites link to each other; every sheet ends with a *Try it on the TI-Nspire* box of commands that really exist in that project's catalogue.
 
 Every sheet focuses on:
 - **Exact Formulas** (stacked fractions, radicals, standard error vs. standard deviation)
@@ -22,44 +22,48 @@ English-only. 中文说明集中在 `tools/i18n_zh.py`，不写进讲义正文�
 
 ---
 
+## 📚 Structure: nine chapters, one per AP Statistics unit
+
+The chapters follow the nine units of the AP Statistics Course and Exam Description, in order.
+[`tools/chapters.py`](./tools/chapters.py) is the **only** place that structure is written down: it
+lists every unit, its sheets, and their status. The contents page, the sidebar on every sheet, the
+breadcrumbs, the in-page outlines and the previous/next links are all generated from it.
+
+| Unit | Chapter | Status |
+|---|---|---|
+| 01 | Exploring One-Variable Data | planned |
+| 02 | Exploring Two-Variable Data | planned |
+| 03 | Collecting Data | planned |
+| 04 | Probability, Random Variables & Distributions | planned |
+| 05 | **Sampling Distributions** — [sampling-distributions.html](./sampling-distributions.html) · [PDF](./sampling-distributions.pdf) | ✅ |
+| 06 | **Inference for Proportions** — [confidence-intervals.html](./confidence-intervals.html) · [z-tests-proportions.html](./z-tests-proportions.html) · [PDFs](./confidence-intervals.pdf) | ✅ |
+| 07 | **Inference for Means** — [t-tests-means.html](./t-tests-means.html) · [PDF](./t-tests-means.pdf) | ✅ |
+| 08 | Inference for Categorical Data: Chi-Square | planned |
+| 09 | Inference for Quantitative Data: Slopes | planned |
+| A | **Appendix — [Quick Reference & Tools](./reference.html)**: inference procedure picker, notation table, exam traps, roadmap | ✅ |
+
+### Unit 05 · Sampling Distributions & the Central Limit Theorem
+Population parameters vs. sample statistics ($\mu, \sigma, p$ vs. $\bar{x}, s, \hat{p}$), sampling distributions of $\bar{x}$ and $\hat{p}$, Central Limit Theorem (CLT), two-sample differences ($\bar{x}_1 - \bar{x}_2$, $\hat{p}_1 - \hat{p}_2$), and the R-I-N conditions.
+
+### Unit 06 · Confidence Intervals ($z$ & $t$)
+Universal interval structure ($\text{PE} \pm \text{ME}$), critical values $z^*$ vs. $t^*$, 1-Prop / 2-Prop $z$-intervals, 1-Sample / Paired / 2-Sample $t$-intervals, minimum sample size $n$ formulas, and exam-safe interpretation templates.
+
+### Unit 06 · Hypothesis Testing & $z$-Tests
+Null/alternative hypotheses ($H_0, H_a$), 1-Proportion and 2-Proportion $z$-tests (including pooled $\hat{p}_c$), known-$\sigma$ 1-Sample $z$-test, $p$-value rules, Type I / Type II error matrix ($\alpha, \beta$), and statistical power ($1 - \beta$).
+
+### Unit 07 · $t$-Tests for Means & Paired Data
+Student's $t$-distribution vs. Normal, 1-Sample $t$-test, Matched Pairs $t$-test ($\bar{d}, s_d$), Welch 2-Sample $t$-test (unpooled SE & $df$), and a decision table comparing Matched Pairs vs. 2-Sample $t$-tests.
+
+---
+
 ## 🏠 House rule: all statistics notes live here
 
 **Every statistics knowledge point goes into this repository — AP Statistics first.** This is the single home for stats notes, not a scratch pad in another project and not a loose file.
 
-- A new idea that belongs to an existing topic → extend that topic's `.html`, then regenerate its PDF.
-- A genuinely new topic → add `topic-NN.html` (or a descriptive slug), a matching `.pdf`, a card in `index.html`, a row in the procedure picker if it is an inference procedure, **and the matching Chinese entries in `tools/i18n_zh.py`** (英文正文 + 中文逐节对照，两者都要写).
+- A new idea that belongs to an existing chapter → extend that sheet's `.html`, then regenerate its PDF.
+- A genuinely new chapter → add the sheet (`.html`), its `.pdf`, **a row in `tools/chapters.py`** (unit, English + Chinese title, blurb, status), **a row in the procedure picker** if it is an inference procedure, and **the matching Chinese entries in `tools/i18n_zh.py`** (英文正文 + 中文逐节对照，两者都要写).
 - A calculator trick → it goes in [Digital-Nspire-for-Stats](https://github.com/Franky100-pig/Digital-Nspire-for-Stats), and is linked from the relevant sheet here.
-- Order is whatever `index.html` links: the site builder reads that list to generate previous/next navigation.
-
----
-
-## 📑 Documents & Direct Downloads
-
-### 1. Sampling Distributions & Central Limit Theorem
-Population parameters vs. sample statistics ($\mu, \sigma, p$ vs. $\bar{x}, s, \hat{p}$), sampling distributions of $\bar{x}$ and $\hat{p}$, Central Limit Theorem (CLT), two-sample differences ($\bar{x}_1 - \bar{x}_2$, $\hat{p}_1 - \hat{p}_2$), and the R-I-N conditions:
-- 🌐 **HTML**: **[sampling-distributions.html](./sampling-distributions.html)**
-- 📄 **PDF**: **[sampling-distributions.pdf](./sampling-distributions.pdf)** (Print-ready A4)
-
----
-
-### 2. Confidence Intervals ($z$-Interval & $t$-Interval)
-Universal interval structure ($\text{PE} \pm \text{ME}$), critical values $z^*$ vs. $t^*$, 1-Prop / 2-Prop $z$-intervals, 1-Sample / Paired / 2-Sample $t$-intervals, minimum sample size $n$ formulas, and exam-safe interpretation templates:
-- 🌐 **HTML**: **[confidence-intervals.html](./confidence-intervals.html)**
-- 📄 **PDF**: **[confidence-intervals.pdf](./confidence-intervals.pdf)** (Print-ready A4)
-
----
-
-### 3. Hypothesis Testing & $z$-Tests
-Null/alternative hypotheses ($H_0, H_a$), 1-Proportion and 2-Proportion $z$-tests (including pooled $\hat{p}_c$), known-$\sigma$ 1-Sample $z$-test, $p$-value rules, Type I / Type II error matrix ($\alpha, \beta$), and statistical power ($1 - \beta$):
-- 🌐 **HTML**: **[z-tests-proportions.html](./z-tests-proportions.html)**
-- 📄 **PDF**: **[z-tests-proportions.pdf](./z-tests-proportions.pdf)** (Print-ready A4)
-
----
-
-### 4. $t$-Tests for Means & Paired Data
-Student's $t$-distribution vs. Normal, 1-Sample $t$-test, Matched Pairs $t$-test ($\bar{d}, s_d$), Welch 2-Sample $t$-test (unpooled SE & $df$), and a decision table comparing Matched Pairs vs. 2-Sample $t$-tests:
-- 🌐 **HTML**: **[t-tests-means.html](./t-tests-means.html)**
-- 📄 **PDF**: **[t-tests-means.pdf](./t-tests-means.pdf)** (Print-ready A4)
+- The order of the chapters is the order in `tools/chapters.py`; the site builder derives the contents page, the sidebar and the previous/next links from it, so nothing has to be updated twice.
 
 ---
 
@@ -76,7 +80,12 @@ Student's $t$-distribution vs. Normal, 1-Sample $t$-test, Matched Pairs $t$-test
 ## 🛠️ Building
 
 ### The web version (GitHub Pages)
-`tools/build_site.py` copies the root sheets into `public/` and adds the site chrome — navigation, previous/next pager, *Try it on the TI-Nspire* callouts and a footer. The root HTML files stay untouched, so `build_pdfs.py` still prints clean sheets and the repository itself remains readable without a build step.
+`tools/build_site.py` copies the root sheets into `public/` and adds everything a *book* needs
+that a printable sheet does not: the contents page generated from `tools/chapters.py`, the fixed
+unit sidebar with the current chapter marked, the breadcrumb, the in-page outline built from each
+sheet's own `<h2>` anchors, the previous/next pager, the *Try it on the TI-Nspire* callouts, and a
+footer. The root HTML files stay untouched, so `build_pdfs.py` still prints clean sheets and the
+repository itself remains readable without a build step.
 
 ```bash
 python3 tools/build_site.py            # writes public/
@@ -86,23 +95,25 @@ python3 tools/build_site.py --serve    # build + preview on http://127.0.0.1:800
 `.github/workflows/pages.yml` runs the same builder on every push to `main` and deploys `public/` with `actions/deploy-pages`. Pages must be set to the **GitHub Actions** source once in Settings → Pages. The site is fully static: no CDN, no tracking, no runtime downloads.
 
 All Chinese text lives in [`tools/i18n_zh.py`](./tools/i18n_zh.py): `SECTION_ZH` holds
-one `(中文小标题, 中文导读)` pair per `<h2>`, `INTRO_HTML` holds the per-topic reading guide,
+one `(中文小标题, 中文导读)` pair per `<h2>`, `INTRO_HTML` holds the per-chapter reading guide,
 and `PICKER_ZH` holds the procedure-picker hints. **When you add a new `<h2>` to a sheet,
 add its Chinese pair too** — the builder checks the counts and fails the deploy rather than
 shipping a half-translated page. `tools/site.js` drives the language switch; `tools/site.css`
 hides every `.zh` element in English-only mode and in print.
 
 ### Regenerating PDFs from HTML
-All topic sheets share [`styles.css`](./styles.css) (including CSS math helpers `.m`, `.xbar`, `.hat-wrap`, `.frac`, `.radic` and A4 `@page` print rules). After adding or editing any `<topic>.html`, regenerate all matching `.pdf` files with:
+All sheets share [`styles.css`](./styles.css) (including CSS math helpers `.m`, `.xbar`, `.hat-wrap`, `.frac`, `.radic` and A4 `@page` print rules). After adding or editing any sheet, regenerate the matching `.pdf` files with:
 
 ```bash
 python3 build_pdfs.py
 ```
 
-The builder warns if a topic linked from `index.html` is missing its HTML or its PDF, so a half-added topic fails the deploy rather than shipping a broken link.
+`build_pdfs.py` reads the chapter map, so it prints exactly the sheets the site lists — the
+contents page and the tools appendix never produce a PDF. The builder warns if a chapter in
+`tools/chapters.py` points at a missing sheet or PDF, so a half-added chapter fails the deploy
+rather than shipping a broken link.
 
-### Suggested Next Topics to Add
-- `topic-05`: **Chi-Square ($\chi^2$) Tests** — Goodness-of-Fit, Homogeneity, Independence, expected counts $E = \frac{\text{row total} \times \text{col total}}{n}$, and $df$.
-- `topic-06`: **Linear Regression & Inference for Slope** — LSRL ($\hat{y} = a + bx$), $r, r^2, s, SE_b$, and $t$-test / CI for slope $\beta$.
-- `topic-07`: **Probability, Random Variables & Distributions** — Conditional probability, independence, Binomial ($\mu = np, \sigma = \sqrt{np(1-p)}$), Geometric, and linear combinations.
-- `topic-08`: **Experimental Design & Sampling Methods** — SRS, stratified vs. cluster, blocking, confounding, scope of inference (generalizability vs. causation).
+### What is still to write
+The unit map in `tools/chapters.py` is the plan; the units marked *planned* there are next:
+chi-square tests (Unit 08), inference for the slope (Unit 09), probability and random variables
+(Unit 04), sampling and experiments (Unit 03), and the two data-description units (01–02).

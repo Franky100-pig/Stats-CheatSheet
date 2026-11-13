@@ -44,13 +44,29 @@ def render_pdf(browser: str, html_path: str, pdf_path: str) -> None:
     subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 
+def sheet_files(root: str) -> list[str]:
+    """The sheets to print: exactly the chapters listed in tools/chapters.py.
+
+    The site-only pages (index.html, reference.html) are not sheets, so they
+    never get a PDF.
+    """
+    sys.path.insert(0, os.path.join(root, "tools"))
+    try:
+        import chapters  # type: ignore
+    except ImportError:
+        chapters = None
+    if chapters is not None:
+        return [os.path.join(root, name) for name in chapters.reading_order()]
+    return sorted(
+        f for f in glob.glob(os.path.join(root, "*.html"))
+        if os.path.basename(f) not in ("index.html", "reference.html")
+    )
+
+
 def main() -> int:
     root = os.path.dirname(os.path.abspath(__file__))
     browser = find_browser()
-    html_files = sorted(
-        f for f in glob.glob(os.path.join(root, "*.html"))
-        if os.path.basename(f) != "index.html"
-    )
+    html_files = sheet_files(root)
     if not html_files:
         print("No topic HTML files found.", file=sys.stderr)
         return 1

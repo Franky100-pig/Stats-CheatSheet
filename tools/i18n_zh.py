@@ -18,14 +18,24 @@ from __future__ import annotations
 # One entry per <h2>, in document order: (中文小标题, 中文导读).
 SECTION_ZH: dict[str, list[tuple[str, str]]] = {
     "index.html": [
-        ("怎么用这份讲义",
-         "先定参数 → 再查条件 → 最后计算并回到情境解释。公式、符号与 TI 命令保留英文原样，"
-         "中文只负责讲清「为什么」和「哪里容易错」，方便直接对照 AP 考试的英文卷面。"),
+        ("本书怎么组织",
+         "一章对应 AP 考纲的一个单元，章内按「公式 → 条件 → 计算 → 情境解释」推进；还没写的单元也会先列出要覆盖什么，"
+         "方便看清整个考纲地图。"),
+        ("目录",
+         "九个单元按考纲顺序排列，点标题进入讲义，PDF 是同内容的 A4 打印版；标「计划中」的是还没写的章节。"),
+        ("一章怎么读",
+         "每章开头有中文导读，下面逐节对照：英文负责考试用语，每个标题下的中文讲这一节真正在说什么；"
+         "章末是配套的 TI-Nspire 命令，推导和计算在同一页。"),
+        ("新笔记放哪",
+         "所有统计知识点都进这个仓（AP 统计优先）：先扩已有章；全新主题就新增一页讲义 + PDF + 目录条目 + "
+         "tools/i18n_zh.py 里的中文条目。结构只写在 tools/chapters.py 一处。"),
+    ],
+    "reference.html": [
+        ("这些工具怎么用",
+         "先用选择器定方法 → 再查条件 → 最后用计算器算，并回到情境里解释。"),
         ("我该用哪个推断方法？",
          "按「数据结构 + 目标是估计还是检验」查表：先分比例还是均值、一组还是两组、是否配对，再定 z 或 t。"
-         "选择器给出的公式和命令都能跳到下面对应的专题。"),
-        ("专题目录",
-         "已完成 4 张讲义，每张都有网页版 HTML 与同内容的 A4 打印 PDF；表格里 05–08 是接下来要补的 AP 统计考纲专题。"),
+         "选择器给出的公式和命令都能跳到对应章节。"),
         ("计算器伴生项目",
          "Digital-Nspire-for-Stats 在浏览器里跑真正的 TI-Nspire 统计命令，函数拼写与讲义一致，可以边推公式边算。"),
         ("记号速查表",
@@ -99,8 +109,16 @@ SECTION_ZH: dict[str, list[tuple[str, str]]] = {
 # Injected immediately after the subtitle: a Chinese reading guide per page.
 INTRO_HTML: dict[str, str] = {
     "index.html": (
-        '<p class="zh zh-lead">中文：这里是 AP Statistics 的公式优先讲义 —— 英文公式、符号与 TI 命令原样保留，'
-        '中文逐节补充思路、条件和易错点。右上角可在「双语 / 英文」之间切换。</p>'
+        '<p class="zh zh-lead">中文：这是一本按 AP 统计考纲九个单元分章的讲义 —— 英文公式、符号与 TI 命令原样保留，'
+        '中文逐节补充思路、条件和易错点。下面就是目录；右上角可在「双语 / 英文」之间切换。</p>'
+    ),
+    "reference.html": (
+        '<section class="zh zh-intro"><h3>速查页说明（中文）</h3><ul>'
+        '<li>推断程序选择器：选「数据结构 + 估计还是检验」，直接给出公式、条件、对应章节与计算器命令。</li>'
+        '<li>记号速查表：参数 / 统计量 / 标准误对照。</li>'
+        '<li>必背易错点：考试最常踩的五个坑。</li>'
+        '<li>完整的章节地图在<a href="index.html">目录页</a>，本附录只放工具。</li>'
+        '</ul></section>'
     ),
     "sampling-distributions.html": (
         '<section class="zh zh-intro"><h3>本讲要点（中文）</h3><ul>'
@@ -165,19 +183,21 @@ PICKER_ZH: dict[str, dict[str, str]] = {
 # from these strings -- they never need translating.
 UI: dict[str, str] = {
     "home": "首页",
+    "contents": "目录",
+    "reference": "速查与工具",
     "topics": "专题",
     "picker": "选方法",
     "calculator": "计算器",
     "github": "源码",
     "tagline": "AP 统计 · 小讲义",
     "callout_title": "在 TI-Nspire 上试一下",
-    "callout_lead": "中文：下面是该专题对应的真实 TI-Nspire 命令名，直接复制到计算器就能跑。公式与命令一律保持英文。",
+    "callout_lead": "中文：下面是该章节对应的真实 TI-Nspire 命令名，直接复制到计算器就能跑。公式与命令一律保持英文。",
     "callout_button": "打开计算器",
-    "prev": "上一讲",
-    "next": "下一讲",
-    "back_home": "返回目录",
+    "prev": "上一章",
+    "next": "下一章",
+    "back_home": "回到目录",
     "start": "开始",
-    "end": "已是最后一讲",
+    "end": "已是最后一章",
     "footer": (
         "中文：Stats-CheatSheet 是 AP Statistics 的公式优先讲义，每个专题都有 A4 打印版 PDF；"
         "配套项目 Digital-Nspire-for-Stats 用 TI-Nspire 原生命令跑同样的推断流程。"
