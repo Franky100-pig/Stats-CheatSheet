@@ -172,11 +172,87 @@
 
 .site-foot a { color: var(--site-accent); }
 
+/* ---- Bilingual layer -------------------------------------------------- */
+/* Injected by tools/build_site.py. English-only mode, and every print job,
+   drop the whole layer so the sheet reads exactly like the AP exam. */
+.lang-btn {
+  padding: 4px 10px;
+  border: 1px solid var(--site-border);
+  border-radius: 6px;
+  background: var(--site-surface);
+  color: var(--site-ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.lang-btn:hover { border-color: var(--site-accent); color: var(--site-accent); }
+.lang-btn[aria-pressed="true"] { background: var(--site-accent-bg); border-color: var(--site-accent-border); }
+
+.zh-lead {
+  font-size: 13.5px;
+  color: var(--site-muted);
+  background: var(--site-accent-bg);
+  border-left: 3px solid var(--site-accent);
+  border-radius: 0 6px 6px 0;
+  padding: 9px 14px;
+  margin: 12px 0 4px;
+}
+
+.zh-intro {
+  margin: 16px 0 22px;
+  padding: 12px 18px 14px;
+  border: 1px solid var(--site-accent-border);
+  border-radius: 8px;
+  background: var(--site-accent-bg);
+  font-size: 13px;
+  color: var(--site-muted);
+}
+
+.zh-intro h3 { margin: 0 0 7px; font-size: 14.5px; color: var(--site-ink); }
+.zh-intro ul { margin: 0; padding-left: 20px; }
+.zh-intro li { margin: 3px 0; }
+
+.zh-head {
+  display: inline-block;
+  margin-left: 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--site-accent);
+  vertical-align: 2px;
+}
+
+.zh-gloss {
+  margin: 6px 0 18px;
+  padding: 8px 13px;
+  border-left: 3px solid var(--site-accent-border);
+  background: #f8fbff;
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--site-muted);
+}
+
+.zh-gloss::before {
+  content: "中文 · ";
+  font-weight: 700;
+  color: var(--site-accent);
+}
+
+.site-foot .zh { display: block; margin-top: 4px; }
+.site-nav .zh { font-weight: 400; opacity: 0.85; }
+.calc-callout .zh { color: var(--site-muted); }
+.site-pager a span .zh { display: inline; font-size: inherit; color: inherit; }
+
+html[data-lang="en"] .zh { display: none !important; }
+
 @media (max-width: 600px) {
   .site-nav { font-size: 12px; }
   .site-nav .site-topic-jump { display: none; }
 }
 
 @media print {
-  .site-nav, .calc-callout, .site-pager, .site-foot { display: none !important; }
+  .site-nav, .calc-callout, .site-pager, .site-foot, .zh { display: none !important; }
 }
