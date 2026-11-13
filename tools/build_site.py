@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
-"""Build the GitHub Pages "mini lecture" from the root cheat sheets.
+"""Build the bilingual GitHub Pages "mini lecture" from the root cheat sheets.
 
 The root ``*.html`` files are the source of truth: they are what build_pdfs.py
-turns into the A4 PDFs, and they work when opened straight from the repository.
+turns into the A4 PDFs, and they stay English-only on purpose -- formula
+spellings, symbols and TI-Nspire command names must match the AP exam.
+
 This script does not rewrite them. It copies them into ``public/`` and adds the
 things a *site* needs that a printable sheet does not:
 
   * a shared navigation bar (home, topic index, procedure picker, calculator)
+  * a Chinese annotation layer from tools/i18n_zh.py: a per-section gloss,
+    bilingual section headings and a per-topic reading guide
+  * a language switch (bilingual / English-only), remembered in localStorage
   * a "try it on the Nspire" callout per topic, with real TI command names
   * previous / next links, in the reading order taken from index.html
   * a footer linking the two companion projects
 
-The injected chrome is hidden by ``@media print`` in site.css, so printing a
-built page still produces a clean sheet. Everything the site needs is local --
-no CDN, no tracking, no network calls beyond the two outbound links.
+Every injected Chinese element carries ``.zh``, so English-only mode and print
+both drop the whole layer. Nothing is fetched from a CDN.
 
     python3 tools/build_site.py                 # build into public/
     python3 tools/build_site.py --serve        # build, then serve on :8000
@@ -28,11 +32,14 @@ from __future__ import annotations
 
 import argparse
 import http.server
+import json
 import os
 import re
 import shutil
 import socketserver
 from pathlib import Path
+
+from i18n_zh import INTRO_HTML, PICKER_ZH, SECTION_ZH, UI
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -82,6 +89,8 @@ CALC_TIPS: dict[str, tuple[str, list[tuple[str, str]]]] = {
 }
 
 HREF_RE = re.compile(r'href="([a-z0-9-]+\.html)"')
+H2_RE = re.compile(r'(<h2[^>]*>)(.*?)(</h2>)', re.S)
+SUBTITLE_RE = re.compile(r'(<p class="subtitle">.*?</p>)', re.S)
 
 
 def topic_order(index_html: str) -> list[str]:
@@ -100,14 +109,15 @@ def nav_html() -> str:
     return f"""<nav class="site-nav">
   <a class="site-brand" href="index.html">Stats <span>Cheat Sheet</span></a>
   <div class="site-links">
-    <a class="site-link" href="index.html">Home</a>
-    <a class="site-link" href="index.html#topics">Topics</a>
-    <a class="site-link" href="index.html#procedure-picker">Which procedure?</a>
-    <a class="site-link site-cta" href="{CALC_URL}" target="_blank" rel="noopener">Nspire calculator &#8599;</a>
-    <a class="site-link" href="{REPO_URL}" target="_blank" rel="noopener">GitHub &#8599;</a>
+    <a class="site-link" href="index.html">Home <span class="zh">{UI['home']}</span></a>
+    <a class="site-link" href="index.html#topics">Topics <span class="zh">{UI['topics']}</span></a>
+    <a class="site-link" href="index.html#procedure-picker">Which procedure? <span class="zh">{UI['picker']}</span></a>
+    <a class="site-link site-cta" href="{CALC_URL}" target="_blank" rel="noopener">Nspire calculator <span class="zh">{UI['calculator']}</span> &#8599;</a>
+    <a class="site-link" href="{REPO_URL}" target="_blank" rel="noopener">GitHub <span class="zh">{UI['github']}</span> &#8599;</a>
   </div>
   <span class="site-spacer"></span>
-  <span class="site-topic-jump">AP Statistics &middot; mini lecture notes</span>
+  <span class="site-topic-jump">AP Statistics &middot; mini lecture notes <span class="zh">/ {UI['tagline']}</span></span>
+  <button class="lang-btn" id="langToggle" type="button" aria-pressed="false">{UI['lang_both']}</button>
 </nav>
 """
 
@@ -118,6 +128,7 @@ def footer_html() -> str:
   Companion project: <a href="{CALC_URL}" target="_blank" rel="noopener">Digital-Nspire-for-Stats</a>
   runs the same procedures using the TI-Nspire's own command names
   (<a href="{CALC_REPO_URL}" target="_blank" rel="noopener">source</a>).
+  <span class="zh">{UI['footer']}</span>
 </footer>
 """
 
@@ -128,13 +139,14 @@ def callout_html(name: str) -> str:
         f"    <li><code>{cmd}</code> &mdash; {desc}</li>" for cmd, desc in commands
     )
     return f"""<section class="calc-callout no-print">
-  <h2>Try it on the TI-Nspire</h2>
+  <h2>Try it on the TI-Nspire <span class="zh zh-head">{UI['callout_title']}</span></h2>
   <p>{title}. These are the calculator's own function names, taken from the
      <a href="{CALC_REPO_URL}" target="_blank" rel="noopener">Digital-Nspire-for-Stats</a> catalogue.</p>
+  <p class="zh">{UI['callout_lead']}</p>
   <ul>
 {rows}
   </ul>
-  <a class="calc-open" href="{CALC_URL}" target="_blank" rel="noopener">Open the calculator &#8599;</a>
+  <a class="calc-open" href="{CALC_URL}" target="_blank" rel="noopener">Open the calculator <span class="zh">/ {UI['callout_button']}</span> &#8599;</a>
 </section>
 """
 
@@ -142,20 +154,54 @@ def callout_html(name: str) -> str:
 def pager_html(name: str, order: list[str]) -> str:
     i = order.index(name)
     prev_link = (
-        f'<a href="{order[i-1]}"><span>&larr; Previous topic</span>{Path(order[i-1]).stem.replace("-", " ").title()}</a>'
-        if i > 0 else '<a class="site-pager-home" href="index.html"><span>Start</span>Back to the index</a>'
+        f'<a href="{order[i-1]}"><span>&larr; Previous topic <span class="zh">/ {UI["prev"]}</span></span>{Path(order[i-1]).stem.replace("-", " ").title()}</a>'
+        if i > 0 else f'<a class="site-pager-home" href="index.html"><span>{UI["start"]} <span class="zh">/ {UI["back_home"]}</span></span>Back to the index</a>'
     )
     next_link = (
-        f'<a class="site-pager-next" href="{order[i+1]}"><span>Next topic &rarr;</span>{Path(order[i+1]).stem.replace("-", " ").title()}</a>'
-        if i + 1 < len(order) else '<a class="site-pager-home" href="index.html"><span>End of the current set</span>Back to the index</a>'
+        f'<a class="site-pager-next" href="{order[i+1]}"><span>Next topic &rarr; <span class="zh">/ {UI["next"]}</span></span>{Path(order[i+1]).stem.replace("-", " ").title()}</a>'
+        if i + 1 < len(order) else f'<a class="site-pager-home" href="index.html"><span>{UI["end"]} <span class="zh">/ {UI["back_home"]}</span></span>Back to the index</a>'
     )
     return f'<nav class="site-pager no-print">{prev_link}{next_link}</nav>\n'
 
 
-def decorate(html: str, name: str, order: list[str]) -> str:
-    """Add the site chrome to one page, without touching its printable body."""
+def inject_chinese(html: str, name: str) -> tuple[str, str | None]:
+    """Add the Chinese layer. One pair per <h2>; a mismatch fails the build."""
+    pairs = SECTION_ZH.get(name)
+    matches = list(H2_RE.finditer(html))
+    if pairs is None or len(pairs) != len(matches):
+        have = 0 if pairs is None else len(pairs)
+        return html, f"{name}: {len(matches)} <h2> sections but {have} Chinese entries in i18n_zh.py"
+
+    out: list[str] = []
+    last = 0
+    for m, (zh_head, zh_gloss) in zip(matches, pairs):
+        out.append(html[last:m.end(2)])
+        out.append(f' <span class="zh zh-head">{zh_head}</span>')
+        out.append(m.group(3))
+        out.append(f'\n  <div class="zh zh-gloss">{zh_gloss}</div>')
+        last = m.end()
+    out.append(html[last:])
+    html = "".join(out)
+
+    sub = SUBTITLE_RE.search(html)
+    if sub and name in INTRO_HTML:
+        html = html[:sub.end()] + "\n  " + INTRO_HTML[name] + html[sub.end():]
+
+    if name == "index.html":
+        data = json.dumps(PICKER_ZH, ensure_ascii=False)
+        html = html.replace("</head>", f"  <script>window.STATS_I18N_ZH = {data};</script>\n</head>", 1)
+
+    return html, None
+
+
+def decorate(html: str, name: str, order: list[str]) -> tuple[str, str | None]:
+    """Add the site chrome and Chinese layer to one page."""
+    html, problem = inject_chinese(html, name)
+
     if "site.css" not in html:
         html = html.replace("</head>", '  <link rel="stylesheet" href="site.css" />\n</head>', 1)
+    if '<script src="site.js">' not in html:
+        html = html.replace("</head>", '  <script src="site.js"></script>\n</head>', 1)
     if 'class="site-nav"' not in html:
         html = html.replace("<body>", "<body>\n" + nav_html(), 1)
 
@@ -165,12 +211,12 @@ def decorate(html: str, name: str, order: list[str]) -> str:
         body_at = html.rfind("</body>")
         close_at = html.rfind("</div>", 0, body_at)
         if close_at < 0:
-            raise SystemExit(f"{name}: could not find the closing .page div")
+            return html, f"{name}: could not find the closing .page div"
         html = html[:close_at] + callout_html(name) + html[close_at:]
         html = html.replace("</body>", pager_html(name, order) + "</body>", 1)
 
     html = html.replace("</body>", footer_html() + "</body>", 1)
-    return html
+    return html, problem
 
 
 def build(out_dir: Path) -> int:
@@ -183,20 +229,21 @@ def build(out_dir: Path) -> int:
 
     shutil.copy(ROOT / "styles.css", out_dir / "styles.css")
     shutil.copy(HERE / "site.css", out_dir / "site.css")
+    shutil.copy(HERE / "site.js", out_dir / "site.js")
 
     pdfs = sorted(ROOT.glob("*.pdf"))
     for pdf in pdfs:
         shutil.copy(pdf, out_dir / pdf.name)
 
+    problems: list[str] = []
     html_files = sorted(ROOT.glob("*.html"))
     for src in html_files:
-        (out_dir / src.name).write_text(
-            decorate(src.read_text(encoding="utf-8"), src.name, order),
-            encoding="utf-8",
-        )
+        decorated, problem = decorate(src.read_text(encoding="utf-8"), src.name, order)
+        if problem:
+            problems.append(problem)
+        (out_dir / src.name).write_text(decorated, encoding="utf-8")
 
     # A broken link in a lecture note is worse than a missing note. Say so loudly.
-    problems: list[str] = []
     for name in order:
         if not (ROOT / name).is_file():
             problems.append(f"index.html links {name}, but the file is missing")
@@ -205,14 +252,15 @@ def build(out_dir: Path) -> int:
     for name in CALC_TIPS:
         if name not in order:
             problems.append(f"{name} has a calculator callout but is not linked from index.html")
-    if problems:
-        for problem in problems:
-            print(f"  WARNING  {problem}", flush=True)
+    for problem in problems:
+        print(f"  WARNING  {problem}", flush=True)
 
+    zh_pages = sum(1 for p in out_dir.glob("*.html") if 'class="zh' in p.read_text(encoding="utf-8"))
     print(f"built  {out_dir}")
     print(f"  {len(html_files)} HTML pages  ({len(order)} topics in reading order)")
-    print(f"  {len(pdfs)} PDFs            ({sum(p.stat().st_size for p in pdfs):,} bytes)")
-    print(f"  site.css + styles.css + navigation + calculator callouts + pager")
+    print(f"  {zh_pages} bilingual pages  ({len(SECTION_ZH)} pages with Chinese glosses)")
+    print(f"  {len(pdfs)} PDFs            ({sum(p.stat().st_size for p in pdfs):,} bytes, English only)")
+    print(f"  site.css + site.js + styles.css + navigation + callouts + pager")
     print(f"  live URL  {SITE_URL}")
     total = sum(p.stat().st_size for p in out_dir.rglob("*") if p.is_file())
     print(f"  total     {total:,} bytes")
