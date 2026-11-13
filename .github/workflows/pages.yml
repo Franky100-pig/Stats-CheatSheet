@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+# Same pattern as LA-Helper: every push to main rebuilds the static site with
+# tools/build_site.py and deploys it through the GitHub Actions Pages source.
+# Enable "GitHub Actions" as the Pages source in Settings -> Pages once.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Build the lecture site
+        env:
+          STATS_SITE_OUT: public
+        run: python3 tools/build_site.py
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
