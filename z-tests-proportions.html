@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hypothesis Testing &amp; z-Tests — Stats Cheat Sheet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar no-print">
+      <a href="index.html">← All Cheat Sheets</a>
+      <span>Topic 03 · Formulas, Variable Definitions &amp; Errors</span>
+    </div>
+
+    <span class="badge">Topic 03 · Hypothesis Tests &amp; z-Tests</span>
+    <h1>Hypothesis Testing &amp; <span class="m"><i>z</i></span>-Tests (Proportions &amp; Known-<span class="m"><i>&sigma;</i></span> Means)</h1>
+    <p class="subtitle">
+      Null vs. alternative hypotheses, test statistic formulas, pooled proportion <span class="m"><span class="hat-wrap">p</span><sub><i>c</i></sub></span>, <span class="m"><i>p</i></span>-value rules, Type I / II errors, and statistical power.
+    </p>
+
+    <h2>1. Core Testing Framework &amp; Variable Definitions</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Name</th>
+          <th>Definition &amp; Mathematical Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sym-col"><span class="m"><i>H</i><sub>0</sub>, <i>H<sub>a</sub></i></span></td>
+          <td>Null &amp; Alternative Hypotheses</td>
+          <td>
+            <span class="m"><i>H</i><sub>0</sub></span> = claim of "no effect / no difference" (always uses <span class="m">=</span>, e.g., <span class="m"><i>p</i> = <i>p</i><sub>0</sub></span>).<br />
+            <span class="m"><i>H<sub>a</sub></i></span> = research claim (<span class="m">&lt;</span>, <span class="m">&gt;</span>, or <span class="m">&ne;</span>). <strong>Always written using parameters</strong> (<span class="m"><i>p</i>, <i>&mu;</i></span>), never <span class="hat-wrap">p</span> or <span class="xbar">x</span>!
+          </td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>p</i><sub>0</sub>, <i>&mu;</i><sub>0</sub></span></td>
+          <td>Null Value</td>
+          <td>Specific hypothesized population parameter value assumed to be true under <span class="m"><i>H</i><sub>0</sub></span>.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>z</i></span></td>
+          <td>Standardized Test Statistic</td>
+          <td><span class="m"><i>z</i> = (Statistic &minus; Null Parameter) / (Null Standard Deviation)</span>. Measures how many SDs the sample result lies from <span class="m"><i>H</i><sub>0</sub></span>.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>p</i>-value</span></td>
+          <td>Observed Significance</td>
+          <td>Probability of getting a statistic as extreme as (or more extreme than) our observed data, <strong>assuming <span class="m"><i>H</i><sub>0</sub></span> is true</strong>.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>&alpha;</i></span></td>
+          <td>Significance Level</td>
+          <td>Decision threshold (commonly <span class="m">0.05</span> or <span class="m">0.01</span>). Equals <span class="m"><i>P</i>(Type I Error)</span> when <span class="m"><i>H</i><sub>0</sub></span> is true.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>&beta;</i></span></td>
+          <td>Type II Error Rate</td>
+          <td>Probability of failing to reject <span class="m"><i>H</i><sub>0</sub></span> when <span class="m"><i>H<sub>a</sub></i></span> is actually true.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m">1 &minus; <i>&beta;</i></span></td>
+          <td>Statistical Power</td>
+          <td>Probability that a test correctly rejects a false <span class="m"><i>H</i><sub>0</sub></span> at a specific true alternative value.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. All <span class="m"><i>z</i></span>-Test Formulas</h2>
+
+    <div class="formula-card">
+      <div class="formula-title">1-Proportion <span class="m"><i>z</i></span>-Test (Testing <span class="m"><i>H</i><sub>0</sub>: <i>p</i> = <i>p</i><sub>0</sub></span>)</div>
+      <div class="formula-main">
+        <span class="m">
+          <i>z</i> =
+          <span class="frac">
+            <span class="num"><span class="hat-wrap">p</span> &minus; <i>p</i><sub>0</sub></span>
+            <span class="den">
+              <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><span class="frac"><span class="num"><i>p</i><sub>0</sub>(1 &minus; <i>p</i><sub>0</sub>)</span><span class="den"><i>n</i></span></span></span></span>
+            </span>
+          </span>
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Variables:</strong> <span class="m"><span class="hat-wrap">p</span> = <i>X</i>/<i>n</i></span> (sample proportion); <span class="m"><i>p</i><sub>0</sub></span> (null value); <span class="m"><i>n</i></span> (sample size).<br />
+        <strong>Important:</strong> Denominator and Large Counts condition (<span class="m"><i>np</i><sub>0</sub> &ge; 10, <i>n</i>(1&minus;<i>p</i><sub>0</sub>) &ge; 10</span>) BOTH use <strong><span class="m"><i>p</i><sub>0</sub></span></strong> (not <span class="hat-wrap">p</span>!), because we assume <span class="m"><i>H</i><sub>0</sub></span> is true.
+      </div>
+    </div>
+
+    <div class="formula-card">
+      <div class="formula-title">2-Proportion <span class="m"><i>z</i></span>-Test (Testing <span class="m"><i>H</i><sub>0</sub>: <i>p</i><sub>1</sub> &minus; <i>p</i><sub>2</sub> = 0</span>)</div>
+      <div class="formula-main">
+        <span class="m">
+          <i>z</i> =
+          <span class="frac">
+            <span class="num">(<span class="hat-wrap">p</span><sub>1</sub> &minus; <span class="hat-wrap">p</span><sub>2</sub>) &minus; 0</span>
+            <span class="den">
+              <span class="radic"><span class="r-sign">&radic;</span><span class="r-body">
+                <span class="hat-wrap">p</span><sub><i>c</i></sub>(1 &minus; <span class="hat-wrap">p</span><sub><i>c</i></sub>)
+                <span style="font-size: 1.15em;">(</span><span class="frac"><span class="num">1</span><span class="den"><i>n</i><sub>1</sub></span></span> + <span class="frac"><span class="num">1</span><span class="den"><i>n</i><sub>2</sub></span></span><span style="font-size: 1.15em;">)</span>
+              </span></span>
+            </span>
+          </span>
+          &nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="hat-wrap">p</span><sub><i>c</i></sub> =
+          <span class="frac">
+            <span class="num"><i>X</i><sub>1</sub> + <i>X</i><sub>2</sub></span>
+            <span class="den"><i>n</i><sub>1</sub> + <i>n</i><sub>2</sub></span>
+          </span>
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Variables:</strong> <span class="m"><i>X</i><sub>1</sub>, <i>X</i><sub>2</sub></span> = success counts in each sample; <span class="m"><i>n</i><sub>1</sub>, <i>n</i><sub>2</sub></span> = sample sizes; <span class="m"><span class="hat-wrap">p</span><sub><i>c</i></sub></span> = pooled (combined) sample proportion under <span class="m"><i>H</i><sub>0</sub>: <i>p</i><sub>1</sub> = <i>p</i><sub>2</sub></span>.<br />
+        <strong>Large Counts Check:</strong> Verify <span class="m"><i>n</i><sub>1</sub><span class="hat-wrap">p</span><sub><i>c</i></sub>, <i>n</i><sub>1</sub>(1&minus;<span class="hat-wrap">p</span><sub><i>c</i></sub>), <i>n</i><sub>2</sub><span class="hat-wrap">p</span><sub><i>c</i></sub>, <i>n</i><sub>2</sub>(1&minus;<span class="hat-wrap">p</span><sub><i>c</i></sub>) &ge; 10</span>.
+      </div>
+    </div>
+
+    <div class="formula-card">
+      <div class="formula-title">1-Sample <span class="m"><i>z</i></span>-Test for a Mean (Only when Population SD <span class="m"><i>&sigma;</i></span> is Known)</div>
+      <div class="formula-main">
+        <span class="m">
+          <i>z</i> =
+          <span class="frac">
+            <span class="num"><span class="xbar">x</span> &minus; <i>&mu;</i><sub>0</sub></span>
+            <span class="den"><i>&sigma;</i> / <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span>
+          </span>
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Variables:</strong> <span class="m"><span class="xbar">x</span></span> = sample mean; <span class="m"><i>&mu;</i><sub>0</sub></span> = null mean; <span class="m"><i>&sigma;</i></span> = <strong>known population</strong> SD; <span class="m"><i>n</i></span> = sample size. (If <span class="m"><i>&sigma;</i></span> is unknown and you use sample <span class="m"><i>s</i></span>, you MUST use a <span class="m"><i>t</i></span>-test!)
+      </div>
+    </div>
+
+    <h2>3. Computing the <span class="m"><i>p</i></span>-Value &amp; Making a Decision</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Alternative Hypothesis (<span class="m"><i>H<sub>a</sub></i></span>)</th>
+          <th>Tail Type</th>
+          <th><span class="m"><i>p</i></span>-Value Formula (<span class="m"><i>Z</i> ~ <i>N</i>(0, 1)</span>)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="m"><i>H<sub>a</sub></i>: param &gt; null</span></td>
+          <td>Right-tailed</td>
+          <td><span class="m"><i>P</i>(<i>Z</i> &ge; <i>z</i><sub>obs</sub>) = <code>normalcdf(z, &infin;, 0, 1)</code></span></td>
+        </tr>
+        <tr>
+          <td><span class="m"><i>H<sub>a</sub></i>: param &lt; null</span></td>
+          <td>Left-tailed</td>
+          <td><span class="m"><i>P</i>(<i>Z</i> &le; <i>z</i><sub>obs</sub>) = <code>normalcdf(-&infin;, z, 0, 1)</code></span></td>
+        </tr>
+        <tr>
+          <td><span class="m"><i>H<sub>a</sub></i>: param &ne; null</span></td>
+          <td>Two-tailed</td>
+          <td><span class="m">2 &middot; <i>P</i>(<i>Z</i> &ge; |<i>z</i><sub>obs</sub>|) = 2 &middot; <code>normalcdf(|z|, &infin;, 0, 1)</code></span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="box-ok">
+      <div class="box-label">Conclusion Rule &amp; Template</div>
+      <ul>
+        <li><strong>If <span class="m"><i>p</i>-value &le; <i>&alpha;</i></span>:</strong> "Because the <span class="m"><i>p</i></span>-value ([val]) &le; <span class="m"><i>&alpha;</i></span> ([val]), we <strong>reject <span class="m"><i>H</i><sub>0</sub></span></strong>. There is convincing statistical evidence that [<em>H<sub>a</sub></em> in context]."</li>
+        <li><strong>If <span class="m"><i>p</i>-value &gt; <i>&alpha;</i></span>:</strong> "Because the <span class="m"><i>p</i></span>-value ([val]) &gt; <span class="m"><i>&alpha;</i></span> ([val]), we <strong>fail to reject <span class="m"><i>H</i><sub>0</sub></span></strong>. We do <em>not</em> have convincing evidence that [<em>H<sub>a</sub></em> in context]." (Never say "accept <span class="m"><i>H</i><sub>0</sub></span>" or "prove <span class="m"><i>H</i><sub>0</sub></span> is true"!)</li>
+      </ul>
+    </div>
+
+    <h2>4. Type I Error, Type II Error &amp; Power Matrix</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Decision \ Truth</th>
+          <th><span class="m"><i>H</i><sub>0</sub></span> is Actually TRUE</th>
+          <th><span class="m"><i>H</i><sub>0</sub></span> is Actually FALSE (<span class="m"><i>H<sub>a</sub></i></span> True)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Reject <span class="m"><i>H</i><sub>0</sub></span></strong></td>
+          <td style="background: #fef2f2; color: #991b1b;">
+            <strong>Type I Error (False Positive)</strong><br />
+            Probability = <span class="m"><i>&alpha;</i></span>
+          </td>
+          <td style="background: #f0fdf4; color: #166534;">
+            <strong>Correct Decision (Power)</strong><br />
+            Probability = <span class="m">1 &minus; <i>&beta;</i></span>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Fail to Reject <span class="m"><i>H</i><sub>0</sub></span></strong></td>
+          <td style="background: #f0fdf4; color: #166534;">
+            <strong>Correct Decision</strong><br />
+            Probability = <span class="m">1 &minus; <i>&alpha;</i></span>
+          </td>
+          <td style="background: #fef2f2; color: #991b1b;">
+            <strong>Type II Error (False Negative)</strong><br />
+            Probability = <span class="m"><i>&beta;</i></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="box-note">
+      <div class="box-label">How to Increase Statistical Power (<span class="m">1 &minus; <i>&beta;</i></span>)</div>
+      <p style="margin-bottom: 0;">
+        1. <strong>Increase sample size <span class="m"><i>n</i></span></strong> (shrinks SE, lowers both <span class="m"><i>&beta;</i></span> and overlap without raising <span class="m"><i>&alpha;</i></span>). &nbsp;|&nbsp;
+        2. <strong>Increase <span class="m"><i>&alpha;</i></span></strong> (e.g., 0.01 &rarr; 0.05; trades off higher Type I risk for lower <span class="m"><i>&beta;</i></span>). &nbsp;|&nbsp;
+        3. <strong>Larger true effect size <span class="m">|<i>p</i><sub>true</sub> &minus; <i>p</i><sub>0</sub>|</span></strong> &nbsp;|&nbsp;
+        4. <strong>Reduce variability <span class="m"><i>&sigma;</i></span></strong>.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

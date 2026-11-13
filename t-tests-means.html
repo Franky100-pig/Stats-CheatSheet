@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>t-Tests for Means &amp; Paired Data — Stats Cheat Sheet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar no-print">
+      <a href="index.html">← All Cheat Sheets</a>
+      <span>Topic 04 · Formulas, Variable Definitions &amp; Paired vs. 2-Sample</span>
+    </div>
+
+    <span class="badge">Topic 04 · t-Tests for Means</span>
+    <h1><span class="m"><i>t</i></span>-Tests for Means &amp; Paired Data</h1>
+    <p class="subtitle">
+      Why we use <span class="m"><i>t</i></span> when <span class="m"><i>&sigma;</i></span> is unknown, one-sample, matched-pairs, and two-sample <span class="m"><i>t</i></span>-test formulas, degrees of freedom, and conditions.
+    </p>
+
+    <h2>1. Why <span class="m"><i>t</i></span> Instead of <span class="m"><i>z</i></span>? &amp; Variable Definitions</h2>
+    <p>
+      In real problems, the population standard deviation <span class="m"><i>&sigma;</i></span> is almost always <strong>unknown</strong>, so we replace <span class="m"><i>&sigma;</i></span> with the sample standard deviation <span class="m"><i>s</i></span>. Because <span class="m"><i>s</i></span> adds extra variability from sample to sample, the standardized statistic follows a <strong>Student's <span class="m"><i>t</i></span>-distribution</strong> with heavier tails than <span class="m"><i>N</i>(0, 1)</span>. As <span class="m"><i>df</i> &rarr; &infin;</span>, <span class="m"><i>t</i>(<i>df</i>) &rarr; <i>N</i>(0, 1)</span>.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Name</th>
+          <th>Definition &amp; Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sym-col"><span class="xbar">x</span>, <span class="m"><i>&mu;</i><sub>0</sub></span></td>
+          <td>Sample Mean &amp; Null Mean</td>
+          <td><span class="xbar">x</span> = observed sample mean; <span class="m"><i>&mu;</i><sub>0</sub></span> = hypothesized population mean under <span class="m"><i>H</i><sub>0</sub></span>.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>s</i></span></td>
+          <td>Sample Standard Deviation</td>
+          <td><span class="m"><i>s</i> = <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><span class="frac"><span class="num">&Sigma;(<i>x<sub>i</sub></i> &minus; <span class="xbar">x</span>)<sup>2</sup></span><span class="den"><i>n</i> &minus; 1</span></span></span></span></span>. Plugged in for unknown <span class="m"><i>&sigma;</i></span>.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>df</i></span></td>
+          <td>Degrees of Freedom</td>
+          <td>Controls tail thickness of <span class="m"><i>t</i></span>-curve. <span class="m"><i>df</i> = <i>n</i> &minus; 1</span> for 1-sample / paired; Welch's <span class="m"><i>df</i></span> for 2-sample.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>d<sub>i</sub></i>, <span class="xbar">d</span>, <i>s<sub>d</sub></i></span></td>
+          <td>Paired Differences</td>
+          <td><span class="m"><i>d<sub>i</sub></i> = <i>x</i><sub>1<i>i</i></sub> &minus; <i>x</i><sub>2<i>i</i></sub></span> for pair <span class="m"><i>i</i></span>; <span class="xbar">d</span> = mean of differences; <span class="m"><i>s<sub>d</sub></i></span> = SD of differences; <span class="m"><i>n</i></span> = number of pairs.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>&mu;<sub>d</sub></i></span></td>
+          <td>True Mean Difference</td>
+          <td>Population mean of paired differences (<span class="m"><i>&mu;<sub>d</sub></i> = <i>&mu;</i><sub>1</sub> &minus; <i>&mu;</i><sub>2</sub></span>). Null is usually <span class="m"><i>H</i><sub>0</sub>: <i>&mu;<sub>d</sub></i> = 0</span>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. The Three <span class="m"><i>t</i></span>-Test Formulas</h2>
+
+    <div class="formula-card">
+      <div class="formula-title">1-Sample <span class="m"><i>t</i></span>-Test for a Population Mean (<span class="m"><i>H</i><sub>0</sub>: <i>&mu;</i> = <i>&mu;</i><sub>0</sub></span>)</div>
+      <div class="formula-main">
+        <span class="m">
+          <i>t</i> =
+          <span class="frac">
+            <span class="num"><span class="xbar">x</span> &minus; <i>&mu;</i><sub>0</sub></span>
+            <span class="den"><i>s</i> / <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span>
+          </span>
+          &nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;&nbsp;&nbsp;&nbsp;
+          <i>df</i> = <i>n</i> &minus; 1
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Normal / Large Condition:</strong> Population is Normal, OR <span class="m"><i>n</i> &ge; 30</span> (CLT), OR sample data plot shows no strong skewness or outliers (if <span class="m"><i>n</i> &lt; 30</span>).
+      </div>
+    </div>
+
+    <div class="formula-card">
+      <div class="formula-title">Matched Pairs <span class="m"><i>t</i></span>-Test (<span class="m"><i>H</i><sub>0</sub>: <i>&mu;<sub>d</sub></i> = 0</span>)</div>
+      <div class="formula-main">
+        <span class="m">
+          <i>t</i> =
+          <span class="frac">
+            <span class="num"><span class="xbar">d</span> &minus; <i>&mu;</i><sub><i>d</i>,0</sub></span>
+            <span class="den"><i>s<sub>d</sub></i> / <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span>
+          </span>
+          &nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;&nbsp;&nbsp;&nbsp;
+          <i>df</i> = <i>n</i> &minus; 1
+          &nbsp;(<i>n</i> = number of pairs)
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Key Idea:</strong> Compute the difference <span class="m"><i>d<sub>i</sub></i> = After &minus; Before</span> for every pair first, then run a standard <strong>1-sample <span class="m"><i>t</i></span>-test</strong> on the single list of differences!
+      </div>
+    </div>
+
+    <div class="formula-card">
+      <div class="formula-title">2-Sample <span class="m"><i>t</i></span>-Test for Independent Means (<span class="m"><i>H</i><sub>0</sub>: <i>&mu;</i><sub>1</sub> &minus; <i>&mu;</i><sub>2</sub> = 0</span>)</div>
+      <div class="formula-main">
+        <span class="m">
+          <i>t</i> =
+          <span class="frac">
+            <span class="num">(<span class="xbar">x</span><sub>1</sub> &minus; <span class="xbar">x</span><sub>2</sub>) &minus; (<i>&mu;</i><sub>1</sub> &minus; <i>&mu;</i><sub>2</sub>)<sub>0</sub></span>
+            <span class="den">
+              <span class="radic"><span class="r-sign">&radic;</span><span class="r-body">
+                <span class="frac"><span class="num"><i>s</i><sub>1</sub><sup>2</sup></span><span class="den"><i>n</i><sub>1</sub></span></span> +
+                <span class="frac"><span class="num"><i>s</i><sub>2</sub><sup>2</sup></span><span class="den"><i>n</i><sub>2</sub></span></span>
+              </span></span>
+            </span>
+          </span>
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Degrees of Freedom (Unpooled / Welch's):</strong> Use technology's exact Welch <span class="m"><i>df</i></span>, or conservative <span class="m"><i>df</i> = min(<i>n</i><sub>1</sub> &minus; 1, <i>n</i><sub>2</sub> &minus; 1)</span> by hand. <strong>Never pool</strong> sample variances for 2-sample <span class="m"><i>t</i></span> unless explicitly told <span class="m"><i>&sigma;</i><sub>1</sub> = <i>&sigma;</i><sub>2</sub></span>.
+      </div>
+    </div>
+
+    <h2>3. Choosing Correctly: Paired <span class="m"><i>t</i></span> vs. 2-Sample <span class="m"><i>t</i></span></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Question to Ask</th>
+          <th>Matched Pairs <span class="m"><i>t</i></span>-Test</th>
+          <th>2-Sample <span class="m"><i>t</i></span>-Test</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Are the two measurements linked?</strong></td>
+          <td><strong>Yes</strong> — Same subject measured twice (Before/After), twins, or matched pairs.</td>
+          <td><strong>No</strong> — Two completely separate, independent random samples or treatment groups.</td>
+        </tr>
+        <tr>
+          <td><strong>Sample Sizes</strong></td>
+          <td>Must have equal counts (<span class="m"><i>n</i><sub>1</sub> = <i>n</i><sub>2</sub> = <i>n</i></span> pairs).</td>
+          <td><span class="m"><i>n</i><sub>1</sub></span> and <span class="m"><i>n</i><sub>2</sub></span> can be different.</td>
+        </tr>
+        <tr>
+          <td><strong>Degrees of Freedom</strong></td>
+          <td><span class="m"><i>df</i> = <i>n</i> &minus; 1</span></td>
+          <td>Welch <span class="m"><i>df</i></span> (up to <span class="m"><i>n</i><sub>1</sub> + <i>n</i><sub>2</sub> &minus; 2</span>) or <span class="m">min(<i>n</i><sub>1</sub> &minus; 1, <i>n</i><sub>2</sub> &minus; 1)</span></td>
+        </tr>
+        <tr>
+          <td><strong>Normal Condition Checked On</strong></td>
+          <td>The single list of differences <span class="m"><i>d<sub>i</sub></i></span>.</td>
+          <td><strong>Both</strong> Sample 1 and Sample 2 separately!</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4. Calculator Syntax &amp; Common Traps</h2>
+    <div class="grid-2">
+      <div class="box-warn">
+        <div class="box-label">Common Mistakes</div>
+        <ul>
+          <li>Using a <strong>2-sample <span class="m"><i>t</i></span>-test</strong> on paired Before/After data (violates independence between the two groups!).</li>
+          <li>Checking <span class="m"><i>n</i><sub>1</sub> + <i>n</i><sub>2</sub> &ge; 30</span> instead of checking <strong>each</strong> sample <span class="m"><i>n</i><sub>1</sub> &ge; 30</span> AND <span class="m"><i>n</i><sub>2</sub> &ge; 30</span> separately.</li>
+          <li>Using a <span class="m"><i>z</i></span>-test when given sample SD <span class="m"><i>s</i></span> instead of population SD <span class="m"><i>&sigma;</i></span>.</li>
+        </ul>
+      </div>
+      <div class="box-ok">
+        <div class="box-label">TI-84 / Nspire Commands</div>
+        <ul>
+          <li><strong><span class="m"><i>p</i></span>-value from <span class="m"><i>t</i></span>:</strong> <code>tcdf(lower, upper, df)</code></li>
+          <li><strong>Critical value <span class="m"><i>t</i><sup>*</sup></span>:</strong> <code>invT(area_left, df)</code> (e.g., 95% CI &rarr; <code>invT(0.975, df)</code>)</li>
+          <li><strong>Menus:</strong> <code>T-Test</code> (1-sample &amp; paired on diff list), <code>2-SampTTest</code> (unpooled: <code>Pooled: No</code>).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

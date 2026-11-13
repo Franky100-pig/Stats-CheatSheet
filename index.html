@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stats Cheat Sheet — Formulas, Variable Definitions &amp; Inference Guides</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 16px 0 24px;
+    }
+    .topic-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .topic-card h3 {
+      margin: 6px 0 6px;
+      font-size: 16px;
+      color: var(--ink);
+    }
+    .topic-card p {
+      font-size: 13.5px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 5px 11px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .btn-html {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    .btn-pdf {
+      background: var(--code-bg);
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    @media (max-width: 720px) {
+      .topic-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <span class="badge">Statistics Reference · HTML + Print-Ready PDF</span>
+    <h1>Statistics Cheat Sheet Collection</h1>
+    <p class="subtitle">
+      Formula-first study sheets for Introductory &amp; AP Statistics, emphasizing exact mathematical notation, variable definitions, conditions, and exam traps.
+    </p>
+
+    <h2>Topics</h2>
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div>
+          <span class="badge">Topic 01</span>
+          <h3>Sampling Distributions &amp; CLT</h3>
+          <p>Parameters vs. statistics (<span class="m"><i>&mu;</i>, <i>&sigma;</i>, <i>p</i></span> vs. <span class="xbar">x</span>, <span class="m"><i>s</i></span>, <span class="hat-wrap">p</span>), Central Limit Theorem, standard errors, two-sample differences, and R-I-N conditions.</p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-html" href="sampling-distributions.html">Open HTML</a>
+          <a class="btn btn-pdf" href="sampling-distributions.pdf">Download PDF</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div>
+          <span class="badge">Topic 02</span>
+          <h3>Confidence Intervals (<span class="m"><i>z</i></span> &amp; <span class="m"><i>t</i></span>)</h3>
+          <p>Point estimate &plusmn; ME, critical values <span class="m"><i>z</i><sup>*</sup></span> and <span class="m"><i>t</i><sup>*</sup></span>, 1-sample &amp; 2-sample intervals, sample size solving <span class="m"><i>n</i></span>, and interpretation templates.</p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-html" href="confidence-intervals.html">Open HTML</a>
+          <a class="btn btn-pdf" href="confidence-intervals.pdf">Download PDF</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div>
+          <span class="badge">Topic 03</span>
+          <h3>Hypothesis Testing &amp; <span class="m"><i>z</i></span>-Tests</h3>
+          <p><span class="m"><i>H</i><sub>0</sub> / <i>H<sub>a</sub></i></span> setup, 1-Prop &amp; 2-Prop <span class="m"><i>z</i></span>-tests with pooled <span class="hat-wrap">p</span><sub><i>c</i></sub>, known-<span class="m"><i>&sigma;</i></span> mean <span class="m"><i>z</i></span>-test, <span class="m"><i>p</i></span>-value rules, Type I/II errors &amp; power.</p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-html" href="z-tests-proportions.html">Open HTML</a>
+          <a class="btn btn-pdf" href="z-tests-proportions.pdf">Download PDF</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div>
+          <span class="badge">Topic 04</span>
+          <h3><span class="m"><i>t</i></span>-Tests for Means &amp; Paired Data</h3>
+          <p>Student's <span class="m"><i>t</i></span>-distribution, 1-sample <span class="m"><i>t</i></span>-test, matched pairs <span class="m"><i>t</i></span>-test (<span class="xbar">d</span>, <span class="m"><i>s<sub>d</sub></i></span>), Welch 2-sample <span class="m"><i>t</i></span>-test, and Paired vs. 2-Sample decision table.</p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-html" href="t-tests-means.html">Open HTML</a>
+          <a class="btn btn-pdf" href="t-tests-means.pdf">Download PDF</a>
+        </div>
+      </div>
+    </div>
+
+    <h2>Quick Master Notation Reference</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Concept</th>
+          <th>Population (Parameter)</th>
+          <th>Sample (Statistic)</th>
+          <th>Sampling Distribution SD / SE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Mean</strong></td>
+          <td><span class="m"><i>&mu;</i></span></td>
+          <td><span class="xbar">x</span></td>
+          <td><span class="m"><i>&sigma;</i><sub><span class="xbar">x</span></sub> = <i>&sigma;</i> / <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span> &nbsp;|&nbsp; <span class="m">SE = <i>s</i> / <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span></td>
+        </tr>
+        <tr>
+          <td><strong>Proportion</strong></td>
+          <td><span class="m"><i>p</i></span></td>
+          <td><span class="hat-wrap">p</span> <span class="m">= <i>X</i> / <i>n</i></span></td>
+          <td><span class="m"><i>&sigma;</i><sub><span class="hat-wrap">p</span></sub> = <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>p</i>(1&minus;<i>p</i>)/<i>n</i></span></span></span> &nbsp;|&nbsp; <span class="m">SE = <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><span class="hat-wrap">p</span>(1&minus;<span class="hat-wrap">p</span>)/<i>n</i></span></span></span></td>
+        </tr>
+        <tr>
+          <td><strong>Standard Deviation</strong></td>
+          <td><span class="m"><i>&sigma;</i></span></td>
+          <td><span class="m"><i>s</i></span></td>
+          <td>Variances always add for independent groups: <span class="m">Var(<i>A</i> &plusmn; <i>B</i>) = Var(<i>A</i>) + Var(<i>B</i>)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
