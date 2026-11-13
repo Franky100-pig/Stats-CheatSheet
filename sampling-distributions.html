@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sampling Distributions &amp; Central Limit Theorem — Stats Cheat Sheet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar no-print">
+      <a href="index.html">← All Cheat Sheets</a>
+      <span>Topic 01 · Formulas, Variable Definitions &amp; Conditions</span>
+    </div>
+
+    <span class="badge">Topic 01 · Sampling Distributions</span>
+    <h1>Sampling Distributions &amp; Central Limit Theorem</h1>
+    <p class="subtitle">
+      Exact notation, parameter vs. statistic distinctions, standard error formulas, and the conditions required for Normal approximations.
+    </p>
+
+    <h2>1. Variable Definitions: Parameter vs. Statistic</h2>
+    <p>
+      Never mix up <strong>parameters</strong> (fixed, usually unknown numbers describing the entire population) and <strong>statistics</strong> (random variables computed from a sample that vary from sample to sample).
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Name</th>
+          <th>Definition &amp; Role</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sym-col"><span class="m"><i>&mu;</i></span></td>
+          <td>Population Mean</td>
+          <td>True arithmetic average of all <span class="m"><i>N</i></span> individuals in the population.</td>
+          <td>Parameter (fixed)</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="xbar">x</span></td>
+          <td>Sample Mean</td>
+          <td>Arithmetic average of a sample of size <span class="m"><i>n</i></span>: <span class="m"><span class="xbar">x</span> = (1/<i>n</i>)&Sigma;<i>x<sub>i</sub></i></span>.</td>
+          <td>Statistic (random)</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>&sigma;</i>, <i>&sigma;</i><sup>2</sup></span></td>
+          <td>Population SD / Variance</td>
+          <td>True spread of individual values in the population around <span class="m"><i>&mu;</i></span>.</td>
+          <td>Parameter (fixed)</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>s</i>, <i>s</i><sup>2</sup></span></td>
+          <td>Sample SD / Variance</td>
+          <td>Sample spread around <span class="xbar">x</span> using <span class="m"><i>n</i> &minus; 1</span> in denominator (Bessel's correction).</td>
+          <td>Statistic (random)</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>p</i></span></td>
+          <td>Population Proportion</td>
+          <td>True fraction of successes in the population (<span class="m">0 &le; <i>p</i> &le; 1</span>).</td>
+          <td>Parameter (fixed)</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="hat-wrap">p</span></td>
+          <td>Sample Proportion</td>
+          <td>Fraction of successes in a sample: <span class="m"><span class="hat-wrap">p</span> = <i>X</i> / <i>n</i></span> (<span class="m"><i>X</i></span> = count of successes).</td>
+          <td>Statistic (random)</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>n</i>, <i>N</i></span></td>
+          <td>Sample / Population Size</td>
+          <td><span class="m"><i>n</i></span> = number of observations in sample; <span class="m"><i>N</i></span> = total size of population.</td>
+          <td>Counts (<span class="m"><i>n</i> &ge; 1</span>)</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>&mu;</i><sub><span class="xbar">x</span></sub>, <i>&sigma;</i><sub><span class="xbar">x</span></sub></span></td>
+          <td>Mean &amp; SD of <span class="xbar">x</span></td>
+          <td>Center and spread of the sampling distribution of all possible sample means of size <span class="m"><i>n</i></span>.</td>
+          <td>Sampling Dist.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m">SE</span></td>
+          <td>Standard Error</td>
+          <td>Estimated standard deviation of a statistic computed by plugging in <span class="m"><i>s</i></span> or <span class="hat-wrap">p</span> when <span class="m"><i>&sigma;</i></span> or <span class="m"><i>p</i></span> is unknown.</td>
+          <td>Estimated Spread</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. Sampling Distribution of a Sample Mean (<span class="xbar">x</span>)</h2>
+    <p>
+      Suppose we take all possible Simple Random Samples (SRS) of size <span class="m"><i>n</i></span> from a population with mean <span class="m"><i>&mu;</i></span> and standard deviation <span class="m"><i>&sigma;</i></span>.
+    </p>
+
+    <div class="formula-card">
+      <div class="formula-title">Center, Spread &amp; Standardization of <span class="xbar">x</span></div>
+      <div class="formula-main">
+        <span class="m">
+          <i>&mu;</i><sub><span class="xbar">x</span></sub> = <i>&mu;</i>
+          &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+          <i>&sigma;</i><sub><span class="xbar">x</span></sub> =
+          <span class="frac"><span class="num"><i>&sigma;</i></span><span class="den"><span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span></span>
+          &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+          SE<sub><span class="xbar">x</span></sub> =
+          <span class="frac"><span class="num"><i>s</i></span><span class="den"><span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span></span>
+          &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+          <i>z</i> =
+          <span class="frac">
+            <span class="num"><span class="xbar">x</span> &minus; <i>&mu;</i></span>
+            <span class="den"><i>&sigma;</i> / <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span>
+          </span>
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Variables:</strong> <span class="m"><span class="xbar">x</span></span> = observed sample mean; <span class="m"><i>&mu;</i></span> = population mean; <span class="m"><i>&sigma;</i></span> = population SD; <span class="m"><i>s</i></span> = sample SD; <span class="m"><i>n</i></span> = sample size.
+        <br />
+        <strong>Key Insight:</strong> To cut the standard deviation of <span class="xbar">x</span> in half, you must multiply sample size <span class="m"><i>n</i></span> by <strong>4</strong>.
+      </div>
+    </div>
+
+    <div class="box-note">
+      <div class="box-label">Central Limit Theorem (CLT)</div>
+      <p style="margin-bottom: 0;">
+        Even if the parent population distribution is skewed or non-Normal, as sample size <span class="m"><i>n</i></span> increases, the sampling distribution of <span class="xbar">x</span> becomes <strong>approximately Normal</strong>:
+        <span class="m"><span class="xbar">x</span> ~ <i>N</i>(<i>&mu;</i>, <i>&sigma;</i> / <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span>)</span>.
+        Standard threshold used in intro/AP stats: <strong><span class="m"><i>n</i> &ge; 30</span></strong> (if the population is already Normal, <span class="xbar">x</span> is <em>exact</em> Normal for any <span class="m"><i>n</i> &ge; 1</span>).
+      </p>
+    </div>
+
+    <h2>3. Sampling Distribution of a Sample Proportion (<span class="hat-wrap">p</span>)</h2>
+    <p>
+      When counting binary successes (<span class="m"><i>X</i> ~ Binomial(<i>n</i>, <i>p</i>)</span>) and converting to a sample proportion <span class="m"><span class="hat-wrap">p</span> = <i>X</i> / <i>n</i></span>:
+    </p>
+
+    <div class="formula-card">
+      <div class="formula-title">Center, Spread &amp; Standardization of <span class="hat-wrap">p</span></div>
+      <div class="formula-main">
+        <span class="m">
+          <i>&mu;</i><sub><span class="hat-wrap">p</span></sub> = <i>p</i>
+          &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+          <i>&sigma;</i><sub><span class="hat-wrap">p</span></sub> =
+          <span class="radic"><span class="r-sign">&radic;</span><span class="r-body">
+            <span class="frac"><span class="num"><i>p</i>(1 &minus; <i>p</i>)</span><span class="den"><i>n</i></span></span>
+          </span></span>
+          &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+          SE<sub><span class="hat-wrap">p</span></sub> =
+          <span class="radic"><span class="r-sign">&radic;</span><span class="r-body">
+            <span class="frac"><span class="num"><span class="hat-wrap">p</span>(1 &minus; <span class="hat-wrap">p</span>)</span><span class="den"><i>n</i></span></span>
+          </span></span>
+          &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+          <i>z</i> =
+          <span class="frac">
+            <span class="num"><span class="hat-wrap">p</span> &minus; <i>p</i></span>
+            <span class="den"><span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>p</i>(1 &minus; <i>p</i>) / <i>n</i></span></span></span>
+          </span>
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Variables:</strong> <span class="m"><i>p</i></span> = true population proportion; <span class="m"><span class="hat-wrap">p</span> = <i>X</i>/<i>n</i></span> = observed sample proportion; <span class="m">1 &minus; <i>p</i></span> (often denoted <span class="m"><i>q</i></span>) = probability of failure; <span class="m"><i>n</i></span> = sample size.
+      </div>
+    </div>
+
+    <h2>4. Two-Sample Sampling Distributions (Differences)</h2>
+    <p>
+      For two <strong>independent</strong> random samples of sizes <span class="m"><i>n</i><sub>1</sub></span> and <span class="m"><i>n</i><sub>2</sub></span>, the mean is the difference of centers, while <strong>variances ALWAYS add</strong> (never subtract variances!).
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Statistic</th>
+          <th>Center (Mean)</th>
+          <th>True Standard Deviation (<span class="m">&sigma;</span>)</th>
+          <th>Standard Error (<span class="m">SE</span>)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Difference of Means</strong><br /><span class="m"><span class="xbar">x</span><sub>1</sub> &minus; <span class="xbar">x</span><sub>2</sub></span></td>
+          <td><span class="m"><i>&mu;</i><sub>1</sub> &minus; <i>&mu;</i><sub>2</sub></span></td>
+          <td>
+            <span class="m"><span class="radic"><span class="r-sign">&radic;</span><span class="r-body">
+              <span class="frac"><span class="num"><i>&sigma;</i><sub>1</sub><sup>2</sup></span><span class="den"><i>n</i><sub>1</sub></span></span> +
+              <span class="frac"><span class="num"><i>&sigma;</i><sub>2</sub><sup>2</sup></span><span class="den"><i>n</i><sub>2</sub></span></span>
+            </span></span></span>
+          </td>
+          <td>
+            <span class="m"><span class="radic"><span class="r-sign">&radic;</span><span class="r-body">
+              <span class="frac"><span class="num"><i>s</i><sub>1</sub><sup>2</sup></span><span class="den"><i>n</i><sub>1</sub></span></span> +
+              <span class="frac"><span class="num"><i>s</i><sub>2</sub><sup>2</sup></span><span class="den"><i>n</i><sub>2</sub></span></span>
+            </span></span></span>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Difference of Proportions</strong><br /><span class="m"><span class="hat-wrap">p</span><sub>1</sub> &minus; <span class="hat-wrap">p</span><sub>2</sub></span></td>
+          <td><span class="m"><i>p</i><sub>1</sub> &minus; <i>p</i><sub>2</sub></span></td>
+          <td>
+            <span class="m"><span class="radic"><span class="r-sign">&radic;</span><span class="r-body">
+              <span class="frac"><span class="num"><i>p</i><sub>1</sub>(1 &minus; <i>p</i><sub>1</sub>)</span><span class="den"><i>n</i><sub>1</sub></span></span> +
+              <span class="frac"><span class="num"><i>p</i><sub>2</sub>(1 &minus; <i>p</i><sub>2</sub>)</span><span class="den"><i>n</i><sub>2</sub></span></span>
+            </span></span></span>
+          </td>
+          <td>
+            <span class="m"><span class="radic"><span class="r-sign">&radic;</span><span class="r-body">
+              <span class="frac"><span class="num"><span class="hat-wrap">p</span><sub>1</sub>(1 &minus; <span class="hat-wrap">p</span><sub>1</sub>)</span><span class="den"><i>n</i><sub>1</sub></span></span> +
+              <span class="frac"><span class="num"><span class="hat-wrap">p</span><sub>2</sub>(1 &minus; <span class="hat-wrap">p</span><sub>2</sub>)</span><span class="den"><i>n</i><sub>2</sub></span></span>
+            </span></span></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>5. Required Conditions Checklist (R-I-N)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Condition</th>
+          <th>What It Guarantees</th>
+          <th>How to Check (Means vs. Proportions)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Random</strong></td>
+          <td>Unbiasedness: <span class="m"><i>&mu;</i><sub><span class="xbar">x</span></sub> = <i>&mu;</i></span> or <span class="m"><i>&mu;</i><sub><span class="hat-wrap">p</span></sub> = <i>p</i></span></td>
+          <td>Data collected from an SRS, stratified/cluster random sample, or randomized experiment.</td>
+        </tr>
+        <tr>
+          <td><strong>2. Independent (10% Rule)</strong></td>
+          <td>Validates spread formulas (<span class="m"><i>&sigma;</i>/<span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span>) when sampling without replacement</td>
+          <td>Check <span class="m"><i>n</i> &le; 0.10<i>N</i></span> (or <span class="m"><i>N</i> &ge; 10<i>n</i></span>). Note: Not needed for randomized experiments with random assignment!</td>
+        </tr>
+        <tr>
+          <td><strong>3. Normal / Large Sample</strong></td>
+          <td>Normal shape so <span class="m"><i>z</i></span>-table / <code>normalcdf</code> applies</td>
+          <td>
+            <strong>Means:</strong> Population is Normal, OR <span class="m"><i>n</i> &ge; 30</span> (CLT), OR sample plot has no strong skew/outliers.<br />
+            <strong>Proportions (Large Counts):</strong> <span class="m"><i>np</i> &ge; 10</span> and <span class="m"><i>n</i>(1 &minus; <i>p</i>) &ge; 10</span> (use <span class="hat-wrap">p</span> or <span class="m"><i>p</i><sub>0</sub></span> depending on context).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>6. Common Traps &amp; Calculator Syntax</h2>
+    <div class="grid-2">
+      <div class="box-warn">
+        <div class="box-label">Common Mistakes</div>
+        <ul>
+          <li>Using <span class="m"><i>&sigma;</i></span> instead of <span class="m"><i>&sigma;</i>/<span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span> when asked about a <em>sample mean</em> <span class="xbar">x</span> (read the prompt: one individual vs. average of <span class="m"><i>n</i></span> individuals!).</li>
+          <li>Subtracting variances: <span class="m"><i>&sigma;</i><sub><span class="xbar">x</span><sub>1</sub>&minus;<span class="xbar">x</span><sub>2</sub></sub> &ne; <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>&sigma;</i><sub>1</sub><sup>2</sup>/<i>n</i><sub>1</sub> &minus; <i>&sigma;</i><sub>2</sub><sup>2</sup>/<i>n</i><sub>2</sub></span></span></span>. Variances <strong>always add</strong>.</li>
+          <li>Applying the CLT (<span class="m"><i>n</i> &ge; 30</span>) to <em>proportions</em>. Proportions require the <strong>Large Counts</strong> check (<span class="m"><i>np</i> &ge; 10</span>, <span class="m"><i>n</i>(1&minus;<i>p</i>) &ge; 10</span>).</li>
+        </ul>
+      </div>
+      <div class="box-ok">
+        <div class="box-label">Calculator &amp; Exam Quick Check</div>
+        <ul>
+          <li><strong>Probability for <span class="xbar">x</span>:</strong> <code>normalcdf(lower, upper, &mu;, &sigma;/&radic;n)</code></li>
+          <li><strong>Probability for <span class="hat-wrap">p</span>:</strong> <code>normalcdf(lower, upper, p, &radic;(p(1-p)/n))</code></li>
+          <li><strong>Unbiasedness:</strong> A statistic is unbiased if its sampling distribution mean equals the parameter (<span class="m"><i>E</i>(<span class="xbar">x</span>) = <i>&mu;</i></span>).</li>
+          <li><strong>Precision vs. Accuracy:</strong> Larger <span class="m"><i>n</i></span> lowers spread (higher precision), while random sampling prevents bias (accuracy).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
