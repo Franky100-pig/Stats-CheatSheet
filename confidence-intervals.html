@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confidence Intervals (z &amp; t Intervals) — Stats Cheat Sheet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar no-print">
+      <a href="index.html">← All Cheat Sheets</a>
+      <span>Topic 02 · Formulas, Variable Definitions &amp; Sample Size</span>
+    </div>
+
+    <span class="badge">Topic 02 · Confidence Intervals</span>
+    <h1>Confidence Intervals (<span class="m"><i>z</i></span>-Intervals &amp; <span class="m"><i>t</i></span>-Intervals)</h1>
+    <p class="subtitle">
+      Universal interval structure, critical values (<span class="m"><i>z</i><sup>*</sup></span> vs. <span class="m"><i>t</i><sup>*</sup></span>), standard error formulas, minimum sample size calculations, and exam-safe interpretation templates.
+    </p>
+
+    <h2>1. Universal Structure &amp; Variable Definitions</h2>
+
+    <div class="formula-card">
+      <div class="formula-title">General Confidence Interval Formula</div>
+      <div class="formula-main">
+        <span class="m">
+          Confidence Interval = (Point Estimate) &plusmn; (Critical Value) &times; (Standard Error of Statistic)
+          <br />
+          CI = PE &plusmn; ME = PE &plusmn; <i>CV</i> &middot; SE
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Width of Interval:</strong> <span class="m">Width = Upper &minus; Lower = 2 &middot; ME</span>. Half the width gives the Margin of Error: <span class="m">ME = (Upper &minus; Lower)/2</span>, and midpoint gives <span class="m">PE = (Upper + Lower)/2</span>.
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Name</th>
+          <th>Definition &amp; Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sym-col"><span class="m">PE</span></td>
+          <td>Point Estimate</td>
+          <td>Best single-value guess of the target parameter (<span class="m"><span class="hat-wrap">p</span></span>, <span class="xbar">x</span>, <span class="m"><span class="hat-wrap">p</span><sub>1</sub> &minus; <span class="hat-wrap">p</span><sub>2</sub></span>, or <span class="m"><span class="xbar">x</span><sub>1</sub> &minus; <span class="xbar">x</span><sub>2</sub></span>). Always lies at the exact center of the interval.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>C</i>, <i>&alpha;</i></span></td>
+          <td>Confidence Level &amp; Tail Area</td>
+          <td><span class="m"><i>C</i></span> = middle area (e.g., 0.90, 0.95, 0.99); <span class="m"><i>&alpha;</i> = 1 &minus; <i>C</i></span> = total area in both tails (<span class="m"><i>&alpha;</i>/2</span> per tail).</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>z</i><sup>*</sup></span></td>
+          <td>Normal Critical Value</td>
+          <td>Standard Normal quantile cutting off upper area <span class="m">(1 &minus; <i>C</i>)/2</span>. Common values: 90% &rarr; <strong>1.645</strong>, 95% &rarr; <strong>1.960</strong>, 99% &rarr; <strong>2.576</strong>.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>t</i><sup>*</sup></span></td>
+          <td>Student's <span class="m"><i>t</i></span> Critical Value</td>
+          <td>Critical value from <span class="m"><i>t</i>(<i>df</i>)</span> distribution; always larger than <span class="m"><i>z</i><sup>*</sup></span> to account for estimating <span class="m"><i>&sigma;</i></span> with <span class="m"><i>s</i></span>.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m"><i>df</i></span></td>
+          <td>Degrees of Freedom</td>
+          <td>One-sample / paired <span class="m"><i>t</i></span>: <span class="m"><i>df</i> = <i>n</i> &minus; 1</span>. Two-sample <span class="m"><i>t</i></span>: Welch's formula (from tech) or conservative <span class="m">min(<i>n</i><sub>1</sub> &minus; 1, <i>n</i><sub>2</sub> &minus; 1)</span>.</td>
+        </tr>
+        <tr>
+          <td class="sym-col"><span class="m">ME</span></td>
+          <td>Margin of Error</td>
+          <td><span class="m">ME = <i>CV</i> &middot; SE</span>. Measures maximum expected estimation error at confidence level <span class="m"><i>C</i></span> (does <em>not</em> include bias/nonresponse error).</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. All Standard Confidence Interval Formulas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Procedure</th>
+          <th>Target Parameter</th>
+          <th>Formula</th>
+          <th>Normal / Large Condition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1-Prop <span class="m"><i>z</i></span>-Interval</strong></td>
+          <td><span class="m"><i>p</i></span></td>
+          <td>
+            <span class="m"><span class="hat-wrap">p</span> &plusmn; <i>z</i><sup>*</sup> <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><span class="frac"><span class="num"><span class="hat-wrap">p</span>(1 &minus; <span class="hat-wrap">p</span>)</span><span class="den"><i>n</i></span></span></span></span></span>
+          </td>
+          <td><span class="m"><i>n</i><span class="hat-wrap">p</span> &ge; 10</span> and <span class="m"><i>n</i>(1 &minus; <span class="hat-wrap">p</span>) &ge; 10</span></td>
+        </tr>
+        <tr>
+          <td><strong>2-Prop <span class="m"><i>z</i></span>-Interval</strong></td>
+          <td><span class="m"><i>p</i><sub>1</sub> &minus; <i>p</i><sub>2</sub></span></td>
+          <td>
+            <span class="m">(<span class="hat-wrap">p</span><sub>1</sub> &minus; <span class="hat-wrap">p</span><sub>2</sub>) &plusmn; <i>z</i><sup>*</sup> <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><span class="frac"><span class="num"><span class="hat-wrap">p</span><sub>1</sub>(1 &minus; <span class="hat-wrap">p</span><sub>1</sub>)</span><span class="den"><i>n</i><sub>1</sub></span></span> + <span class="frac"><span class="num"><span class="hat-wrap">p</span><sub>2</sub>(1 &minus; <span class="hat-wrap">p</span><sub>2</sub>)</span><span class="den"><i>n</i><sub>2</sub></span></span></span></span></span>
+          </td>
+          <td>All 4 counts <span class="m"><i>n</i><sub>1</sub><span class="hat-wrap">p</span><sub>1</sub>, <i>n</i><sub>1</sub>(1&minus;<span class="hat-wrap">p</span><sub>1</sub>), <i>n</i><sub>2</sub><span class="hat-wrap">p</span><sub>2</sub>, <i>n</i><sub>2</sub>(1&minus;<span class="hat-wrap">p</span><sub>2</sub>) &ge; 10</span></td>
+        </tr>
+        <tr>
+          <td><strong>1-Sample <span class="m"><i>z</i></span>-Interval</strong><br />(<span class="m"><i>&sigma;</i></span> known — rare)</td>
+          <td><span class="m"><i>&mu;</i></span></td>
+          <td>
+            <span class="m"><span class="xbar">x</span> &plusmn; <i>z</i><sup>*</sup> <span class="frac"><span class="num"><i>&sigma;</i></span><span class="den"><span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span></span></span>
+          </td>
+          <td>Population Normal OR <span class="m"><i>n</i> &ge; 30</span></td>
+        </tr>
+        <tr>
+          <td><strong>1-Sample <span class="m"><i>t</i></span>-Interval</strong><br />(<span class="m"><i>&sigma;</i></span> unknown)</td>
+          <td><span class="m"><i>&mu;</i></span></td>
+          <td>
+            <span class="m"><span class="xbar">x</span> &plusmn; <i>t</i><sup>*</sup><sub><i>n</i>&minus;1</sub> <span class="frac"><span class="num"><i>s</i></span><span class="den"><span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span></span></span>
+          </td>
+          <td>Pop. Normal, OR <span class="m"><i>n</i> &ge; 30</span>, OR no strong skew/outliers</td>
+        </tr>
+        <tr>
+          <td><strong>Paired <span class="m"><i>t</i></span>-Interval</strong><br />(Differences <span class="m"><i>d<sub>i</sub></i> = <i>x</i><sub>1<i>i</i></sub> &minus; <i>x</i><sub>2<i>i</i></sub></span>)</td>
+          <td><span class="m"><i>&mu;<sub>d</sub></i></span></td>
+          <td>
+            <span class="m"><span class="xbar">d</span> &plusmn; <i>t</i><sup>*</sup><sub><i>n</i>&minus;1</sub> <span class="frac"><span class="num"><i>s<sub>d</sub></i></span><span class="den"><span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span></span></span>
+          </td>
+          <td>Check Normal/Large on the <em>list of differences</em> (<span class="m"><i>n</i></span> = pairs)</td>
+        </tr>
+        <tr>
+          <td><strong>2-Sample <span class="m"><i>t</i></span>-Interval</strong><br />(Independent groups)</td>
+          <td><span class="m"><i>&mu;</i><sub>1</sub> &minus; <i>&mu;</i><sub>2</sub></span></td>
+          <td>
+            <span class="m">(<span class="xbar">x</span><sub>1</sub> &minus; <span class="xbar">x</span><sub>2</sub>) &plusmn; <i>t</i><sup>*</sup><sub><i>df</i></sub> <span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><span class="frac"><span class="num"><i>s</i><sub>1</sub><sup>2</sup></span><span class="den"><i>n</i><sub>1</sub></span></span> + <span class="frac"><span class="num"><i>s</i><sub>2</sub><sup>2</sup></span><span class="den"><i>n</i><sub>2</sub></span></span></span></span></span>
+          </td>
+          <td>Both groups meet Normal/Large condition (<span class="m"><i>n</i><sub>1</sub>, <i>n</i><sub>2</sub> &ge; 30</span> or plots OK)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. Solving for Minimum Sample Size (<span class="m"><i>n</i></span>)</h2>
+    <p>
+      To guarantee a Margin of Error at most <span class="m">ME</span> at confidence level <span class="m"><i>C</i></span>, solve <span class="m"><i>z</i><sup>*</sup> &middot; SE &le; ME</span> for <span class="m"><i>n</i></span> and <strong>always round UP</strong> to the next whole integer.
+    </p>
+
+    <div class="formula-card">
+      <div class="formula-title">Minimum Sample Size Formulas (Always Round Up!)</div>
+      <div class="formula-main">
+        <span class="m">
+          <strong>For Proportion <span class="m"><i>p</i></span>:</strong>&nbsp;
+          <i>n</i> &ge; <i>p</i><sup>*</sup>(1 &minus; <i>p</i><sup>*</sup>)
+          <span style="font-size: 1.25em;">(</span><span class="frac"><span class="num"><i>z</i><sup>*</sup></span><span class="den">ME</span></span><span style="font-size: 1.25em;">)</span><sup>2</sup>
+          &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+          <strong>For Mean <span class="m"><i>&mu;</i></span>:</strong>&nbsp;
+          <i>n</i> &ge;
+          <span style="font-size: 1.25em;">(</span><span class="frac"><span class="num"><i>z</i><sup>*</sup> &middot; <i>&sigma;</i></span><span class="den">ME</span></span><span style="font-size: 1.25em;">)</span><sup>2</sup>
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Variables:</strong> <span class="m"><i>p</i><sup>*</sup></span> = prior guess for <span class="m"><i>p</i></span> (if no prior estimate is given, use conservative worst-case <strong><span class="m"><i>p</i><sup>*</sup> = 0.5</span></strong> because <span class="m">0.5(0.5) = 0.25</span> maximizes variance); <span class="m"><i>&sigma;</i></span> = known/planning population SD.
+      </div>
+    </div>
+
+    <h2>4. What Affects Margin of Error &amp; Interpretation Rules</h2>
+    <div class="grid-2">
+      <div class="box-ok">
+        <div class="box-label">Correct Interpretation Templates</div>
+        <p style="margin-bottom: 6px;">
+          <strong>1. Interpreting the Interval:</strong><br />
+          "We are <em>C</em>% confident that the interval from [Lower] to [Upper] captures the <strong>true [population parameter in context]</strong>."
+        </p>
+        <p style="margin-bottom: 0;">
+          <strong>2. Interpreting Confidence Level (<em>C</em>%):</strong><br />
+          "If we took many random samples of the same size <em>n</em> and built a <em>C</em>% CI from each, about <em>C</em>% of those intervals would capture the true [parameter]."
+        </p>
+      </div>
+      <div class="box-warn">
+        <div class="box-label">High-Frequency Exam Traps</div>
+        <ul>
+          <li><strong>Never say "95% probability"</strong> that the true parameter is in a <em>specific</em> calculated interval! Once computed, the parameter is fixed, so it is either in (1) or out (0).</li>
+          <li><strong>Higher <span class="m"><i>C</i></span> &rarr; Wider interval</strong> (<span class="m"><i>z</i><sup>*</sup></span> increases). <strong>Larger <span class="m"><i>n</i></span> &rarr; Narrower interval</strong> (<span class="m">SE</span> shrinks by <span class="m">1/<span class="radic"><span class="r-sign">&radic;</span><span class="r-body"><i>n</i></span></span></span>).</li>
+          <li><strong>2-Prop CI never uses pooled <span class="hat-wrap">p</span><sub><i>c</i></sub>!</strong> Use individual <span class="m"><span class="hat-wrap">p</span><sub>1</sub></span> and <span class="m"><span class="hat-wrap">p</span><sub>2</sub></span> (pooled <span class="m"><span class="hat-wrap">p</span><sub><i>c</i></sub></span> is only for 2-Prop <span class="m"><i>z</i></span>-<em>Tests</em>).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box-note">
+      <div class="box-label">Using a Confidence Interval to Test a Two-Sided Hypothesis</div>
+      <p style="margin-bottom: 0;">
+        A two-sided <span class="m"><i>C</i>%</span> confidence interval corresponds to a two-sided significance test at <span class="m"><i>&alpha;</i> = 1 &minus; <i>C</i></span>.
+        If the null value (<span class="m"><i>p</i><sub>0</sub></span>, <span class="m"><i>&mu;</i><sub>0</sub></span>, or <span class="m">0</span> for a difference) falls <strong>outside</strong> the CI, reject <span class="m"><i>H</i><sub>0</sub></span> at level <span class="m"><i>&alpha;</i></span>; if it falls <strong>inside</strong>, fail to reject <span class="m"><i>H</i><sub>0</sub></span>.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
