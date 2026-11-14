@@ -143,47 +143,58 @@ UNITS: tuple[Unit, ...] = (
                "两个分类变量的表与图",
                ("列联表：联合、边际、条件分布",
                 "分段图与堆叠条形图",
-                "用相对频率比较两个分类变量")),
+                "用相对频率比较两个分类变量"),
+               ("two-categorical-variables.html",)),
             _t("2.2", "Summary Statistics for Two Categorical Variables", "两个分类变量的汇总统计",
                ("边际分布 vs 条件分布",
                 "从列联表算百分比与比值",
-                "「总体中的比例」vs「这一组里的比例」")),
+                "「总体中的比例」vs「这一组里的比例」"),
+               ("two-categorical-variables.html",)),
             _t("2.3", "Estimating Probabilities Using Simulation", "用模拟估计概率",
                ("用随机模拟估计一个概率",
                 "重复次数越多估计越稳定",
-                "模拟结果与精确概率的对照")),
+                "模拟结果与精确概率的对照"),
+               ("probability-rules.html",)),
             _t("2.4", "Introduction to Probability", "概率入门",
                ("概率的取值 0 到 1；试验、结果、样本空间",
                 "P(A) 与 P(not A) = 1 − P(A)",
-                "概率是长期比例")),
+                "概率是长期比例"),
+               ("probability-rules.html",)),
             _t("2.5", "Mutually Exclusive Events", "互斥事件",
                ("互斥与不互斥；加法法则",
                 "P(A∪B) = P(A) + P(B) − P(A∩B)",
-                "补集与 Venn 图")),
+                "补集与 Venn 图"),
+               ("probability-rules.html",)),
             _t("2.6", "Conditional Probability", "条件概率",
                ("P(A|B) = P(A∩B)/P(B)",
                 "限制样本空间：把 B 当成新的总体",
-                "用表格或树状图解读")),
+                "用表格或树状图解读"),
+               ("probability-rules.html",)),
             _t("2.7", "Independent Events and Unions of Events", "独立事件与并集",
                ("独立：P(A∩B) = P(A)P(B)",
                 "互斥与独立通常不能同时成立",
-                "「至少一个」用补事件算")),
+                "「至少一个」用补事件算"),
+               ("probability-rules.html",)),
             _t("2.8", "Introduction to Random Variables and Probability Distributions", "随机变量与概率分布",
                ("随机变量把结果映射成数值；离散与连续",
                 "概率分布：每个取值有概率，总和为 1",
-                "分布图与取值范围")),
+                "分布图与取值范围"),
+               ("random-variables.html",)),
             _t("2.9", "Parameters of Random Variables", "随机变量的参数",
                ("期望 μ：长期平均",
                 "方差 σ² 与标准差 σ",
-                "在具体情境里解释均值与标准差")),
+                "在具体情境里解释均值与标准差"),
+               ("random-variables.html",)),
             _t("2.10", "The Binomial Distribution", "二项分布",
                ("条件：次数固定、各次独立、成功概率不变",
                 "μ = np，σ = √(np(1−p))",
-                "binomPdf / binomCdf 的用法")),
+                "binomPdf / binomCdf 的用法"),
+               ("random-variables.html",)),
             _t("2.11", "The Normal Distribution", "正态分布",
                ("正态曲线性质：对称，均值=中位数=众数",
                 "经验法则 68–95–99.7",
-                "normCdf 求面积、invNorm 求分位数")),
+                "normCdf 求面积、invNorm 求分位数"),
+               ("normal-distribution.html",)),
             _t("2.12", "Sampling Distributions and the Central Limit Theorem", "抽样分布与中心极限定理",
                ("样本均值的抽样分布：中心 μ、标准误 σ/√n",
                 "样本比例的抽样分布与 Large Counts",
@@ -197,7 +208,8 @@ UNITS: tuple[Unit, ...] = (
             _t("3.1", "Estimators", "估计量",
                ("参数是固定未知数，估计量是样本算出来的数",
                 "无偏性：估计量的期望等于参数",
-                "用哪个统计量去估计哪个参数")),
+                "用哪个统计量去估计哪个参数"),
+               ("sampling-distributions.html",)),
             _t("3.2", "Sampling Distributions for Sample Proportions", "样本比例的抽样分布",
                ("p̂ = X/n；中心 p，标准误 √(p(1−p)/n)",
                 "Large Counts：np ≥ 10 且 n(1−p) ≥ 10",
@@ -267,11 +279,13 @@ UNITS: tuple[Unit, ...] = (
             _t("3.14", "Setting Up a Chi-Square Test for Homogeneity or Independence", "设置卡方检验",
                ("期望频数 E = (行合计 × 列合计)/n",
                 "H₀：两分布相同 / 两变量独立",
-                "自由度 df = (行数 − 1)(列数 − 1)")),
+                "自由度 df = (行数 − 1)(列数 − 1)"),
+               ("chi-square-tests.html",)),
             _t("3.15", "Carrying Out a Chi-Square Test for Homogeneity or Independence", "执行卡方检验",
                ("χ² = Σ (观测 − 期望)²/期望，右尾",
                 "p 值来自卡方分布",
-                "结论：分布不同 / 变量不独立")),
+                "结论：分布不同 / 变量不独立"),
+               ("chi-square-tests.html",)),
         )),
     Unit(
         4, "Inference for Quantitative Data: Means", "定量数据推断：均值",
@@ -432,6 +446,20 @@ UNIT_SHORT_EN = {
     4: "Means", 5: "Regression",
 }
 
+# One sidebar entry per SHEET, not per CED topic: a sheet covers several topics
+# and listing each of them made the sidebar unreadable once Units 2/3 filled up.
+SHEET_LABELS: dict[str, tuple[str, str]] = {
+    "two-categorical-variables.html": ("Two Categorical Variables", "两个分类变量"),
+    "probability-rules.html": ("Probability Rules", "概率规则与独立性"),
+    "random-variables.html": ("Random Variables & Binomial", "随机变量与二项分布"),
+    "normal-distribution.html": ("Normal Distribution", "正态分布"),
+    "sampling-distributions.html": ("Sampling Distributions", "抽样分布与估计量"),
+    "confidence-intervals.html": ("Confidence Intervals", "置信区间"),
+    "z-tests-proportions.html": ("z-Tests for Proportions", "比例的 z 检验"),
+    "chi-square-tests.html": ("Chi-Square Tests", "卡方检验"),
+    "t-tests-means.html": ("t-Tests for Means", "均值的 t 检验"),
+}
+
 
 def _weight_pct(weight: str) -> int:
     """Midpoint of a CED range like '20–30%', scaled to a 35% full bar."""
@@ -563,19 +591,23 @@ def render_sidebar(current: str) -> str:
                    f'<a class="sidebar-unit-head" href="index.html#{unit.anchor}">'
                    f'<span class="sidebar-num">{unit.num:02d}</span>'
                    f'<span class="sidebar-unit-title">{unit.en} <span class="zh">{unit.zh}</span></span></a>')
-        ready = [t for t in unit.topics if t.written]
-        if ready:
+        groups: dict[str, list[str]] = {}
+        for topic in unit.topics:
+            if topic.written:
+                groups.setdefault(topic.sheets[0], []).append(topic.code)
+        if groups:
             out.append('<ol class="sidebar-sheets">')
-            for topic in ready:
-                sheet = topic.sheets[0]
+            for sheet, codes in groups.items():
+                en, zh = SHEET_LABELS[sheet]
+                rng = codes[0] if len(codes) == 1 else f"{codes[0]}–{codes[-1]}"
                 cls = ""
                 if sheet == current:
                     cls = ' class="is-related"' if highlighted else ' class="is-current"'
                     highlighted = True
-                out.append(f'<li><a href="{sheet}"{cls} title="{topic.en}">'
-                           f'<span class="sidebar-code">{topic.code}</span>'
-                           f'<span class="zh">{topic.zh}</span>'
-                           f'<span class="en-only">{topic.en}</span></a></li>')
+                out.append(f'<li><a href="{sheet}"{cls} title="{en}">'
+                           f'<span class="sidebar-code">{rng}</span>'
+                           f'<span class="zh">{zh}</span>'
+                           f'<span class="en-only">{en}</span></a></li>')
             out.append('</ol>')
         out.append('</li>')
     out.append('</ol></details>')

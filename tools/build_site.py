@@ -84,6 +84,38 @@ CALC_TIPS: dict[str, tuple[str, list[tuple[str, str]]]] = {
             ("normCdf 1.96,9E999,0,1", "the upper tail behind a z statistic"),
         ],
     ),
+    "probability-rules.html": (
+        "Simulate a random process on the Nspire",
+        [
+            ("rand 500", "500 uniform values in [0,1) — assign ranges to outcomes"),
+            ("randInt 1,6,500", "500 trials of a fair die roll"),
+            ("randBin 10,.3,500", "500 simulated Binomial(10, .3) counts"),
+        ],
+    ),
+    "random-variables.html": (
+        "Work with discrete and binomial distributions on the Nspire",
+        [
+            ("binomPdf 10,.3,4", "P(X = 4) for X ~ Bin(10, .3)"),
+            ("binomCdf 10,.3,4", "P(X ≤ 4); use 1 − binomCdf(…,3) for 'at least 4'"),
+            ("invBinom 0.9,10,.3", "the smallest k with cumulative probability ≥ 0.9"),
+        ],
+    ),
+    "normal-distribution.html": (
+        "Compute normal areas and percentiles on the Nspire",
+        [
+            ("normCdf 65,80,70,5", "P(65 < X < 80) for N(70,5)"),
+            ("invNorm 0.90,70,5", "the 90th percentile of N(70,5)"),
+            ("normPdf 70,70,5", "curve height at x = 70 — a density, not a probability"),
+        ],
+    ),
+    "chi-square-tests.html": (
+        "Run a two-way chi-square test on the Nspire",
+        [
+            ("chi22way obsMatrix", "test for association from a two-way observed-count matrix"),
+            ("χ2Cdf 5,9E999,1", "right-tail p-value for χ² = 5 with df = 1"),
+            ("invχ2 0.95,2", "the 5% critical value with 2 degrees of freedom"),
+        ],
+    ),
     "t-tests-means.html": (
         "Run these t procedures on the Nspire",
         [

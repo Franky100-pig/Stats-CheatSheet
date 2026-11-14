@@ -652,6 +652,8 @@ html[data-lang="en"] .sidebar-sheets a .en-only {
 .toc-appendix { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 
 .sidebar-code {
+  display: inline-block;
+  min-width: 42px;
   font-family: ui-monospace, Menlo, Consolas, monospace;
   font-size: 10.5px;
   color: var(--site-accent);

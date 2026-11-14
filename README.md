@@ -43,12 +43,16 @@ written down — every unit, every topic, its Chinese knowledge points and the s
 The contents page, the sidebar on every sheet, the breadcrumbs, the in-page outlines and the
 previous/next links are all generated from it.
 
+**Units 2 and 3 are complete**: all 27 topics have a sheet and a matching A4 PDF, across nine
+sheets total covering 37 of the 55 CED topics. Units 1 and 5 remain planned — their topics are
+listed with their Chinese knowledge points so the syllabus map is visible before the notes exist.
+
 | Unit | Unit title | Topics | AP weight | Pacing | Sheets |
 |---|---|---|---|---|---|
 | 01 | Exploring One-Variable Data and Collecting Data | 1.1–1.13 | 20–30% | ~26 periods | — |
-| 02 | Probability, Random Variables, and Probability Distributions | 2.1–2.12 | 15–25% | ~24 periods | **2.12** Sampling Distributions |
-| 03 | Inference for Categorical Data: Proportions | 3.1–3.15 | 15–25% | ~30 periods | **3.2–3.4, 3.10–3.11** Confidence Intervals · **3.5–3.8, 3.12–3.13** z-Tests |
-| 04 | Inference for Quantitative Data: Means | 4.1–4.10 | 10–20% | ~18 periods | **4.2–4.3, 4.7–4.8** Confidence Intervals · **4.4–4.5, 4.9–4.10** t-Tests |
+| 02 | Probability, Random Variables, and Probability Distributions | 2.1–2.12 | 15–25% | ~24 periods | **2.1–2.2** Two Categorical Variables · **2.3–2.7** Probability Rules · **2.8–2.10** Random Variables & Binomial · **2.11** Normal Distribution · **2.12** Sampling Distributions |
+| 03 | Inference for Categorical Data: Proportions | 3.1–3.15 | 15–25% | ~30 periods | **3.1–3.2, 3.9** Sampling Distributions · **3.3–3.4, 3.10–3.11** Confidence Intervals · **3.5–3.8, 3.12–3.13** z-Tests · **3.14–3.15** Chi-Square Tests |
+| 04 | Inference for Quantitative Data: Means | 4.1–4.10 | 10–20% | ~18 periods | **4.1, 4.6** Sampling Distributions · **4.2–4.3, 4.7–4.8** Confidence Intervals · **4.4–4.5, 4.9–4.10** t-Tests |
 | 05 | Regression Analysis | 5.1–5.5 | 10–20% | ~9 periods | — |
 | A | **Appendix — [Quick Reference & Tools](./reference.html)**: inference procedure picker, notation table, exam traps | — | — | — | ✅ |
 
