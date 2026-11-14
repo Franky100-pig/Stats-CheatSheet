@@ -247,7 +247,22 @@
 .calc-callout .zh { color: var(--site-muted); }
 .site-pager a span .zh { display: inline; font-size: inherit; color: inherit; }
 
+/* The language switch has two halves: .zh is the Chinese layer (visible in
+   bilingual mode), .en-only is its English replacement (visible in exam mode).
+   Without the second half a label would read "已写 / Written" in one mode and
+   " / Written" in the other. */
+.en-only { display: none !important; }
+html[data-lang="en"] .en-only { display: inline !important; }
 html[data-lang="en"] .zh { display: none !important; }
+
+/* Long CED topic names would blow up the sidebar; keep them on one line and
+   let the title attribute carry the full wording. */
+html[data-lang="en"] .sidebar-sheets a .en-only {
+  display: block !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 @media (max-width: 600px) {
   .site-nav { font-size: 12px; }
@@ -318,6 +333,14 @@ html[data-lang="en"] .zh { display: none !important; }
 }
 
 .sidebar-sheets a:hover { background: var(--site-accent-bg); color: var(--site-accent); }
+
+/* A sheet covers several CED topics. Only the first one gets the solid blue
+   "you are here" badge; its siblings get a light marker instead. */
+.sidebar-sheets a.is-related {
+  background: var(--site-accent-bg);
+  color: var(--site-accent);
+  border-left: 2px solid var(--site-accent-border);
+}
 
 .sidebar-sheets a.is-current {
   background: var(--site-accent);
@@ -578,4 +601,5 @@ html[data-lang="en"] .zh { display: none !important; }
 @media print {
   .site-nav, .calc-callout, .site-pager, .site-foot, .zh,
   .chapter-sidebar, .section-outline, .chapter-crumb { display: none !important; }
+  .en-only { display: inline !important; }
 }

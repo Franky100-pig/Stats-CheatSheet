@@ -8,7 +8,7 @@ spellings, symbols and TI-Nspire command names must match the AP exam.
 This script does not rewrite them. It copies them into ``public/`` and adds the
 things a *book* needs that a printable sheet does not:
 
-  * a contents page built from tools/chapters.py -- the nine AP Statistics units
+  * a contents page built from tools/chapters.py -- the five CED units, 55 topics
   * a fixed chapter sidebar on every sheet, with the current chapter marked
   * an in-page outline built from the sheet's own <h2> sections
   * a breadcrumb (Unit -> sheet) and previous/next links in book order
@@ -152,12 +152,12 @@ def pager_html(name: str, order: list[str]) -> str:
     i = order.index(name)
     prev_link = (
         f'<a href="{order[i-1]}"><span>&larr; Previous chapter <span class="zh">/ {UI["prev"]}</span></span>{Path(order[i-1]).stem.replace("-", " ").title()}</a>'
-        if i > 0 else f'<a class="site-pager-home" href="index.html"><span>{UI["start"]} <span class="zh">/ {UI["back_home"]}</span></span>Back to the contents</a>'
+        if i > 0 else f'<a class="site-pager-home" href="index.html"><span>Start <span class="zh">/ {UI["start"]} · {UI["back_home"]}</span></span>Back to the contents</a>'
     )
     mid_link = '<a class="site-pager-home" href="index.html">Contents <span class="zh">/ 目录</span></a>'
     next_link = (
         f'<a class="site-pager-next" href="{order[i+1]}"><span>Next chapter &rarr; <span class="zh">/ {UI["next"]}</span></span>{Path(order[i+1]).stem.replace("-", " ").title()}</a>'
-        if i + 1 < len(order) else f'<a class="site-pager-home" href="index.html"><span>{UI["end"]} <span class="zh">/ {UI["back_home"]}</span></span>Back to the contents</a>'
+        if i + 1 < len(order) else f'<a class="site-pager-home" href="index.html"><span>End of the book <span class="zh">/ {UI["end"]} · {UI["back_home"]}</span></span>Back to the contents</a>'
     )
     return f'<nav class="site-pager no-print">{prev_link}{mid_link}{next_link}</nav>\n'
 
@@ -286,6 +286,20 @@ def build(out_dir: Path) -> int:
     for name in CALC_TIPS:
         if name not in order:
             problems.append(f"{name} has a calculator callout but is not in the chapter map")
+
+    # The English-only exam view must really be English-only. Any Chinese text
+    # sitting outside a .zh element would survive the language switch, so fail
+    # the deploy rather than shipping a half-switched page.
+    for built in sorted(out_dir.glob("*.html")):
+        text = built.read_text(encoding="utf-8")
+        text = re.sub(r"<script\b.*?</script>", "", text, flags=re.S | re.I)
+        text = re.sub(r'<button[^>]*id="langToggle"[^>]*>.*?</button>', "", text, flags=re.S)
+        text = re.sub(r'<(\w+)[^>]*class="[^"]*\bzh\b[^"]*"[^>]*>.*?</\1>', "", text, flags=re.S)
+        text = re.sub(r"<[^>]+>", "", text)
+        stray = [ln.strip() for ln in text.splitlines() if re.search(r"[\u4e00-\u9fff]", ln)]
+        if stray:
+            problems.append(f"{built.name} leaks Chinese into English-only mode: {stray[0][:60]}")
+
     for problem in problems:
         print(f"  WARNING  {problem}", flush=True)
 

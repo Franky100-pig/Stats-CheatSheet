@@ -102,8 +102,15 @@ glosses (`SECTION_ZH`, one `(中文小标题, 中文导读)` pair per `<h2>`), t
 (`INTRO_HTML`) and the procedure-picker hints (`PICKER_ZH`); [`tools/chapters.py`](./tools/chapters.py)
 holds the course outline itself, including the Chinese knowledge points for each of the 55 topics.
 **When you add a new `<h2>` to a sheet, add its Chinese pair too** — the builder checks the counts
-and fails the deploy rather than shipping a half-translated page. `tools/site.js` drives the language
-switch; `tools/site.css` hides every `.zh` element in English-only mode and in print.
+and fails the deploy rather than shipping a half-translated page.
+
+The switch is two-sided: Chinese text sits in `.zh` elements (hidden in English-only mode and in
+print), and its English replacement sits in `.en-only` elements (hidden in bilingual mode). Labels
+like `已写 / Written` therefore read cleanly in both modes, and the Chinese knowledge-point lists
+disappear entirely in the exam view instead of leaking through. The builder also strips every `.zh`
+element from the generated HTML and **fails the deploy if any Chinese character survives**, so a new
+label can never be added half-switched. `tools/site.js` drives the switch and `?lang=en` gives a
+shareable English-only view.
 
 ### Regenerating PDFs from HTML
 All sheets share [`styles.css`](./styles.css) (including CSS math helpers `.m`, `.xbar`, `.hat-wrap`, `.frac`, `.radic` and A4 `@page` print rules). After adding or editing any sheet, regenerate the matching `.pdf` files with:

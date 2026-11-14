@@ -416,7 +416,8 @@ def _sheet_links(sheets: tuple[str, ...]) -> str:
     out = []
     for sheet in sheets:
         pdf = sheet.replace(".html", ".pdf")
-        out.append(f'<a class="toc-sheet-link" href="{sheet}">讲义</a>'
+        out.append(f'<a class="toc-sheet-link" href="{sheet}">'
+                   f'<span class="zh">讲义</span><span class="en-only">Sheet</span></a>'
                    f'<a class="toc-sheet-link toc-pdf" href="{pdf}">PDF</a>')
     return "".join(out)
 
@@ -425,27 +426,37 @@ def render_toc() -> str:
     """The full contents page, injected into index.html's placeholder."""
     out = ['<nav class="chapter-toc" aria-label="Table of contents">',
            '<div class="toc-legend">',
-           '<span><i class="toc-dot toc-dot-ready"></i>已有讲义 / sheet written</span>',
-           '<span><i class="toc-dot toc-dot-planned"></i>计划中 / planned</span>',
+           '<span><i class="toc-dot toc-dot-ready"></i>'
+           '<span class="zh">已有讲义 / </span>Sheet written</span>',
+           '<span><i class="toc-dot toc-dot-planned"></i>'
+           '<span class="zh">计划中 / </span>Planned</span>',
            '<span class="zh">按 AP 统计考纲（2026 秋季生效版）五个单元、55 个主题排列；'
            '每个主题下是中文分点</span>',
+           '<span class="en-only">All 55 CED topics in unit order. The Chinese '
+           'knowledge-point breakdowns appear in bilingual mode.</span>',
            '</div>', '<ol class="toc-units">']
     for unit in UNITS:
         out.append(f'<li class="toc-unit" id="{unit.anchor}">')
         out.append(f'<div class="toc-unit-head"><span class="toc-unit-num">{unit.label}</span>'
                    f'<div class="toc-unit-title">{unit.en} <span class="zh">{unit.zh}</span></div>'
-                   f'<span class="toc-unit-meta">AP 权重 {unit.weight} &middot; ~{unit.periods} 课时</span></div>')
+                   f'<span class="toc-unit-meta">'
+                   f'<span class="zh">AP 权重 {unit.weight} &middot; ~{unit.periods} 课时</span>'
+                   f'<span class="en-only">Exam weight {unit.weight} &middot; '
+                   f'~{unit.periods} class periods</span></span></div>')
         out.append('<ol class="toc-topics">')
         for topic in unit.topics:
             open_attr = " open" if topic.written else ""
-            status = ('<span class="toc-status toc-status-ready">已写 / written</span>'
-                      if topic.written else '<span class="toc-status toc-status-planned">计划中 / planned</span>')
+            status = ('<span class="toc-status toc-status-ready"><span class="zh">已写 / </span>Written</span>'
+                      if topic.written else
+                      '<span class="toc-status toc-status-planned"><span class="zh">计划中 / </span>Planned</span>')
             out.append(f'<li class="toc-topic"><details{open_attr}>'
                        f'<summary><span class="toc-topic-code">{topic.code}</span>'
                        f'<span class="toc-topic-title">{topic.en} '
                        f'<span class="zh">{topic.zh}</span></span>{status}</summary>')
             if topic.points:
-                out.append('<ul class="toc-points">')
+                # Chinese-only reading notes: in English exam view they disappear
+                # together with every other .zh element.
+                out.append('<ul class="toc-points zh">')
                 for point in topic.points:
                     out.append(f'<li>{point}</li>')
                 out.append('</ul>')
@@ -461,8 +472,8 @@ def render_toc() -> str:
         out.append(f'<li class="toc-topic"><details open><summary>'
                    f'<span class="toc-topic-code">{topic.code}</span>'
                    f'<span class="toc-topic-title">{topic.en} <span class="zh">{topic.zh}</span></span>'
-                   f'<span class="toc-status toc-status-ready">已写 / written</span></summary>'
-                   f'<ul class="toc-points">{points}</ul>'
+                   f'<span class="toc-status toc-status-ready"><span class="zh">已写 / </span>Written</span></summary>'
+                   f'<ul class="toc-points zh">{points}</ul>'
                    f'<p class="toc-topic-sheets">{_sheet_links(topic.sheets)}</p></details></li>')
     out.append('</ol></nav>')
     return "\n".join(out) + "\n"
@@ -472,10 +483,11 @@ def render_sidebar(current: str) -> str:
     """The fixed chapter navigation shown on every sheet and appendix."""
     current_unit = unit_for(current)
     out = ['<aside class="chapter-sidebar" aria-label="Chapter navigation">',
-           '<a class="sidebar-home" href="index.html">&larr; 目录 <span class="zh">Contents</span></a>',
+           '<a class="sidebar-home" href="index.html">&larr; Contents <span class="zh">目录</span></a>',
            '<details class="sidebar-details" id="sidebarDetails" open>',
            '<summary>Units 01&ndash;05 <span class="zh">章节</span></summary>',
            '<ol class="sidebar-units">']
+    highlighted = False   # one solid "you are here" badge across all five units
     for unit in UNITS:
         active = " is-active" if unit is current_unit else ""
         out.append(f'<li class="sidebar-unit{active}">'
@@ -487,22 +499,31 @@ def render_sidebar(current: str) -> str:
             out.append('<ol class="sidebar-sheets">')
             for topic in ready:
                 sheet = topic.sheets[0]
-                cls = ' class="is-current"' if sheet == current else ""
-                out.append(f'<li><a href="{sheet}"{cls}><span class="sidebar-code">{topic.code}</span>'
-                           f'{topic.zh}</a></li>')
+                cls = ""
+                if sheet == current:
+                    cls = ' class="is-related"' if highlighted else ' class="is-current"'
+                    highlighted = True
+                out.append(f'<li><a href="{sheet}"{cls} title="{topic.en}">'
+                           f'<span class="sidebar-code">{topic.code}</span>'
+                           f'<span class="zh">{topic.zh}</span>'
+                           f'<span class="en-only">{topic.en}</span></a></li>')
             out.append('</ol>')
         out.append('</li>')
     out.append('</ol></details>')
-    out.append('<div class="sidebar-appendix"><span class="sidebar-appendix-title">附录 / Appendices</span>')
+    out.append('<div class="sidebar-appendix"><span class="sidebar-appendix-title">'
+               '<span class="zh">附录 / </span>Appendices</span>')
     for topic in APPENDICES:
         cls = ' class="is-current"' if topic.sheets and topic.sheets[0] == current else ""
         out.append(f'<a href="{topic.sheets[0]}"{cls}>{topic.en} <span class="zh">{topic.zh}</span></a>')
     out.append('</div>')
-    out.append('<a class="sidebar-all" href="index.html">完整 55 个主题 <span class="zh">/ full outline</span></a>')
+    out.append('<a class="sidebar-all" href="index.html">'
+               '<span class="zh">完整 55 个主题</span>'
+               '<span class="en-only">Full outline: all 55 topics</span></a>')
     unit = unit_for(current)
     if unit:
         codes = topic_code_range(current)
-        out.append(f'<p class="sidebar-now">当前 / Now reading<br><strong>{codes} &middot; {unit.label}</strong><br>'
+        out.append(f'<p class="sidebar-now"><span class="zh">当前 / </span>Now reading<br>'
+                   f'<strong>{codes} &middot; {unit.label}</strong><br>'
                    f'<span>{unit.en}</span></p>')
     out.append('</aside>')
     return "\n".join(out) + "\n"
@@ -524,10 +545,10 @@ def render_breadcrumb(current: str) -> str:
         codes = topic_code_range(current)
         mid = (f'<a href="index.html#{unit.anchor}">{unit.label} · {unit.en} '
                f'<span class="zh">{unit.zh}</span></a>')
-        return (f'<nav class="chapter-crumb"><a href="index.html">目录 <span class="zh">Contents</span></a>'
+        return (f'<nav class="chapter-crumb"><a href="index.html">Contents <span class="zh">目录</span></a>'
                 f' <span class="crumb-sep">/</span> {mid} <span class="crumb-sep">/</span> '
                 f'<strong>Topic {codes}</strong></nav>\n  ')
     if current == "reference.html":
-        return ('<nav class="chapter-crumb"><a href="index.html">目录 <span class="zh">Contents</span></a>'
+        return ('<nav class="chapter-crumb"><a href="index.html">Contents <span class="zh">目录</span></a>'
                 ' <span class="crumb-sep">/</span> <strong>Appendix A · Quick Reference</strong></nav>\n  ')
     return ""
