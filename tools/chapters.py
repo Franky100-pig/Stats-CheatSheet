@@ -27,6 +27,7 @@ TI-Nspire command names are never translated.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import re
 
 REPO_URL = "https://github.com/Franky100-pig/Stats-CheatSheet"
 CALC_URL = "https://franky100-pig.github.io/Digital-Nspire-for-Stats/"
@@ -422,6 +423,68 @@ def _sheet_links(sheets: tuple[str, ...]) -> str:
     return "".join(out)
 
 
+UNIT_SHORT_ZH = {
+    1: "单变量与数据收集", 2: "概率与分布", 3: "比例推断",
+    4: "均值推断", 5: "回归分析",
+}
+UNIT_SHORT_EN = {
+    1: "One-Variable Data", 2: "Probability", 3: "Proportions",
+    4: "Means", 5: "Regression",
+}
+
+
+def _weight_pct(weight: str) -> int:
+    """Midpoint of a CED range like '20–30%', scaled to a 35% full bar."""
+    nums = [int(n) for n in re.findall(r"\d+", weight)]
+    if not nums:
+        return 40
+    return max(8, min(100, round(sum(nums) / len(nums) / 35 * 100)))
+
+
+def render_hero() -> str:
+    """Course dashboard on the contents page. Every number is derived from the
+    chapter map, so adding a sheet or topic updates the dashboard too."""
+    total = sum(len(u.topics) for u in UNITS)
+    written = sum(1 for u in UNITS for t in u.topics if t.written)
+    sheets = len(reading_order())
+    coverage = round(written / total * 100) if total else 0
+
+    out = [
+        '<section class="hero no-print" aria-label="Course overview">',
+        '<p class="hero-kicker">AP STATISTICS &middot; COURSE FRAMEWORK &middot; FALL 2026</p>',
+        '<h2 class="hero-title">One syllabus. Five units. Every formula in one place.</h2>',
+        '<p class="hero-sub">Exact notation, the conditions that make a procedure legal, and '
+        'the traps the exam actually tests. '
+        '<span class="zh">中文：公式与 TI 命令保持英文卷面原样，逐节中文导读讲清思路；'
+        '右上角一次切换，语言与配色全站同步。</span></p>',
+        '<div class="hero-stats">',
+        f'<div class="hero-stat"><strong>{len(UNITS)}</strong>'
+        '<span>Units <span class="zh">单元</span></span></div>',
+        f'<div class="hero-stat"><strong>{total}</strong>'
+        '<span>CED topics <span class="zh">考纲主题</span></span></div>',
+        f'<div class="hero-stat"><strong>{sheets}</strong>'
+        '<span>Sheets &amp; PDFs <span class="zh">讲义 / 打印版</span></span></div>',
+        f'<div class="hero-stat"><strong>{coverage}%</strong>'
+        '<span>Written so far <span class="zh">已完成</span></span></div>',
+        '</div>',
+        '<p class="hero-weights-title">Exam weight by unit '
+        '<span class="zh">· 各单元考试权重</span></p>',
+        '<ol class="hero-weight-list">',
+    ]
+    for unit in UNITS:
+        out.append(
+            f'<li data-unit="{unit.num}">'
+            f'<a href="#{unit.anchor}">'
+            f'<span class="hero-weight-name">{unit.num:02d} '
+            f'<span class="en-only">{UNIT_SHORT_EN[unit.num]}</span>'
+            f'<span class="zh">{UNIT_SHORT_ZH[unit.num]}</span></span>'
+            f'<span class="hero-weight-track"><i style="--w:{_weight_pct(unit.weight)}%"></i></span>'
+            f'<span class="hero-weight-num">{unit.weight}</span></a></li>'
+        )
+    out += ['</ol>', '</section>']
+    return "\n".join(out) + "\n"
+
+
 def render_toc() -> str:
     """The full contents page, injected into index.html's placeholder."""
     out = ['<nav class="chapter-toc" aria-label="Table of contents">',
@@ -436,13 +499,19 @@ def render_toc() -> str:
            'knowledge-point breakdowns appear in bilingual mode.</span>',
            '</div>', '<ol class="toc-units">']
     for unit in UNITS:
-        out.append(f'<li class="toc-unit" id="{unit.anchor}">')
+        done = sum(1 for t in unit.topics if t.written)
+        pct = round(done / len(unit.topics) * 100) if unit.topics else 0
+        out.append(f'<li class="toc-unit" id="{unit.anchor}" data-unit="{unit.num}">')
         out.append(f'<div class="toc-unit-head"><span class="toc-unit-num">{unit.label}</span>'
                    f'<div class="toc-unit-title">{unit.en} <span class="zh">{unit.zh}</span></div>'
                    f'<span class="toc-unit-meta">'
                    f'<span class="zh">AP 权重 {unit.weight} &middot; ~{unit.periods} 课时</span>'
                    f'<span class="en-only">Exam weight {unit.weight} &middot; '
                    f'~{unit.periods} class periods</span></span></div>')
+        out.append(f'<p class="toc-unit-blurb">'
+                   f'<span class="toc-unit-progress"><i style="--p:{pct}%"></i></span>'
+                   f'<span class="en-only">{done} of {len(unit.topics)} topics written</span>'
+                   f'<span class="zh">已写 {done} / {len(unit.topics)} 个主题</span></p>')
         out.append('<ol class="toc-topics">')
         for topic in unit.topics:
             open_attr = " open" if topic.written else ""
@@ -490,7 +559,7 @@ def render_sidebar(current: str) -> str:
     highlighted = False   # one solid "you are here" badge across all five units
     for unit in UNITS:
         active = " is-active" if unit is current_unit else ""
-        out.append(f'<li class="sidebar-unit{active}">'
+        out.append(f'<li class="sidebar-unit{active}" data-unit="{unit.num}">'
                    f'<a class="sidebar-unit-head" href="index.html#{unit.anchor}">'
                    f'<span class="sidebar-num">{unit.num:02d}</span>'
                    f'<span class="sidebar-unit-title">{unit.en} <span class="zh">{unit.zh}</span></span></a>')
