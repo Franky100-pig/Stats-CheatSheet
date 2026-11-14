@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Normal Distribution — Stats Cheat Sheet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar no-print">
+      <a href="index.html">← Contents</a>
+      <span>Unit 2 · Topic 2.11 · Normal Curves, Z-Scores, the Empirical Rule, Areas &amp; Inverse Normal</span>
+    </div>
+
+    <span class="badge">Unit 2 · Topic 2.11 · The Normal Distribution</span>
+    <h1>The Normal Distribution</h1>
+    <p class="subtitle">
+      Continuous random variables, the N(&mu;, &sigma;) family, standardisation and z-scores, the
+      68–95–99.7 rule, areas under the curve, and inverse-normal calculations for percentiles and
+      interval boundaries.
+    </p>
+
+    <h2>1. The Normal Curve and Its Parameters</h2>
+    <p>
+      A <strong>continuous</strong> random variable can take any value in an interval, and every
+      interval has a probability. Many such variables are well modelled by a normal distribution:
+      a continuous, unimodal, bell-shaped and symmetric curve identified by two parameters.
+    </p>
+    <div class="formula-card">
+      <div class="formula-title">Notation and Shape</div>
+      <div class="formula-main">
+        <span class="m">
+          X ~ N(&mu;, &sigma;) &nbsp;&nbsp;&nbsp; total area under the curve = 1
+        </span>
+      </div>
+      <div class="formula-note">
+        <span class="m">&mu;</span> locates the centre (and the median and mode);
+        <span class="m">&sigma;</span> sets the spread. A <strong>smaller</strong>
+        <span class="m">&sigma;</span> gives a taller, more concentrated curve; a
+        <strong>larger</strong> <span class="m">&sigma;</span> gives a shorter, flatter one.
+        For a continuous variable <span class="m">P(X = x) = 0</span>, so
+        <span class="m">P(X &lt; x) = P(X &le; x)</span> — only intervals have positive probability.
+      </div>
+    </div>
+
+    <h2>2. Z-Scores, Standardisation and the Empirical Rule</h2>
+    <div class="formula-card">
+      <div class="formula-title">Standardisation</div>
+      <div class="formula-main">
+        <span class="m">
+          z = (x &minus; &mu;) / &sigma; &nbsp;&nbsp;&nbsp; Z ~ N(0, 1)
+        </span>
+      </div>
+      <div class="formula-note">
+        A z-score is the number of standard deviations a value lies above (positive) or below
+        (negative) the mean. The <strong>standard normal distribution</strong> has
+        <span class="m">&mu; = 0</span> and <span class="m">&sigma; = 1</span>; standardising lets one
+        table handle every normal curve.
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>Empirical rule (68–95–99.7)</th><th>Interval</th><th>Approximate area</th></tr></thead>
+      <tbody>
+        <tr><td class="sym-col">Within 1 SD</td><td><span class="m">&mu; &plusmn; 1&sigma;</span> (z from &minus;1 to 1)</td><td>0.68</td></tr>
+        <tr><td class="sym-col">Within 2 SD</td><td><span class="m">&mu; &plusmn; 2&sigma;</span> (z from &minus;2 to 2)</td><td>0.95</td></tr>
+        <tr><td class="sym-col">Within 3 SD</td><td><span class="m">&mu; &plusmn; 3&sigma;</span> (z from &minus;3 to 3)</td><td>0.997</td></tr>
+      </tbody>
+    </table>
+    <div class="box-note">
+      <div class="box-label">Worked example</div>
+      <p style="margin-bottom: 0;">
+        If <span class="m">X ~ N(70, 5)</span>, then <span class="m">x = 80</span> has
+        <span class="m">z = (80 &minus; 70)/5 = 2</span>: 80 is 2 standard deviations above the mean.
+        By the empirical rule about 95% of values lie between 60 and 80, so roughly 2.5% lie above 80.
+      </p>
+    </div>
+
+    <h2>3. Areas, Intervals and Inverse Normal Calculations</h2>
+    <div class="formula-card">
+      <div class="formula-title">Two Directions of Calculation</div>
+      <div class="formula-main">
+        <span class="m">
+          value(s) &rarr; area: &nbsp; P(a &lt; X &lt; b) = normCdf(a, b, &mu;, &sigma;)<br />
+          area &rarr; value: &nbsp; x = invNorm(area to the left, &mu;, &sigma;)
+        </span>
+      </div>
+      <div class="formula-note">
+        Use a very large upper bound such as <code>9E999</code> for an unbounded right tail, and a
+        very large negative lower bound (<code>&minus;9E999</code>) for a left tail. The lowest
+        <span class="m">p</span>% corresponds to <span class="m">invNorm(p/100, &mu;, &sigma;)</span>;
+        the highest <span class="m">p</span>% uses area <span class="m">1 &minus; p/100</span>.
+        <code>normPdf(x,&mu;,&sigma;)</code> returns the <strong>density</strong> (curve height),
+        not a probability — never use it as an answer for "probability".
+      </div>
+    </div>
+    <div class="box-ok">
+      <div class="box-label">Calculator commands (real TI-Nspire names)</div>
+      <ul>
+        <li><code>normCdf(65,80,70,5)</code> — <span class="m">P(65 &lt; X &lt; 80)</span> for <span class="m">N(70,5)</span>.</li>
+        <li><code>normCdf(80,9E999,70,5)</code> — upper tail <span class="m">P(X &gt; 80)</span>.</li>
+        <li><code>invNorm(0.90,70,5)</code> — the 90th percentile (lowest 90% cut-off).</li>
+        <li><code>invNorm(0.025,0,1)</code> — <span class="m">z*</span> &asymp; &minus;1.96; the middle 95% lies between <span class="m">&plusmn;1.96</span>.</li>
+        <li><code>randNorm(70,5,100)</code> — 100 simulated draws from <span class="m">N(70,5)</span>.</li>
+      </ul>
+    </div>
+
+    <h2>4. Exam Traps</h2>
+    <div class="box-warn">
+      <div class="box-label">Traps the exam actually tests</div>
+      <ul>
+        <li><strong>State the distribution first</strong>: <span class="m">X ~ N(&mu;, &sigma;)</span> with
+          units and context, and sketch / shade the region before computing.</li>
+        <li><strong>Probability is area, not height</strong>: <code>normPdf</code> is not a probability.</li>
+        <li><strong>"Lowest 10%" vs "highest 10%"</strong>: the latter needs
+          <span class="m">invNorm(0.90, &mu;, &sigma;)</span>, not 0.10.</li>
+        <li><strong>Middle <span class="m">p</span>%</strong> needs two tails:
+          <span class="m">&alpha;/2 = (1 &minus; p)/2</span> in each tail.</li>
+        <li><strong>Empirical rule is approximate</strong> ("about 95%"), while
+          <code>normCdf</code> / <code>invNorm</code> give exact values — say "approximately" when using 2 SD.</li>
+        <li><strong>Always standardise with the right <span class="m">&sigma;</span></strong> — a sampling
+          distribution uses the standard error <span class="m">&sigma;/&radic;n</span>, not the population SD.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

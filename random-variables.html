@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Variables &amp; the Binomial Distribution — Stats Cheat Sheet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar no-print">
+      <a href="index.html">← Contents</a>
+      <span>Unit 2 · Topics 2.8–2.10 · Discrete Distributions, Expected Value, Linear Combinations &amp; Binomial</span>
+    </div>
+
+    <span class="badge">Unit 2 · Topics 2.8–2.10 · Random Variables</span>
+    <h1>Random Variables &amp; the Binomial Distribution</h1>
+    <p class="subtitle">
+      Discrete probability distributions, expected value and standard deviation, transforming and
+      combining random variables, and the conditions, formula, mean and standard deviation of a
+      binomial count — with interpretation in context.
+    </p>
+
+    <h2>1. Discrete Random Variables and Probability Distributions</h2>
+    <p>
+      A <strong>random variable</strong> takes numerical values determined by a random phenomenon.
+      A <strong>discrete</strong> random variable has finitely many (or countable) possible values.
+      Its probability distribution lists every value with its probability; it may be given as a table,
+      a graph or a function, and can be found by the rules of probability or estimated by simulation.
+    </p>
+    <div class="formula-card">
+      <div class="formula-title">Two Non-Negotiable Conditions</div>
+      <div class="formula-main">
+        <span class="m">
+          0 &le; P(x<sub>i</sub>) &le; 1 for every value &nbsp;&nbsp;&nbsp; &sum; P(x<sub>i</sub>) = 1
+        </span>
+      </div>
+      <div class="formula-note">
+        A <strong>cumulative</strong> probability distribution gives
+        <span class="m">P(X &le; x)</span> for each value; the last entry must be exactly 1.
+        Parameters (such as <span class="m">&mu;<sub>X</sub></span> and
+        <span class="m">&sigma;<sub>X</sub></span>) are fixed numbers describing the distribution —
+        they are not statistics computed from a sample.
+      </div>
+    </div>
+    <table>
+      <thead><tr><th><span class="m">x</span></th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead>
+      <tbody>
+        <tr><td class="sym-col"><span class="m">P(X = x)</span></td><td>0.10</td><td>0.25</td><td>0.40</td><td>0.25</td></tr>
+        <tr><td class="sym-col"><span class="m">P(X &le; x)</span></td><td>0.10</td><td>0.35</td><td>0.75</td><td>1.00</td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. Expected Value, Variance and Standard Deviation</h2>
+    <div class="formula-card">
+      <div class="formula-title">Mean and Standard Deviation of a Discrete Random Variable</div>
+      <div class="formula-main">
+        <span class="m">
+          &mu;<sub>X</sub> = E(X) = &sum; x<sub>i</sub> P(x<sub>i</sub>)<br />
+          &sigma;<sup>2</sup><sub>X</sub> = Var(X) = &sum; (x<sub>i</sub> &minus; &mu;<sub>X</sub>)<sup>2</sup> P(x<sub>i</sub>)<br />
+          &sigma;<sub>X</sub> = SD(X) = &radic;Var(X)
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Interpretation (required on FRQs):</strong> <span class="m">&mu;<sub>X</sub></span> is the
+        long-run average value of X over many repetitions, in context;
+        <span class="m">&sigma;<sub>X</sub></span> is the typical distance of X from that mean in the
+        long run. For the table above,
+        <span class="m">&mu;<sub>X</sub> = 0(.10) + 1(.25) + 2(.40) + 3(.25) = 1.80</span>.
+      </div>
+    </div>
+
+    <h2>3. Linear Transformations and Combining Random Variables</h2>
+    <div class="formula-card">
+      <div class="formula-title">Transforming X, and Adding or Subtracting Independent Variables</div>
+      <div class="formula-main">
+        <span class="m">
+          &mu;<sub>aX+b</sub> = a&mu;<sub>X</sub> + b &nbsp;&nbsp;&nbsp; &sigma;<sub>aX+b</sub> = |a| &sigma;<sub>X</sub><br />
+          &mu;<sub>X&plusmn;Y</sub> = &mu;<sub>X</sub> &plusmn; &mu;<sub>Y</sub><br />
+          &sigma;<sup>2</sup><sub>X&plusmn;Y</sub> = &sigma;<sup>2</sup><sub>X</sub> + &sigma;<sup>2</sup><sub>Y</sub> &nbsp;(X, Y independent)
+        </span>
+      </div>
+      <div class="formula-note">
+        Adding a constant shifts the centre but <strong>not</strong> the spread; multiplying by a
+        negative constant flips the centre and scales the spread by its absolute value. For a
+        <em>difference</em> of independent variables the <strong>variances still add</strong> —
+        never subtract them. Standard deviations are combined by
+        <span class="m">&radic;(&sigma;<sup>2</sup><sub>X</sub> + &sigma;<sup>2</sup><sub>Y</sub>)</span>,
+        never by <span class="m">&sigma;<sub>X</sub> + &sigma;<sub>Y</sub></span>.
+      </div>
+    </div>
+
+    <h2>4. The Binomial Distribution: Conditions, Probability, Mean and SD</h2>
+    <div class="formula-card">
+      <div class="formula-title">BINS — Justify Before You Compute</div>
+      <div class="formula-main">
+        <span class="m">
+          P(X = k) = (<i>n</i> choose <i>k</i>) p<sup>k</sup> (1 &minus; p)<sup>n&minus;k</sup><br />
+          &mu;<sub>X</sub> = np &nbsp;&nbsp;&nbsp; &sigma;<sub>X</sub> = &radic;(np(1 &minus; p))
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>B</strong>inary: each trial has only success / failure.
+        <strong>I</strong>ndependent trials: when sampling without replacement, check the 10% condition
+        <span class="m">n &le; 0.10N</span>. <strong>N</strong>umber of trials <span class="m">n</span> is
+        fixed in advance. <strong>S</strong>ame probability of success <span class="m">p</span> on every
+        trial. <span class="m">X</span> counts the number of successes, so
+        <span class="m">k = 0, 1, &hellip;, n</span>.
+        <br />
+        (<i>n</i> choose <i>k</i>) = <span class="m"><i>n</i>! / (<i>k</i>! (<i>n</i> &minus; <i>k</i>)!)</span>.
+      </div>
+    </div>
+    <div class="box-note">
+      <div class="box-label">Worked example and calculator commands</div>
+      <p style="margin-bottom: 0;">
+        For <span class="m">X ~ Bin(10, 0.30)</span>:
+        <span class="m">&mu;<sub>X</sub> = 3</span> successes and
+        <span class="m">&sigma;<sub>X</sub> = &radic;(10 &middot; .3 &middot; .7) &asymp; 1.45</span>.
+        "Over many sets of 10 trials, we expect about 3 successes, typically varying by about 1.45
+        from that mean." &nbsp;
+        <code>binomPdf(10,.3,4)</code> gives <span class="m">P(X = 4)</span>;
+        <code>binomCdf(10,.3,4)</code> gives <span class="m">P(X &le; 4)</span>;
+        <code>randBin(10,.3,500)</code> simulates 500 such counts.
+      </p>
+    </div>
+
+    <h2>5. Exam Traps</h2>
+    <div class="box-warn">
+      <div class="box-label">Traps the exam actually tests</div>
+      <ul>
+        <li><strong>State the BINS conditions in context</strong> before using the formula; "independent"
+          needs the 10% condition when sampling without replacement.</li>
+        <li><strong><span class="m">binomPdf</span> vs <span class="m">binomCdf</span>:</strong> exactly k
+          needs Pdf; "at most k" needs Cdf; "at least k" is
+          <span class="m">1 &minus; binomCdf(n, p, k &minus; 1)</span>.</li>
+        <li><strong>Variance is not additive in SD:</strong> add variances, then take the square root.</li>
+        <li><strong>A difference subtracts means but ADDS variances</strong> for independent variables.</li>
+        <li><strong>Interpret <span class="m">&mu;</span> and <span class="m">&sigma;</span> in context</strong>
+          with "long run" / "typical", not "the most likely value".</li>
+        <li><strong><span class="m">P(X = x) = 0</span> for continuous variables</strong> — only intervals
+          have probability (see the Normal distribution sheet).</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
