@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Two Categorical Variables — Stats Cheat Sheet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar no-print">
+      <a href="index.html">← Contents</a>
+      <span>Unit 2 · Topics 2.1–2.2 · Two-Way Tables, Relative Frequencies &amp; Association</span>
+    </div>
+
+    <span class="badge">Unit 2 · Topics 2.1–2.2 · Two Categorical Variables</span>
+    <h1>Two Categorical Variables: Tables, Graphs &amp; Association</h1>
+    <p class="subtitle">
+      Two-way (contingency) tables, joint / marginal / conditional relative frequencies,
+      side-by-side and segmented bar charts, and the reasoning that turns a difference in
+      conditional distributions into evidence of association — without claiming causation.
+    </p>
+
+    <h2>1. Two-Way Tables and the Three Relative Frequencies</h2>
+    <p>
+      A two-way table, also called a contingency table, summarises two categorical variables
+      measured on the same individuals. Cell entries may be <strong>counts</strong> (frequencies)
+      or <strong>proportions</strong> (relative frequencies). Always ask <em>"out of whom?"</em>
+      before dividing — the denominator is the whole exam trap in this topic.
+    </p>
+
+    <div class="formula-card">
+      <div class="formula-title">Joint, Marginal and Conditional Relative Frequency</div>
+      <div class="formula-main">
+        <span class="m">
+          joint relative frequency = cell / table total<br />
+          marginal relative frequency = row total / table total &nbsp;(or column total / table total)<br />
+          conditional relative frequency = cell / that row's total &nbsp;(or that column's total)
+        </span>
+      </div>
+      <div class="formula-note">
+        A <strong>marginal</strong> distribution describes one variable alone (the row/column totals
+        in the margins). A <strong>conditional</strong> distribution describes one variable
+        <em>within a single level</em> of the other — the one used to compare groups.
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Worked example</th><th>Passed</th><th>Failed</th><th>Row total</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="sym-col">Tutoring</td><td>42</td><td>18</td><td>60</td></tr>
+        <tr><td class="sym-col">No tutoring</td><td>30</td><td>30</td><td>60</td></tr>
+        <tr><td class="sym-col">Column total</td><td>72</td><td>48</td><td><strong>120</strong></td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><strong>Joint:</strong> <span class="m">P(Tutoring and Passed) = 42/120 = 0.35</span>.</li>
+      <li><strong>Marginal:</strong> <span class="m">P(Tutoring) = 60/120 = 0.50</span>; <span class="m">P(Passed) = 72/120 = 0.60</span>.</li>
+      <li><strong>Conditional:</strong> <span class="m">P(Passed | Tutoring) = 42/60 = 0.70</span> versus
+        <span class="m">P(Passed | No tutoring) = 30/60 = 0.50</span>.</li>
+    </ul>
+
+    <h2>2. Graphical Displays and Deciding Whether Variables Are Associated</h2>
+    <p>
+      <strong>Side-by-side bar charts</strong>, <strong>segmented (stacked) bar charts</strong> and
+      <strong>mosaic plots</strong> all display the distribution of one categorical variable at each
+      level of the other. Segmented bars must be scaled to 100% per group, otherwise unequal group
+      sizes make the picture misleading.
+    </p>
+
+    <div class="formula-card">
+      <div class="formula-title">Association Rule</div>
+      <div class="formula-main">
+        <span class="m">
+          conditional distributions differ across groups &rarr; the variables are associated<br />
+          conditional distributions are (nearly) the same &rarr; no evidence of association
+        </span>
+      </div>
+      <div class="formula-note">
+        In the worked table, 70% vs 50% is a clear difference, so tutoring status and passing are
+        <strong>associated</strong> in these data. State the direction with the numbers, in context.
+      </div>
+    </div>
+
+    <div class="box-note">
+      <div class="box-label">Association is not causation</div>
+      <p style="margin-bottom: 0;">
+        An association in an observational two-way table does <strong>not</strong> justify "tutoring
+        caused the pass rate". Only a randomized experiment that assigns the explanatory variable
+        supports a causal conclusion; otherwise name a plausible confounding variable.
+      </p>
+    </div>
+
+    <h2>3. Interpretation Templates and Exam Traps</h2>
+    <div class="box-ok">
+      <div class="box-label">Exam-safe wording</div>
+      <ul>
+        <li>"Among students who received tutoring, <span class="m">42/60 = 70%</span> passed, compared with
+          <span class="m">30/60 = 50%</span> among those who did not. Because these conditional relative
+          frequencies differ, the data suggest an association between tutoring and passing."</li>
+        <li>"The marginal distribution of passing is <span class="m">72/120 = 60%</span> passed and
+          <span class="m">48/120 = 40%</span> failed, ignoring tutoring status."</li>
+      </ul>
+    </div>
+
+    <div class="box-warn">
+      <div class="box-label">Traps the exam actually tests</div>
+      <ul>
+        <li><strong>Wrong denominator:</strong> <span class="m">42/120</span> is a joint relative frequency,
+          not <span class="m">P(Passed | Tutoring)</span>. Conditional claims divide by the row/column total.</li>
+        <li><strong>Comparing raw counts</strong> when group sizes differ — always convert to relative frequencies first.</li>
+        <li><strong>Describing only one group.</strong> A comparison needs at least two conditional distributions.</li>
+        <li><strong>"No association" is not proof of independence</strong>; say "the data do not show a difference".</li>
+        <li><strong>Association &ne; causation</strong> unless the data come from a randomized experiment.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Probability Rules — Stats Cheat Sheet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar no-print">
+      <a href="index.html">← Contents</a>
+      <span>Unit 2 · Topics 2.3–2.7 · Simulation, Complements, Unions, Conditional Probability &amp; Independence</span>
+    </div>
+
+    <span class="badge">Unit 2 · Topics 2.3–2.7 · Probability Rules</span>
+    <h1>Probability: Simulation, Rules &amp; Independence</h1>
+    <p class="subtitle">
+      Estimating probability by simulation, the complement and union rules, mutually exclusive
+      events, conditional probability, the general multiplication rule, and the three equivalent
+      tests for independence — with the distinctions the free-response questions reward.
+    </p>
+
+    <h2>1. Simulation, Outcomes and the Law of Large Numbers</h2>
+    <p>
+      A <strong>random process</strong> produces results determined by chance; one repetition is a
+      <strong>trial</strong>, its result is an <strong>outcome</strong>, and a collection of outcomes is
+      an <strong>event</strong>. A simulation models the process so that simulated outcomes closely
+      match the real ones.
+    </p>
+    <div class="formula-card">
+      <div class="formula-title">Four-Step Simulation Recipe</div>
+      <div class="formula-main">
+        <span class="m">
+          <span class="hat-wrap">P</span>(event) = (number of trials with the event) / (total number of trials)
+        </span>
+      </div>
+      <div class="formula-note">
+        1. Assign digits / random numbers to outcomes so their probabilities match the real process.
+        2. Define one trial (including the stopping rule). 3. Repeat many independent trials and count.
+        4. Use the relative frequency as the estimate, and state that more trials give a more stable
+        estimate. The <strong>law of large numbers</strong> says this long-run relative frequency
+        approaches a single value (the true probability) as the number of independent trials grows.
+      </div>
+    </div>
+    <div class="box-note">
+      <div class="box-label">Calculator commands for simulation</div>
+      <p style="margin-bottom: 0;">
+        <code>rand()</code> for one uniform value in [0,1), <code>rand(500)</code> for a list of 500,
+        <code>randInt(1,6,500)</code> for 500 die rolls, <code>randBin(n,p,500)</code> for 500 draws
+        from a Binomial count, <code>randSamp(List,#Trials,1)</code> for sampling without replacement.
+        Set <code>RandSeed</code> first if the run must be reproducible.
+      </p>
+    </div>
+
+    <h2>2. Sample Spaces, Complements and Basic Probability</h2>
+    <div class="formula-card">
+      <div class="formula-title">Foundational Rules</div>
+      <div class="formula-main">
+        <span class="m">
+          0 &le; P(E) &le; 1 &nbsp;&nbsp; P(S) = 1 &nbsp;&nbsp; P(E<sup>c</sup>) = 1 &minus; P(E)<br />
+          P(E) = (# outcomes in E) / (# outcomes in S) &nbsp; when all outcomes are equally likely
+        </span>
+      </div>
+      <div class="formula-note">
+        The <strong>sample space</strong> <span class="m">S</span> is the set of all possible
+        nonoverlapping outcomes. <span class="m">E<sup>c</sup></span> ("not E") is the complement.
+        "At least one" is almost always fastest as <span class="m">1 &minus; P(none)</span>.
+      </div>
+    </div>
+
+    <h2>3. Unions, Intersections and Mutually Exclusive Events</h2>
+    <div class="formula-card">
+      <div class="formula-title">Addition (Union) Rule</div>
+      <div class="formula-main">
+        <span class="m">
+          P(A &cup; B) = P(A) + P(B) &minus; P(A &cap; B)
+        </span>
+      </div>
+      <div class="formula-note">
+        <span class="m">P(A &cap; B)</span> is the <strong>joint probability</strong> (both happen).
+        "A or B" on the exam is <em>inclusive</em>: it includes the overlap. If A and B are
+        <strong>mutually exclusive</strong> (disjoint), they cannot occur together, so
+        <span class="m">P(A &cap; B) = 0</span> and the rule collapses to
+        <span class="m">P(A &cup; B) = P(A) + P(B)</span>.
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>Symbol</th><th>Read as</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="sym-col"><span class="m">A &cup; B</span></td><td>A or B</td><td>A, B, or both occur (inclusive "or")</td></tr>
+        <tr><td class="sym-col"><span class="m">A &cap; B</span></td><td>A and B</td><td>Both occur; the joint probability</td></tr>
+        <tr><td class="sym-col"><span class="m">A<sup>c</sup></span></td><td>not A</td><td>A does not occur; complement</td></tr>
+        <tr><td class="sym-col"><span class="m">A | B</span></td><td>A given B</td><td>A occurs, restricted to the world where B occurred</td></tr>
+      </tbody>
+    </table>
+
+    <h2>4. Conditional Probability and the General Multiplication Rule</h2>
+    <div class="formula-card">
+      <div class="formula-title">Conditioning and Multiplying</div>
+      <div class="formula-main">
+        <span class="m">
+          P(A | B) = P(A &cap; B) / P(B) &nbsp;&nbsp;[P(B) &gt; 0]<br />
+          P(A &cap; B) = P(A) &middot; P(B | A) = P(B) &middot; P(A | B)
+        </span>
+      </div>
+      <div class="formula-note">
+        Conditioning <strong>shrinks the denominator</strong> from the whole sample space to B.
+        On a <strong>tree diagram</strong>, the first-level branches are unconditional probabilities
+        and every second-level branch is a conditional probability; multiply along a path to get a
+        joint probability, then add the paths that make up the event.
+      </div>
+    </div>
+
+    <h2>5. Independence, Tree Diagrams and Exam Traps</h2>
+    <div class="formula-card">
+      <div class="formula-title">Three Equivalent Tests for Independence</div>
+      <div class="formula-main">
+        <span class="m">
+          P(A | B) = P(A) &nbsp;&nbsp;&nbsp; P(B | A) = P(B) &nbsp;&nbsp;&nbsp; P(A &cap; B) = P(A) &middot; P(B)
+        </span>
+      </div>
+      <div class="formula-note">
+        Independence means knowing whether one event occurred does <strong>not</strong> change the
+        probability of the other. Any one of the three equalities establishes it; a single
+        counter-example disproves it. The special multiplication rule
+        <span class="m">P(A &cap; B) = P(A)P(B)</span> is valid <em>only</em> when A and B are independent.
+      </div>
+    </div>
+
+    <div class="box-warn">
+      <div class="box-label">Traps the exam actually tests</div>
+      <ul>
+        <li><strong>Mutually exclusive &ne; independent.</strong> Disjoint events with nonzero
+          probabilities are strongly <em>dependent</em>: knowing A occurred makes
+          <span class="m">P(B | A) = 0</span>.</li>
+        <li><strong><span class="m">P(A | B) &ne; P(B | A)</span></strong> in general — the denominator changes.
+          Confusing them is the classic error with medical testing and base rates.</li>
+        <li><strong>Do not assume independence</strong> from "different" or "unrelated" wording; verify with
+          one of the three equalities, or justify it from random sampling / a 10% condition.</li>
+        <li><strong>Sampling without replacement</strong> makes trials dependent. When the sample is at
+          most 10% of the population, treating them as independent is acceptable on the AP exam.</li>
+        <li><strong>"At least one"</strong>: use <span class="m">1 &minus; P(none)</span>, not a sum of overlapping events.</li>
+        <li><strong>Probability is long-run</strong>: a simulation with 20 trials is noisy; more trials give
+          a better estimate (law of large numbers), not a guarantee for the next single trial.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

@@ -10,10 +10,10 @@
   <div class="page">
     <div class="topbar no-print">
       <a href="index.html">← Contents</a>
-      <span>Unit 2 · Topics 2.12, 3.2, 4.1 · Formulas, Variable Definitions &amp; Conditions</span>
+      <span>Unit 2 &amp; 3 · Topics 2.12, 3.1–3.2, 4.1 · Formulas, Variable Definitions &amp; Conditions</span>
     </div>
 
-    <span class="badge">Unit 2 · Topics 2.12, 3.2, 4.1 · Sampling Distributions</span>
+    <span class="badge">Unit 2 &amp; 3 · Topics 2.12, 3.1–3.2, 4.1 · Sampling Distributions</span>
     <h1>Sampling Distributions &amp; Central Limit Theorem</h1>
     <p class="subtitle">
       Exact notation, parameter vs. statistic distinctions, standard error formulas, and the conditions required for Normal approximations.
@@ -263,6 +263,54 @@
           <li><strong>Precision vs. Accuracy:</strong> Larger <span class="m"><i>n</i></span> lowers spread (higher precision), while random sampling prevents bias (accuracy).</li>
         </ul>
       </div>
+    </div>
+
+    <h2>7. Estimators, Bias and Variability (Topic 3.1)</h2>
+    <p>
+      A sample statistic used as a single best guess of a population parameter is a
+      <strong>point estimator</strong>. The number it produces from one sample is the
+      <strong>estimate</strong>. For example <span class="hat-wrap">p</span> estimates the population
+      proportion <span class="m"><i>p</i></span>, and <span class="xbar">x</span> estimates the
+      population mean <span class="m"><i>&mu;</i></span>.
+    </p>
+
+    <div class="formula-card">
+      <div class="formula-title">Unbiasedness</div>
+      <div class="formula-main">
+        <span class="m">
+          estimator is unbiased &hArr; E(estimator) = parameter
+        </span>
+      </div>
+      <div class="formula-note">
+        An estimator is unbiased if, <strong>on average over all possible random samples</strong>, it
+        neither systematically underestimates nor overestimates the parameter. Equivalently, the mean
+        of its sampling distribution equals the parameter:
+        <span class="m">E(<span class="hat-wrap">p</span>) = <i>p</i></span> and
+        <span class="m">E(<span class="xbar">x</span>) = <i>&mu;</i></span>. Unbiasedness is a
+        property of the <em>procedure</em>, not of any single estimate.
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Property</th><th>What it measures</th><th>Controlled by</th></tr></thead>
+      <tbody>
+        <tr><td class="sym-col">Bias (accuracy)</td><td>Systematic tendency to miss the parameter in one direction; the centre of the sampling distribution</td><td><strong>Sampling design</strong> — use random sampling / random assignment; a larger sample does not fix bias</td></tr>
+        <tr><td class="sym-col">Variability (precision)</td><td>Spread of estimates across repeated samples, measured by the <strong>standard error</strong></td><td><strong>Sample size</strong> — larger <span class="m"><i>n</i></span> shrinks SE, e.g. <span class="m"><i>&sigma;</i>/&radic;<i>n</i></span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="box-warn">
+      <div class="box-label">Traps the exam actually tests</div>
+      <ul>
+        <li><strong>Unbiased does not mean "correct every time"</strong> — individual estimates still
+          vary; it means there is no systematic error in the long run.</li>
+        <li><strong>A larger sample reduces variability, not bias.</strong> A biased sampling method
+          (convenience sample, voluntary response) stays biased no matter how large <span class="m"><i>n</i></span> is.</li>
+        <li><strong>Keep the two goals separate</strong>: random selection addresses accuracy (bias);
+          sample size addresses precision (variability).</li>
+        <li><strong>Name the estimator and the parameter in context</strong> when justifying
+          unbiasedness, and refer to the <em>sampling distribution</em>, not one sample's result.</li>
+      </ul>
     </div>
   </div>
 </body>
