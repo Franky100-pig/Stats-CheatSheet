@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chi-Square Tests for Two-Way Tables — Stats Cheat Sheet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar no-print">
+      <a href="index.html">← Contents</a>
+      <span>Unit 3 · Topics 3.14–3.15 · Homogeneity, Independence, Expected Counts, &chi;&sup2; &amp; df</span>
+    </div>
+
+    <span class="badge">Unit 3 · Topics 3.14–3.15 · Chi-Square Tests</span>
+    <h1>Chi-Square Tests for Homogeneity &amp; Independence</h1>
+    <p class="subtitle">
+      Choosing the right test from the sampling design, writing hypotheses in context, verifying
+      the three conditions, computing expected counts and the &chi;<sup>2</sup> statistic with
+      <span class="m">df = (r &minus; 1)(c &minus; 1)</span>, and stating a defensible conclusion.
+    </p>
+
+    <h2>1. Which Test? Homogeneity vs. Independence</h2>
+    <p>
+      Both tests use the <strong>same</strong> statistic, expected-count formula, conditions and
+      degrees of freedom. They differ only in how the data were collected and what the claim is about.
+    </p>
+    <table>
+      <thead><tr><th></th><th>Test for homogeneity</th><th>Test for independence</th></tr></thead>
+      <tbody>
+        <tr><td class="sym-col">Design</td><td>Independent random samples from 2+ populations, or a randomized experiment with 2+ treatments</td><td>One random sample from a single population</td></tr>
+        <tr><td class="sym-col">Variables</td><td>One categorical response variable, compared across populations / treatments</td><td>Two categorical variables measured on each individual</td></tr>
+        <tr><td class="sym-col">Question</td><td>Is the distribution of the response the <em>same</em> across populations?</td><td>Are the two variables <em>associated</em> in the population?</td></tr>
+        <tr><td class="sym-col">H<sub>0</sub> in words</td><td>No difference in the distribution of [response] across [populations / treatments]</td><td>No association between [variable 1] and [variable 2] in [population]; the variables are independent</td></tr>
+        <tr><td class="sym-col">H<sub>a</sub> in words</td><td>There is a difference in the distribution of [response] across [populations / treatments]</td><td>There is an association between [variable 1] and [variable 2] in [population]; they are not independent</td></tr>
+      </tbody>
+    </table>
+    <div class="box-note">
+      <div class="box-label">Decide from the sampling design, not the table</div>
+      <p style="margin-bottom: 0;">
+        Two identical-looking two-way tables can require different tests: if the row totals were
+        <strong>fixed by the researchers</strong> (separate samples / treatment groups), it is
+        homogeneity; if only the grand total was fixed and both variables were <strong>observed on
+        one sample</strong>, it is independence. Always name the populations or variables in context.
+      </p>
+    </div>
+
+    <h2>2. Hypotheses, Conditions and the Chi-Square Distribution</h2>
+    <div class="formula-card">
+      <div class="formula-title">Three Conditions (verify all three, in context)</div>
+      <div class="formula-main">
+        <span class="m">
+          Randomization &nbsp;&middot;&nbsp; 10% condition &nbsp;&middot;&nbsp; all expected counts &gt; 5
+        </span>
+      </div>
+      <div class="formula-note">
+        <strong>Randomization:</strong> independence needs a random sample; homogeneity needs
+        independent random samples or a randomized experiment. <strong>10% condition:</strong> when
+        sampling without replacement, <span class="m">n &le; 0.10N</span> (unnecessary for a
+        randomized experiment). <strong>Expected counts:</strong> every cell must have an expected
+        count greater than 5 — this is about <em>expected</em>, not observed, counts.
+      </div>
+    </div>
+    <p>
+      The <span class="m">&chi;<sup>2</sup></span> statistic measures the distance between observed
+      and expected counts relative to the expected counts. Chi-square distributions take only
+      <strong>positive</strong> values and are <strong>skewed right</strong>; the skew becomes less
+      pronounced as degrees of freedom increase. Large values of the statistic (far from zero) are
+      evidence against <span class="m">H<sub>0</sub></span>, so the p-value is always a
+      <strong>right-tail</strong> area.
+    </p>
+
+    <h2>3. Expected Counts, the Statistic and Degrees of Freedom</h2>
+    <div class="formula-card">
+      <div class="formula-title">The Three Formulas</div>
+      <div class="formula-main">
+        <span class="m">
+          E = (row total)(column total) / (table total)<br />
+          &chi;<sup>2</sup> = &sum; (O &minus; E)<sup>2</sup> / E &nbsp; over all cells<br />
+          df = (number of rows &minus; 1)(number of columns &minus; 1)
+        </span>
+      </div>
+      <div class="formula-note">
+        Expected counts are what we would anticipate <em>if H<sub>0</sub> were true</em>. Compute one
+        for every cell (including the cells you did not observe), then sum the standardised squared
+        discrepancies. The sum runs over all <span class="m">r &times; c</span> cells; the degrees of
+        freedom count the cells free to vary once the margins are fixed.
+      </div>
+    </div>
+    <div class="box-note">
+      <div class="box-label">Worked 2&times;2 example</div>
+      <p style="margin-bottom: 0;">
+        Observed: <span class="m">[[42, 18], [30, 30]]</span> with row totals 60, 60, column totals
+        72, 48 and table total 120. The expected count for (Tutoring, Passed) is
+        <span class="m">(60)(72)/120 = 36</span>; for (Tutoring, Failed)
+        <span class="m">(60)(48)/120 = 24</span>, and the second row has the same pair by symmetry.
+        Then <span class="m">&chi;<sup>2</sup> = (42&minus;36)<sup>2</sup>/36 +
+        (18&minus;24)<sup>2</sup>/24 + (30&minus;36)<sup>2</sup>/36 + (30&minus;24)<sup>2</sup>/24
+        = 1 + 1.5 + 1 + 1.5 = 5</span> with <span class="m">df = (2&minus;1)(2&minus;1) = 1</span>.
+      </p>
+    </div>
+    <div class="box-ok">
+      <div class="box-label">Calculator commands (real TI-Nspire names)</div>
+      <ul>
+        <li><code>chi22way obsMatrix</code> — the test for association from a two-way observed-count matrix.</li>
+        <li><code>&chi;2Cdf(5,9E999,1)</code> — right-tail p-value for <span class="m">&chi;<sup>2</sup> = 5</span>, <span class="m">df = 1</span>.</li>
+        <li><code>inv&chi;2(0.95,2)</code> — the 5% critical value with 2 degrees of freedom.</li>
+      </ul>
+    </div>
+
+    <h2>4. P-Value, Conclusion Template and Exam Traps</h2>
+    <div class="formula-card">
+      <div class="formula-title">P-Value and Decision</div>
+      <div class="formula-main">
+        <span class="m">
+          p-value = P(&chi;<sup>2</sup><sub>df</sub> &ge; &chi;<sup>2</sup><sub>observed</sub>)
+        </span>
+      </div>
+      <div class="formula-note">
+        Compare with <span class="m">&alpha;</span>. In the worked example
+        <span class="m">P(&chi;<sup>2</sup><sub>1</sub> &ge; 5) &asymp; 0.025</span>, so at
+        <span class="m">&alpha; = 0.05</span> we reject <span class="m">H<sub>0</sub></span>.
+      </div>
+    </div>
+    <div class="box-ok">
+      <div class="box-label">Exam-safe conclusion</div>
+      <p style="margin-bottom: 0;">
+        "Because the p-value of [value] is less than <span class="m">&alpha; = 0.05</span>, we reject
+        <span class="m">H<sub>0</sub></span>. There is convincing statistical evidence of [an
+        association between the two variables in the population <strong>/</strong> a difference in
+        the distribution of the response across the populations]." If the p-value is large, say
+        "we fail to reject <span class="m">H<sub>0</sub></span>; we do not have convincing evidence…"
+        — never "accept <span class="m">H<sub>0</sub></span>" or "prove independence".
+      </p>
+    </div>
+    <div class="box-warn">
+      <div class="box-label">Traps the exam actually tests</div>
+      <ul>
+        <li><strong>Wrong test name / wrong context:</strong> homogeneity names populations or treatments;
+          independence names the two variables and one population.</li>
+        <li><strong>Observed vs. expected counts:</strong> the &gt; 5 condition and the
+          <span class="m">E</span> formula use expected counts; observed counts go in
+          <span class="m">O</span>.</li>
+        <li><strong>Use counts, not proportions</strong> in the statistic — percentages make
+          <span class="m">&chi;<sup>2</sup></span> wrong.</li>
+        <li><strong>df is not <span class="m">n &minus; 1</span></strong> and not the number of cells;
+          it is <span class="m">(r &minus; 1)(c &minus; 1)</span>.</li>
+        <li><strong>The p-value is always the right tail</strong>; a large
+          <span class="m">&chi;<sup>2</sup></span> is evidence against <span class="m">H<sub>0</sub></span>.</li>
+        <li><strong>Association is not causation</strong> for an observational sample; a chi-square
+          test never establishes which variable causes the other.</li>
+        <li><strong>A significant result does not say which cell differs</strong> — compare the
+          observed and expected counts to describe the largest contributions.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
