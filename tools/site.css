@@ -468,6 +468,69 @@ html[data-lang="en"] .zh { display: none !important; }
 .toc-status-planned { background: var(--site-code-bg); color: var(--site-muted); border: 1px solid var(--site-border-soft); }
 
 .toc-unit-blurb { margin: 6px 0 8px; font-size: 13px; color: var(--site-muted); }
+.toc-unit-meta { font-size: 11.5px; color: var(--site-muted); white-space: nowrap; }
+
+/* Topics: one collapsible entry per CED topic, with its knowledge points. */
+.toc-topics { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.toc-topic { border-top: 1px solid var(--site-border-soft); }
+.toc-topic:first-child { border-top: none; }
+
+.toc-topic > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  flex-wrap: wrap;
+  padding: 6px 4px;
+  border-radius: 6px;
+  font-size: 13.5px;
+}
+
+.toc-topic > summary::-webkit-details-marker { display: none; }
+.toc-topic > summary::before { content: "▸"; color: var(--site-border); font-size: 11px; }
+.toc-topic > details[open] > summary::before { content: "▾"; }
+.toc-topic > summary:hover { background: var(--site-accent-bg); }
+
+.toc-topic-code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11.5px;
+  color: var(--site-accent);
+  background: var(--site-accent-bg);
+  border: 1px solid var(--site-accent-border);
+  border-radius: 5px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+
+.toc-topic-title { flex: 1 1 240px; color: var(--site-ink); font-weight: 600; }
+.toc-topic-title .zh { font-weight: 400; color: var(--site-muted); }
+
+.toc-points {
+  margin: 2px 0 10px;
+  padding: 8px 14px 8px 32px;
+  border-left: 2px solid var(--site-accent-border);
+  font-size: 13px;
+  color: var(--site-muted);
+}
+
+.toc-points li { margin: 3px 0; }
+
+.toc-topic-sheets { margin: 0 0 10px; padding-left: 32px; }
+
+.toc-sheet-link {
+  display: inline-block;
+  margin-right: 6px;
+  font-size: 11px;
+  color: var(--site-accent);
+  text-decoration: none;
+  border: 1px solid var(--site-accent-border);
+  border-radius: 5px;
+  padding: 1px 8px;
+  background: var(--site-accent-bg);
+}
+
+.toc-sheet-link:hover { background: var(--site-accent); color: #ffffff; }
 
 .toc-sheets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
 .toc-sheet { font-size: 13.5px; }
@@ -492,6 +555,25 @@ html[data-lang="en"] .zh { display: none !important; }
 
 .toc-appendix-title { margin: 22px 0 8px; font-size: 14px; color: var(--site-ink); }
 .toc-appendix { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+
+.sidebar-code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 10.5px;
+  color: var(--site-accent);
+  margin-right: 5px;
+}
+
+.sidebar-sheets a.is-current .sidebar-code { color: #dbeafe; }
+
+.sidebar-all {
+  display: block;
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--site-accent);
+  text-decoration: none;
+}
+
+.sidebar-all:hover { text-decoration: underline; }
 
 @media print {
   .site-nav, .calc-callout, .site-pager, .site-foot, .zh,

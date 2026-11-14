@@ -273,16 +273,16 @@ def build(out_dir: Path) -> int:
 
     # A broken link in a lecture note is worse than a missing note. Say so loudly.
     for unit in chapters.UNITS:
-        for sheet in unit.sheets:
-            if not sheet.href or sheet.href.startswith("http"):
-                continue
-            if not (ROOT / sheet.href).is_file():
-                problems.append(f"{unit.label} links {sheet.href}, but the file is missing")
-            if sheet.pdf and not (ROOT / sheet.href.replace(".html", ".pdf")).is_file():
-                problems.append(f"{sheet.href} has no matching print-ready PDF")
-    for sheet in chapters.APPENDICES:
-        if sheet.href and not sheet.href.startswith("http") and not (ROOT / sheet.href).is_file():
-            problems.append(f"appendix links {sheet.href}, but the file is missing")
+        for topic in unit.topics:
+            for sheet in topic.sheets:
+                if not (ROOT / sheet).is_file():
+                    problems.append(f"topic {topic.code} links {sheet}, but the file is missing")
+                if not (ROOT / sheet.replace(".html", ".pdf")).is_file():
+                    problems.append(f"{sheet} has no matching print-ready PDF")
+    for topic in chapters.APPENDICES:
+        for sheet in topic.sheets:
+            if not (ROOT / sheet).is_file():
+                problems.append(f"appendix links {sheet}, but the file is missing")
     for name in CALC_TIPS:
         if name not in order:
             problems.append(f"{name} has a calculator callout but is not in the chapter map")
@@ -290,9 +290,11 @@ def build(out_dir: Path) -> int:
         print(f"  WARNING  {problem}", flush=True)
 
     zh_pages = sum(1 for p in out_dir.glob("*.html") if 'class="zh' in p.read_text(encoding="utf-8"))
-    ready = sum(1 for u in chapters.UNITS if u.ready)
+    topics = sum(len(u.topics) for u in chapters.UNITS)
+    ready = sum(1 for u in chapters.UNITS for t in u.topics if t.written)
     print(f"built  {out_dir}")
-    print(f"  {len(html_files)} HTML pages  ({len(chapters.UNITS)} units, {ready} with sheets, {len(order)} sheets)")
+    print(f"  {len(html_files)} HTML pages  ({len(chapters.UNITS)} units, {topics} topics, "
+          f"{ready} with sheets, {len(order)} sheets)")
     print(f"  {zh_pages} bilingual pages  ({len(SECTION_ZH)} pages with Chinese glosses)")
     print(f"  {len(pdfs)} PDFs            ({sum(p.stat().st_size for p in pdfs):,} bytes, English only)")
     print(f"  site.css + site.js + styles.css + contents + sidebar + outline + callouts + pager")

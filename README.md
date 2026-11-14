@@ -22,36 +22,39 @@ English-only. 中文说明集中在 `tools/i18n_zh.py`，不写进讲义正文�
 
 ---
 
-## 📚 Structure: nine chapters, one per AP Statistics unit
+## 📚 Structure: the AP Statistics course framework, Fall 2026
 
-The chapters follow the nine units of the AP Statistics Course and Exam Description, in order.
-[`tools/chapters.py`](./tools/chapters.py) is the **only** place that structure is written down: it
-lists every unit, its sheets, and their status. The contents page, the sidebar on every sheet, the
-breadcrumbs, the in-page outlines and the previous/next links are all generated from it.
+The chapters follow the **AP Statistics Course and Exam Description, effective Fall 2026**: five
+units, 55 topics. [`tools/chapters.py`](./tools/chapters.py) is the **only** place that structure is
+written down — every unit, every topic, its Chinese knowledge points and the sheets that cover it.
+The contents page, the sidebar on every sheet, the breadcrumbs, the in-page outlines and the
+previous/next links are all generated from it.
 
-| Unit | Chapter | Status |
-|---|---|---|
-| 01 | Exploring One-Variable Data | planned |
-| 02 | Exploring Two-Variable Data | planned |
-| 03 | Collecting Data | planned |
-| 04 | Probability, Random Variables & Distributions | planned |
-| 05 | **Sampling Distributions** — [sampling-distributions.html](./sampling-distributions.html) · [PDF](./sampling-distributions.pdf) | ✅ |
-| 06 | **Inference for Proportions** — [confidence-intervals.html](./confidence-intervals.html) · [z-tests-proportions.html](./z-tests-proportions.html) · [PDFs](./confidence-intervals.pdf) | ✅ |
-| 07 | **Inference for Means** — [t-tests-means.html](./t-tests-means.html) · [PDF](./t-tests-means.pdf) | ✅ |
-| 08 | Inference for Categorical Data: Chi-Square | planned |
-| 09 | Inference for Quantitative Data: Slopes | planned |
-| A | **Appendix — [Quick Reference & Tools](./reference.html)**: inference procedure picker, notation table, exam traps, roadmap | ✅ |
+| Unit | Unit title | Topics | AP weight | Pacing | Sheets |
+|---|---|---|---|---|---|
+| 01 | Exploring One-Variable Data and Collecting Data | 1.1–1.13 | 20–30% | ~26 periods | — |
+| 02 | Probability, Random Variables, and Probability Distributions | 2.1–2.12 | 15–25% | ~24 periods | **2.12** Sampling Distributions |
+| 03 | Inference for Categorical Data: Proportions | 3.1–3.15 | 15–25% | ~30 periods | **3.2–3.4, 3.10–3.11** Confidence Intervals · **3.5–3.8, 3.12–3.13** z-Tests |
+| 04 | Inference for Quantitative Data: Means | 4.1–4.10 | 10–20% | ~18 periods | **4.2–4.3, 4.7–4.8** Confidence Intervals · **4.4–4.5, 4.9–4.10** t-Tests |
+| 05 | Regression Analysis | 5.1–5.5 | 10–20% | ~9 periods | — |
+| A | **Appendix — [Quick Reference & Tools](./reference.html)**: inference procedure picker, notation table, exam traps | — | — | — | ✅ |
 
-### Unit 05 · Sampling Distributions & the Central Limit Theorem
+Two things changed with the Fall 2026 framework, and the outline follows the document rather than the
+older memory of it: the units were renumbered (Probability is Unit 2, Sampling Distributions are
+Topic 2.12, Inference for Proportions Unit 3, Inference for Means Unit 4, Regression Unit 5), and
+**there is no topic on inference for a regression slope** — Unit 5 stops at least-squares regression
+(Topic 5.5).
+
+### Unit 2 · Topic 2.12 — Sampling Distributions and the Central Limit Theorem
 Population parameters vs. sample statistics ($\mu, \sigma, p$ vs. $\bar{x}, s, \hat{p}$), sampling distributions of $\bar{x}$ and $\hat{p}$, Central Limit Theorem (CLT), two-sample differences ($\bar{x}_1 - \bar{x}_2$, $\hat{p}_1 - \hat{p}_2$), and the R-I-N conditions.
 
-### Unit 06 · Confidence Intervals ($z$ & $t$)
+### Unit 3 · Topics 3.3–3.11 — Confidence Intervals ($z$ & $t$)
 Universal interval structure ($\text{PE} \pm \text{ME}$), critical values $z^*$ vs. $t^*$, 1-Prop / 2-Prop $z$-intervals, 1-Sample / Paired / 2-Sample $t$-intervals, minimum sample size $n$ formulas, and exam-safe interpretation templates.
 
-### Unit 06 · Hypothesis Testing & $z$-Tests
+### Unit 3 · Topics 3.5–3.13 — Hypothesis Testing & $z$-Tests
 Null/alternative hypotheses ($H_0, H_a$), 1-Proportion and 2-Proportion $z$-tests (including pooled $\hat{p}_c$), known-$\sigma$ 1-Sample $z$-test, $p$-value rules, Type I / Type II error matrix ($\alpha, \beta$), and statistical power ($1 - \beta$).
 
-### Unit 07 · $t$-Tests for Means & Paired Data
+### Unit 4 · Topics 4.4–4.10 — $t$-Tests for Means & Paired Data
 Student's $t$-distribution vs. Normal, 1-Sample $t$-test, Matched Pairs $t$-test ($\bar{d}, s_d$), Welch 2-Sample $t$-test (unpooled SE & $df$), and a decision table comparing Matched Pairs vs. 2-Sample $t$-tests.
 
 ---
@@ -61,7 +64,7 @@ Student's $t$-distribution vs. Normal, 1-Sample $t$-test, Matched Pairs $t$-test
 **Every statistics knowledge point goes into this repository — AP Statistics first.** This is the single home for stats notes, not a scratch pad in another project and not a loose file.
 
 - A new idea that belongs to an existing chapter → extend that sheet's `.html`, then regenerate its PDF.
-- A genuinely new chapter → add the sheet (`.html`), its `.pdf`, **a row in `tools/chapters.py`** (unit, English + Chinese title, blurb, status), **a row in the procedure picker** if it is an inference procedure, and **the matching Chinese entries in `tools/i18n_zh.py`** (英文正文 + 中文逐节对照，两者都要写).
+- A genuinely new chapter → add the sheet (`.html`), its `.pdf`, **its entry in `tools/chapters.py`** (unit, topic code, English + Chinese title, the Chinese knowledge points, and which sheet covers it), **a row in the procedure picker** if it is an inference procedure, and **the matching Chinese entries in `tools/i18n_zh.py`** (英文正文 + 中文逐节对照，两者都要写).
 - A calculator trick → it goes in [Digital-Nspire-for-Stats](https://github.com/Franky100-pig/Digital-Nspire-for-Stats), and is linked from the relevant sheet here.
 - The order of the chapters is the order in `tools/chapters.py`; the site builder derives the contents page, the sidebar and the previous/next links from it, so nothing has to be updated twice.
 
@@ -94,12 +97,13 @@ python3 tools/build_site.py --serve    # build + preview on http://127.0.0.1:800
 
 `.github/workflows/pages.yml` runs the same builder on every push to `main` and deploys `public/` with `actions/deploy-pages`. Pages must be set to the **GitHub Actions** source once in Settings → Pages. The site is fully static: no CDN, no tracking, no runtime downloads.
 
-All Chinese text lives in [`tools/i18n_zh.py`](./tools/i18n_zh.py): `SECTION_ZH` holds
-one `(中文小标题, 中文导读)` pair per `<h2>`, `INTRO_HTML` holds the per-chapter reading guide,
-and `PICKER_ZH` holds the procedure-picker hints. **When you add a new `<h2>` to a sheet,
-add its Chinese pair too** — the builder checks the counts and fails the deploy rather than
-shipping a half-translated page. `tools/site.js` drives the language switch; `tools/site.css`
-hides every `.zh` element in English-only mode and in print.
+All Chinese text lives in two files: [`tools/i18n_zh.py`](./tools/i18n_zh.py) holds the per-section
+glosses (`SECTION_ZH`, one `(中文小标题, 中文导读)` pair per `<h2>`), the per-chapter reading guides
+(`INTRO_HTML`) and the procedure-picker hints (`PICKER_ZH`); [`tools/chapters.py`](./tools/chapters.py)
+holds the course outline itself, including the Chinese knowledge points for each of the 55 topics.
+**When you add a new `<h2>` to a sheet, add its Chinese pair too** — the builder checks the counts
+and fails the deploy rather than shipping a half-translated page. `tools/site.js` drives the language
+switch; `tools/site.css` hides every `.zh` element in English-only mode and in print.
 
 ### Regenerating PDFs from HTML
 All sheets share [`styles.css`](./styles.css) (including CSS math helpers `.m`, `.xbar`, `.hat-wrap`, `.frac`, `.radic` and A4 `@page` print rules). After adding or editing any sheet, regenerate the matching `.pdf` files with:

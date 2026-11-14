@@ -19,16 +19,17 @@ from __future__ import annotations
 SECTION_ZH: dict[str, list[tuple[str, str]]] = {
     "index.html": [
         ("本书怎么组织",
-         "一章对应 AP 考纲的一个单元，章内按「公式 → 条件 → 计算 → 情境解释」推进；还没写的单元也会先列出要覆盖什么，"
-         "方便看清整个考纲地图。"),
+         "一章对应考纲的一个 topic，下面用中文列出该主题的知识点；已写成讲义的直接给出链接与 A4 PDF，"
+         "还没写的先标「计划中」，整个考纲地图一眼可见。"),
         ("目录",
-         "九个单元按考纲顺序排列，点标题进入讲义，PDF 是同内容的 A4 打印版；标「计划中」的是还没写的章节。"),
+         "按 2026 秋季生效版考纲的五个单元、55 个主题排列：① 单变量数据探索与数据收集 ② 概率、随机变量与分布 "
+         "③ 分类数据推断：比例 ④ 定量数据推断：均值 ⑤ 回归分析。"),
         ("一章怎么读",
          "每章开头有中文导读，下面逐节对照：英文负责考试用语，每个标题下的中文讲这一节真正在说什么；"
          "章末是配套的 TI-Nspire 命令，推导和计算在同一页。"),
         ("新笔记放哪",
          "所有统计知识点都进这个仓（AP 统计优先）：先扩已有章；全新主题就新增一页讲义 + PDF + 目录条目 + "
-         "tools/i18n_zh.py 里的中文条目。结构只写在 tools/chapters.py 一处。"),
+         "tools/i18n_zh.py 里的中文条目。考纲结构（单元、主题、中文分点）只写在 tools/chapters.py 一处。"),
     ],
     "reference.html": [
         ("这些工具怎么用",
@@ -109,8 +110,9 @@ SECTION_ZH: dict[str, list[tuple[str, str]]] = {
 # Injected immediately after the subtitle: a Chinese reading guide per page.
 INTRO_HTML: dict[str, str] = {
     "index.html": (
-        '<p class="zh zh-lead">中文：这是一本按 AP 统计考纲九个单元分章的讲义 —— 英文公式、符号与 TI 命令原样保留，'
-        '中文逐节补充思路、条件和易错点。下面就是目录；右上角可在「双语 / 英文」之间切换。</p>'
+        '<p class="zh zh-lead">中文：这是一本按 2026 秋季生效版 AP 统计考纲（五个单元、55 个主题）分章的讲义 —— '
+        '英文公式、符号与 TI 命令原样保留，中文逐节补充思路、条件和易错点。下面就是目录；'
+        '右上角可在「双语 / 英文」之间切换。</p>'
     ),
     "reference.html": (
         '<section class="zh zh-intro"><h3>速查页说明（中文）</h3><ul>'
