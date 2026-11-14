@@ -14,7 +14,8 @@ things a *book* needs that a printable sheet does not:
   * a breadcrumb (Unit -> sheet) and previous/next links in book order
   * a Chinese annotation layer from tools/i18n_zh.py: a per-section gloss,
     bilingual section headings and a per-topic reading guide
-  * a language switch (bilingual / English-only), remembered in localStorage
+  * a course dashboard (live counts, exam-weight bars, unit colours, coverage)
+  * one central settings store (language + theme), broadcast to every page/tab
   * a "try it on the Nspire" callout per topic, with real TI command names
 
 Every injected Chinese element carries ``.zh``, so English-only mode and print
@@ -53,6 +54,7 @@ CALC_URL = "https://franky100-pig.github.io/Digital-Nspire-for-Stats/"
 CALC_REPO_URL = "https://github.com/Franky100-pig/Digital-Nspire-for-Stats"
 
 TOC_PLACEHOLDER = '<div id="chapter-toc" data-generated="chapters"><!-- filled by tools/build_site.py --></div>'
+HERO_PLACEHOLDER = '<div id="site-hero" data-generated="hero"><!-- filled by tools/build_site.py --></div>'
 
 # Commands checked against tinspire_stats.catalog() in Digital-Nspire-for-Stats.
 # Do not invent names here: the callout is a promise that the calculator accepts
@@ -114,7 +116,8 @@ def nav_html() -> str:
   </div>
   <span class="site-spacer"></span>
   <span class="site-topic-jump">AP Statistics &middot; mini lecture notes <span class="zh">/ {UI['tagline']}</span></span>
-  <button class="lang-btn" id="langToggle" type="button" aria-pressed="false">{UI['lang_both']}</button>
+  <button class="lang-btn" id="langToggle" type="button" aria-pressed="false" aria-label="Toggle the Chinese annotations"><span class="zh">{UI['lang_both']}</span><span class="en-only">EN · Show Chinese</span></button>
+  <button class="theme-btn" id="themeToggle" type="button" aria-pressed="false" aria-label="Toggle dark mode"><span class="to-dark"><span class="zh">☾ 切到深色</span><span class="en-only">☾ Dark</span></span><span class="to-light"><span class="zh">☀ 切到浅色</span><span class="en-only">☀ Light</span></span></button>
 </nav>
 """
 
@@ -174,6 +177,9 @@ def inject_chinese(html: str, name: str) -> tuple[str, str | None, list[tuple[st
     headings: list[tuple[str, str]] = []
     last = 0
     for i, (m, (zh_head, zh_gloss)) in enumerate(zip(matches, pairs), 1):
+        # The English <h2> already carries its number; the Chinese gloss is a
+        # label, not a second heading, so drop a leading "1. ".
+        zh_head = re.sub(r"^\d+\.\s*", "", zh_head)
         open_tag, inner, close_tag = m.group(1), m.group(2), m.group(3)
         existing = re.search(r'id="([^"]+)"', open_tag)
         if existing:
@@ -194,7 +200,9 @@ def inject_chinese(html: str, name: str) -> tuple[str, str | None, list[tuple[st
     if sub and name in INTRO_HTML:
         html = html[:sub.end()] + "\n  " + INTRO_HTML[name] + html[sub.end():]
 
-    if name == "index.html":
+    # The procedure picker lives in reference.html, not on the contents page.
+    # Inject its Chinese hints where the widget can actually read them.
+    if name == "reference.html":
         data = json.dumps(PICKER_ZH, ensure_ascii=False)
         html = html.replace("</head>", f"  <script>window.STATS_I18N_ZH = {data};</script>\n</head>", 1)
 
@@ -213,10 +221,14 @@ def decorate(html: str, name: str, order: list[str]) -> tuple[str, str | None]:
         html = html.replace("<body>", "<body>\n" + nav_html(), 1)
 
     if name == "index.html":
-        # The contents page: the chapter map replaces the placeholder.
+        # The contents page: the course dashboard and the chapter map replace
+        # their placeholders, so all the numbers come from chapters.py.
+        if HERO_PLACEHOLDER not in html:
+            return html, "index.html: the site-hero placeholder is missing"
         if TOC_PLACEHOLDER not in html:
             return html, "index.html: the chapter-toc placeholder is missing"
-        html = html.replace(TOC_PLACEHOLDER, chapters.render_toc())
+        html = html.replace(HERO_PLACEHOLDER, chapters.render_hero(), 1)
+        html = html.replace(TOC_PLACEHOLDER, chapters.render_toc(), 1)
     else:
         # Sidebar, breadcrumb and the in-page outline. The sidebar goes right
         # after the navigation bar so it reads as part of the chrome.

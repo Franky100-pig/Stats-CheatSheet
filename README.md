@@ -20,6 +20,19 @@ to an English-only exam view; the choice is remembered, and `?lang=en` gives a
 shareable English-only link. The A4 PDFs and the root `*.html` sheets stay
 English-only. 中文说明集中在 `tools/i18n_zh.py`，不写进讲义正文。
 
+🎨 **One switch, everywhere.** [`tools/site.js`](./tools/site.js) is one settings store, modelled on
+LA-Helper's `i18n.js`: language and theme are written to `<html>` before the first paint, kept in
+`localStorage`, and broadcast to every subscriber, every dynamic widget (the procedure picker
+redraws on change) and — through the `storage` event — **every other open tab**. The theme follows
+the OS until you pick **☀ / ☾** explicitly; `?theme=dark` is a shareable link. Dark mode recolours
+the sheet body as well (tables, formula boxes, code chips), while the A4 PDFs stay white and
+English-only.
+
+The contents page is a small course dashboard: a hero with live counts (units, topics, sheets,
+coverage), five colour-coded exam-weight bars, one colour per unit carried through the unit cards,
+topic chips, coverage bars and the sidebar, plus a reading-progress line and a back-to-top button.
+All of it is plain CSS and vanilla JS — no CDN, no web fonts, no tracking, no runtime downloads.
+
 ---
 
 ## 📚 Structure: the AP Statistics course framework, Fall 2026
@@ -109,8 +122,10 @@ print), and its English replacement sits in `.en-only` elements (hidden in bilin
 like `已写 / Written` therefore read cleanly in both modes, and the Chinese knowledge-point lists
 disappear entirely in the exam view instead of leaking through. The builder also strips every `.zh`
 element from the generated HTML and **fails the deploy if any Chinese character survives**, so a new
-label can never be added half-switched. `tools/site.js` drives the switch and `?lang=en` gives a
-shareable English-only view.
+label can never be added half-switched. The nav buttons use the same two halves (plus
+`data-theme` for the target-mode label), so the first paint is already correct with no text flash.
+`tools/site.js` drives the switch; `?lang=en` and `?theme=dark` give shareable views without
+overwriting the reader's saved choice.
 
 ### Regenerating PDFs from HTML
 All sheets share [`styles.css`](./styles.css) (including CSS math helpers `.m`, `.xbar`, `.hat-wrap`, `.frac`, `.radic` and A4 `@page` print rules). After adding or editing any sheet, regenerate the matching `.pdf` files with:

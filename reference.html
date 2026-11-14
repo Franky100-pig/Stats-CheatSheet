@@ -342,6 +342,9 @@
 
     dataEl.addEventListener("change", render);
     goalEl.addEventListener("change", render);
+    // The central settings store broadcasts a change; redraw the result card
+    // so no dynamic text keeps the previous language/theme state.
+    document.addEventListener("stats:settingschange", render);
     render();
   })();
   </script>
